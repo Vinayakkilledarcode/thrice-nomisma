@@ -1,0 +1,16 @@
+{
+  "enabled": true,
+  "watchlist": [],
+  "confidence_threshold": 0.65,
+  "base_qty_per_trade": 1,
+  "max_concurrent_positions": 3,
+  "poll_interval_seconds": 15,
+  "sl_pct": 0.01,
+  "target_pct": 0.02,
+  "market_open": "09:15",
+  "market_close": "15:30",
+  "square_off_time": "15:15",
+  "horizon": null,
+  "interval": null,
+  "auth_token": null
+}

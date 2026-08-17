@@ -1,0 +1,12 @@
+# strategies/__init__.py
+from .scalping_hft_1m import evaluate_scalping_hft_1m
+from .micro_scalping_3m import evaluate_micro_scalping_3m
+from .short_scalping_5m import evaluate_short_scalping_5m
+from .intraday_10m import evaluate_intraday_10m
+from .intraday_mean_reversion_15m import evaluate_intraday_mean_reversion_15m
+from .intraday_swing_30m import evaluate_intraday_swing_30m
+from .momentum_swing_1h import evaluate_momentum_swing_1h
+from .multi_session_swing_4h import evaluate_multi_session_swing_4h
+from .swing_momentum_1d import evaluate_swing_momentum_1d
+from .long_term_value_1w import evaluate_long_term_value_1w
+from .long_term_investment_1mo import evaluate_long_term_investment_1mo

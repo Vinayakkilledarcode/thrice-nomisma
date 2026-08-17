@@ -1,0 +1,14 @@
+node_modules/
+frontend/node_modules/
+backend/venv/
+.venv/
+venv/
+__pycache__/
+*.pyc
+.env
+.env.*
+!.env.example
+dist/
+build/
+backend/services/Git-2.55.0.3-64-bit.exe
+frontend/src/assets/bg-video.mp4

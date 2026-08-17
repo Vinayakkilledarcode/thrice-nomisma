@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+yfinance
+pandas
+numpy
+python-jose[cryptography]
+passlib[bcrypt]
+httpx

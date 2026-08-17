@@ -1,0 +1,421 @@
+%PDF-1.4
+%¿÷¢ş
+1 0 obj
+<< /AcroForm 3 0 R /Names << /JavaScript << /Names [ (OpenCalc) 4 0 R ] >> >> /PageMode /UseNone /Pages 5 0 R /Type /Catalog >>
+endobj
+2 0 obj
+<< /Author (anonymous) /CreationDate (D:20260815045453+00'00') /Creator (anonymous) /Keywords () /ModDate (D:20260815045453+00'00') /Producer (ReportLab PDF Library - \(opensource\)) /Subject (unspecified) /Title (untitled) /Trapped /False >>
+endobj
+3 0 obj
+<< /CO [ 6 0 R 7 0 R ] /DA (/HeBo 0 Tf 0 g) /DR << /Encoding << /RLAFencoding 8 0 R >> /Font << /HeBo 9 0 R >> >> /Fields [ 6 0 R 10 0 R 11 0 R 12 0 R 13 0 R 14 0 R 15 0 R 16 0 R 17 0 R 18 0 R 19 0 R 20 0 R 21 0 R 22 0 R 23 0 R 24 0 R 25 0 R 26 0 R 27 0 R 28 0 R 29 0 R 30 0 R 31 0 R 32 0 R 33 0 R 34 0 R 35 0 R 36 0 R 37 0 R 38 0 R 39 0 R 40 0 R 7 0 R 41 0 R 42 0 R 43 0 R 44 0 R 45 0 R 46 0 R 47 0 R 48 0 R 49 0 R 50 0 R 51 0 R 52 0 R 53 0 R 54 0 R 55 0 R 56 0 R 57 0 R 58 0 R 59 0 R 60 0 R 61 0 R 62 0 R 63 0 R 64 0 R 65 0 R 66 0 R 67 0 R 68 0 R 69 0 R ] /NeedAppearances true >>
+endobj
+4 0 obj
+<< /JS (var n = 0;for \(var i = 1; i <= 60; i++\) {  var f = this.getField\('chk_' + i\);  if \(f && f.value !== 'Off'\) n++;}var txt = 'Attempted: ' + n + ' / 60';var names = ['progress_1','progress_2'];for \(var j = 0; j < names.length; j++\) {  var pf = this.getField\(names[j]\);  if \(pf\) pf.value = txt;}) /S /JavaScript >>
+endobj
+5 0 obj
+<< /Count 2 /Kids [ 70 0 R 71 0 R ] /Type /Pages >>
+endobj
+6 0 obj
+<< /AA 72 0 R /AP << /N 73 0 R >> /DA (/HeBo 10 Tf .105882 .14902 .192157 rg) /DV (Attempted: 0 / 60) /F 4 /FT /Tx /Ff 1 /MK << /BG [ .8 .843 1 ] >> /MaxLen 40 /P 70 0 R /Rect [ 452 749.36 570.4 768.4 ] /Subtype /Widget /T (progress_1) /Type /Annot /V (Attempted: 0 / 60) >>
+endobj
+7 0 obj
+<< /AA 74 0 R /AP << /N 75 0 R >> /DA (/HeBo 10 Tf .105882 .14902 .192157 rg) /DV (Attempted: 0 / 60) /F 4 /FT /Tx /Ff 1 /MK << /BG [ .8 .843 1 ] >> /MaxLen 40 /P 71 0 R /Rect [ 452 749.36 570.4 768.4 ] /Subtype /Widget /T (progress_2) /Type /Annot /V (Attempted: 0 / 60) >>
+endobj
+8 0 obj
+<< /Differences [ 24 /breve /caron /circumflex /dotaccent /hungarumlaut /ogonek /ring /tilde 39 /quotesingle 96 /grave 128 /bullet /dagger /daggerdbl /ellipsis /emdash /endash /florin /fraction /guilsinglleft /guilsinglright /minus /perthousand /quotedblbase /quotedblleft /quotedblright /quoteleft /quoteright /quotesinglbase /trademark /fi /fl /Lslash /OE /Scaron /Ydieresis /Zcaron /dotlessi /lslash /oe /scaron /zcaron 160 /Euro 164 /currency 166 /brokenbar 168 /dieresis /copyright /ordfeminine 172 /logicalnot /.notdef /registered /macron /degree /plusminus /twosuperior /threesuperior /acute /mu 183 /periodcentered /cedilla /onesuperior /ordmasculine 188 /onequarter /onehalf /threequarters 192 /Agrave /Aacute /Acircumflex /Atilde /Adieresis /Aring /AE /Ccedilla /Egrave /Eacute /Ecircumflex /Edieresis /Igrave /Iacute /Icircumflex /Idieresis /Eth /Ntilde /Ograve /Oacute /Ocircumflex /Otilde /Odieresis /multiply /Oslash /Ugrave /Uacute /Ucircumflex /Udieresis /Yacute /Thorn /germandbls /agrave /aacute /acircumflex /atilde /adieresis /aring /ae /ccedilla /egrave /eacute /ecircumflex /edieresis /igrave /iacute /icircumflex /idieresis /eth /ntilde /ograve /oacute /ocircumflex /otilde /odieresis /divide /oslash /ugrave /uacute /ucircumflex /udieresis /yacute /thorn /ydieresis ] /Type /Encoding >>
+endobj
+9 0 obj
+<< /BaseFont /Helvetica-Bold /Encoding 8 0 R /Name /HeBo /Subtype /Type1 /Type /Font >>
+endobj
+10 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 70 0 R /Rect [ 552 685.92 564 697.92 ] /Subtype /Widget /T (chk_1) /Type /Annot /V /Off >>
+endobj
+11 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 70 0 R /Rect [ 552 665.76 564 677.76 ] /Subtype /Widget /T (chk_2) /Type /Annot /V /Off >>
+endobj
+12 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 70 0 R /Rect [ 552 645.6 564 657.6 ] /Subtype /Widget /T (chk_3) /Type /Annot /V /Off >>
+endobj
+13 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 70 0 R /Rect [ 552 625.44 564 637.44 ] /Subtype /Widget /T (chk_4) /Type /Annot /V /Off >>
+endobj
+14 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 70 0 R /Rect [ 552 605.28 564 617.28 ] /Subtype /Widget /T (chk_5) /Type /Annot /V /Off >>
+endobj
+15 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 70 0 R /Rect [ 552 585.12 564 597.12 ] /Subtype /Widget /T (chk_6) /Type /Annot /V /Off >>
+endobj
+16 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 70 0 R /Rect [ 552 564.96 564 576.96 ] /Subtype /Widget /T (chk_7) /Type /Annot /V /Off >>
+endobj
+17 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 70 0 R /Rect [ 552 544.8 564 556.8 ] /Subtype /Widget /T (chk_8) /Type /Annot /V /Off >>
+endobj
+18 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 70 0 R /Rect [ 552 524.64 564 536.64 ] /Subtype /Widget /T (chk_9) /Type /Annot /V /Off >>
+endobj
+19 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 70 0 R /Rect [ 552 504.48 564 516.48 ] /Subtype /Widget /T (chk_10) /Type /Annot /V /Off >>
+endobj
+20 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 70 0 R /Rect [ 552 484.32 564 496.32 ] /Subtype /Widget /T (chk_11) /Type /Annot /V /Off >>
+endobj
+21 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 70 0 R /Rect [ 552 464.16 564 476.16 ] /Subtype /Widget /T (chk_12) /Type /Annot /V /Off >>
+endobj
+22 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 70 0 R /Rect [ 552 444 564 456 ] /Subtype /Widget /T (chk_13) /Type /Annot /V /Off >>
+endobj
+23 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 70 0 R /Rect [ 552 423.84 564 435.84 ] /Subtype /Widget /T (chk_14) /Type /Annot /V /Off >>
+endobj
+24 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 70 0 R /Rect [ 552 403.68 564 415.68 ] /Subtype /Widget /T (chk_15) /Type /Annot /V /Off >>
+endobj
+25 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 70 0 R /Rect [ 552 383.52 564 395.52 ] /Subtype /Widget /T (chk_16) /Type /Annot /V /Off >>
+endobj
+26 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 70 0 R /Rect [ 552 363.36 564 375.36 ] /Subtype /Widget /T (chk_17) /Type /Annot /V /Off >>
+endobj
+27 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 70 0 R /Rect [ 552 343.2 564 355.2 ] /Subtype /Widget /T (chk_18) /Type /Annot /V /Off >>
+endobj
+28 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 70 0 R /Rect [ 552 323.04 564 335.04 ] /Subtype /Widget /T (chk_19) /Type /Annot /V /Off >>
+endobj
+29 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 70 0 R /Rect [ 552 302.88 564 314.88 ] /Subtype /Widget /T (chk_20) /Type /Annot /V /Off >>
+endobj
+30 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 70 0 R /Rect [ 552 282.72 564 294.72 ] /Subtype /Widget /T (chk_21) /Type /Annot /V /Off >>
+endobj
+31 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 70 0 R /Rect [ 552 262.56 564 274.56 ] /Subtype /Widget /T (chk_22) /Type /Annot /V /Off >>
+endobj
+32 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 70 0 R /Rect [ 552 242.4 564 254.4 ] /Subtype /Widget /T (chk_23) /Type /Annot /V /Off >>
+endobj
+33 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 70 0 R /Rect [ 552 222.24 564 234.24 ] /Subtype /Widget /T (chk_24) /Type /Annot /V /Off >>
+endobj
+34 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 70 0 R /Rect [ 552 202.08 564 214.08 ] /Subtype /Widget /T (chk_25) /Type /Annot /V /Off >>
+endobj
+35 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 70 0 R /Rect [ 552 181.92 564 193.92 ] /Subtype /Widget /T (chk_26) /Type /Annot /V /Off >>
+endobj
+36 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 70 0 R /Rect [ 552 161.76 564 173.76 ] /Subtype /Widget /T (chk_27) /Type /Annot /V /Off >>
+endobj
+37 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 70 0 R /Rect [ 552 141.6 564 153.6 ] /Subtype /Widget /T (chk_28) /Type /Annot /V /Off >>
+endobj
+38 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 70 0 R /Rect [ 552 121.44 564 133.44 ] /Subtype /Widget /T (chk_29) /Type /Annot /V /Off >>
+endobj
+39 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 70 0 R /Rect [ 552 101.28 564 113.28 ] /Subtype /Widget /T (chk_30) /Type /Annot /V /Off >>
+endobj
+40 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 70 0 R /Rect [ 552 81.12 564 93.12 ] /Subtype /Widget /T (chk_31) /Type /Annot /V /Off >>
+endobj
+41 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 71 0 R /Rect [ 552 685.92 564 697.92 ] /Subtype /Widget /T (chk_32) /Type /Annot /V /Off >>
+endobj
+42 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 71 0 R /Rect [ 552 665.76 564 677.76 ] /Subtype /Widget /T (chk_33) /Type /Annot /V /Off >>
+endobj
+43 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 71 0 R /Rect [ 552 645.6 564 657.6 ] /Subtype /Widget /T (chk_34) /Type /Annot /V /Off >>
+endobj
+44 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 71 0 R /Rect [ 552 625.44 564 637.44 ] /Subtype /Widget /T (chk_35) /Type /Annot /V /Off >>
+endobj
+45 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 71 0 R /Rect [ 552 605.28 564 617.28 ] /Subtype /Widget /T (chk_36) /Type /Annot /V /Off >>
+endobj
+46 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 71 0 R /Rect [ 552 585.12 564 597.12 ] /Subtype /Widget /T (chk_37) /Type /Annot /V /Off >>
+endobj
+47 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 71 0 R /Rect [ 552 564.96 564 576.96 ] /Subtype /Widget /T (chk_38) /Type /Annot /V /Off >>
+endobj
+48 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 71 0 R /Rect [ 552 544.8 564 556.8 ] /Subtype /Widget /T (chk_39) /Type /Annot /V /Off >>
+endobj
+49 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 71 0 R /Rect [ 552 524.64 564 536.64 ] /Subtype /Widget /T (chk_40) /Type /Annot /V /Off >>
+endobj
+50 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 71 0 R /Rect [ 552 504.48 564 516.48 ] /Subtype /Widget /T (chk_41) /Type /Annot /V /Off >>
+endobj
+51 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 71 0 R /Rect [ 552 484.32 564 496.32 ] /Subtype /Widget /T (chk_42) /Type /Annot /V /Off >>
+endobj
+52 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 71 0 R /Rect [ 552 464.16 564 476.16 ] /Subtype /Widget /T (chk_43) /Type /Annot /V /Off >>
+endobj
+53 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 71 0 R /Rect [ 552 444 564 456 ] /Subtype /Widget /T (chk_44) /Type /Annot /V /Off >>
+endobj
+54 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 71 0 R /Rect [ 552 423.84 564 435.84 ] /Subtype /Widget /T (chk_45) /Type /Annot /V /Off >>
+endobj
+55 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 71 0 R /Rect [ 552 403.68 564 415.68 ] /Subtype /Widget /T (chk_46) /Type /Annot /V /Off >>
+endobj
+56 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 71 0 R /Rect [ 552 383.52 564 395.52 ] /Subtype /Widget /T (chk_47) /Type /Annot /V /Off >>
+endobj
+57 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 71 0 R /Rect [ 552 363.36 564 375.36 ] /Subtype /Widget /T (chk_48) /Type /Annot /V /Off >>
+endobj
+58 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 71 0 R /Rect [ 552 343.2 564 355.2 ] /Subtype /Widget /T (chk_49) /Type /Annot /V /Off >>
+endobj
+59 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 71 0 R /Rect [ 552 323.04 564 335.04 ] /Subtype /Widget /T (chk_50) /Type /Annot /V /Off >>
+endobj
+60 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 71 0 R /Rect [ 552 302.88 564 314.88 ] /Subtype /Widget /T (chk_51) /Type /Annot /V /Off >>
+endobj
+61 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 71 0 R /Rect [ 552 282.72 564 294.72 ] /Subtype /Widget /T (chk_52) /Type /Annot /V /Off >>
+endobj
+62 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 71 0 R /Rect [ 552 262.56 564 274.56 ] /Subtype /Widget /T (chk_53) /Type /Annot /V /Off >>
+endobj
+63 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 71 0 R /Rect [ 552 242.4 564 254.4 ] /Subtype /Widget /T (chk_54) /Type /Annot /V /Off >>
+endobj
+64 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 71 0 R /Rect [ 552 222.24 564 234.24 ] /Subtype /Widget /T (chk_55) /Type /Annot /V /Off >>
+endobj
+65 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 71 0 R /Rect [ 552 202.08 564 214.08 ] /Subtype /Widget /T (chk_56) /Type /Annot /V /Off >>
+endobj
+66 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 71 0 R /Rect [ 552 181.92 564 193.92 ] /Subtype /Widget /T (chk_57) /Type /Annot /V /Off >>
+endobj
+67 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 71 0 R /Rect [ 552 161.76 564 173.76 ] /Subtype /Widget /T (chk_58) /Type /Annot /V /Off >>
+endobj
+68 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 71 0 R /Rect [ 552 141.6 564 153.6 ] /Subtype /Widget /T (chk_59) /Type /Annot /V /Off >>
+endobj
+69 0 obj
+<< /AP << /D << /Off 76 0 R /Yes 77 0 R >> /N << /Off 78 0 R /Yes 79 0 R >> /R << /Off 80 0 R /Yes 81 0 R >> >> /AS /Off /BS << /S /S /W 1 >> /F 4 /FT /Btn /Ff 2 /H /N /MK << /BC [ .498039 .54902 .552941 ] /BG [ 1 1 1 ] /CA (4) >> /P 71 0 R /Rect [ 552 121.44 564 133.44 ] /Subtype /Widget /T (chk_60) /Type /Annot /V /Off >>
+endobj
+70 0 obj
+<< /Annots [ 6 0 R 10 0 R 11 0 R 12 0 R 13 0 R 14 0 R 15 0 R 16 0 R 17 0 R 18 0 R 19 0 R 20 0 R 21 0 R 22 0 R 23 0 R 24 0 R 25 0 R 26 0 R 27 0 R 28 0 R 29 0 R 30 0 R 31 0 R 32 0 R 33 0 R 34 0 R 35 0 R 36 0 R 37 0 R 38 0 R 39 0 R 40 0 R ] /Contents 82 0 R /MediaBox [ 0 0 612 792 ] /Parent 5 0 R /Resources << /Font 83 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ] >> /Rotate 0 /Trans << >> /Type /Page >>
+endobj
+71 0 obj
+<< /Annots [ 7 0 R 41 0 R 42 0 R 43 0 R 44 0 R 45 0 R 46 0 R 47 0 R 48 0 R 49 0 R 50 0 R 51 0 R 52 0 R 53 0 R 54 0 R 55 0 R 56 0 R 57 0 R 58 0 R 59 0 R 60 0 R 61 0 R 62 0 R 63 0 R 64 0 R 65 0 R 66 0 R 67 0 R 68 0 R 69 0 R ] /Contents 84 0 R /MediaBox [ 0 0 612 792 ] /Parent 5 0 R /Resources << /Font 83 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ] >> /Rotate 0 /Trans << >> /Type /Page >>
+endobj
+72 0 obj
+<< /C << /JS (var n = 0;for \(var i = 1; i <= 60; i++\) {  var f = this.getField\('chk_' + i\);  if \(f && f.value !== 'Off'\) n++;}var txt = 'Attempted: ' + n + ' / 60';var names = ['progress_1','progress_2'];for \(var j = 0; j < names.length; j++\) {  var pf = this.getField\(names[j]\);  if \(pf\) pf.value = txt;}) /S /JavaScript >> >>
+endobj
+73 0 obj
+<< /BBox [ 0 0 118.4 19.04 ] /FormType 1 /Matrix [ 1 0 0 1 0 0 ] /Resources << /Font << /HeBo 9 0 R >> /ProcSet [ /PDF /Text ] >> /Subtype /Form /Type /XObject /Length 138 /Filter /FlateDecode >>
+stream
+xœ…»
+Â@DûùŠ)µÙÜ›‡îÚ¹!h“BXğÜø[øùfSÙ90ÃaŒ¥±uEå|‡P¨jMå~EuFjÎŠğ¡ï[âıw|ÅcÙdè	> 8Gÿ¤
+Ã £ÒX[Òhí$‡+µÙçÊ»xÅ„	›cJqz¥x;,mÁlFtt}‹/Y?)T
+endstream
+endobj
+74 0 obj
+<< /C << /JS (var n = 0;for \(var i = 1; i <= 60; i++\) {  var f = this.getField\('chk_' + i\);  if \(f && f.value !== 'Off'\) n++;}var txt = 'Attempted: ' + n + ' / 60';var names = ['progress_1','progress_2'];for \(var j = 0; j < names.length; j++\) {  var pf = this.getField\(names[j]\);  if \(pf\) pf.value = txt;}) /S /JavaScript >> >>
+endobj
+75 0 obj
+<< /BBox [ 0 0 118.4 19.04 ] /FormType 1 /Matrix [ 1 0 0 1 0 0 ] /Resources << /Font << /HeBo 85 0 R >> /ProcSet [ /PDF /Text ] >> /Subtype /Form /Type /XObject /Length 138 /Filter /FlateDecode >>
+stream
+xœ…»
+Â@DûùŠ)µÙÜ›‡îÚ¹!h“BXğÜø[øùfSÙ90ÃaŒ¥±uEå|‡P¨jMå~EuFjÎŠğ¡ï[âıw|ÅcÙdè	> 8Gÿ¤
+Ã £ÒX[Òhí$‡+µÙçÊ»xÅ„	›cJqz¥x;,mÁlFtt}‹/Y?)T
+endstream
+endobj
+76 0 obj
+<< /BBox [ 0 0 12 12 ] /FormType 1 /Matrix [ 1 0 0 1 0 0 ] /Resources << /ProcSet [ /PDF ] >> /Subtype /Form /Type /XObject /Length 76 /Filter /FlateDecode >>
+stream
+xœ+ä2THW0TpWĞ³„¢¢t 44¡¢T…4.=#cS=KCCmnfb®äÔY®` g
+Æ†† ÔQÌ M
+endstream
+endobj
+77 0 obj
+<< /BBox [ 0 0 12 12 ] /FormType 1 /Matrix [ 1 0 0 1 0 0 ] /Resources << /ProcSet [ /PDF ] >> /Subtype /Form /Type /XObject /Length 440 /Filter /FlateDecode >>
+stream
+xœu“KN1Eço^UÿÏ
+Ã!2€²ıÜòC4Rµ[m»ªn}úıÆëuñzX»?×Çë"<,³>^ÖÛ6+Q_ÛÚ˜k¾–ëé–m?/ó,Xü¾=ŞŞ×fò*Áí¸Åüÿïèéá–›¼¹eÕD3éõ[JsÖÕ;Õ5c½ùÅbÚ¢‘‰C7¦:Ä*án8;/ò<[%O>‡ÍğÕ›µ;'fSQXlWI]L¤@¶S29–ìO­Ã¤ª'ÄnÖ°¾3	Ë*%agf	BŸò·‡D¤é®â±µá V‘Ñß‰2ãÒE!§™8òb²KÄD¿“T‹špNÈö˜µ*_¢œÌ@ CÀ¼úèîªò:f\ÊVs;pÌ{úù\Ø}ÃÜx ½Ïßi'BJˆ¢z“ë	!h=H%J3±DĞL
+=¢åú–”F!½e¦\d*É]“îSô£S—'>3x~ê0v>C7í‘$nG7Á*éÜãèFûÉt_c£ÈÊ.2¾µ\XıL¥ÜAœ™Á¦.aöïü¿­Ÿøÿ+Uºp
+endstream
+endobj
+78 0 obj
+<< /BBox [ 0 0 12 12 ] /FormType 1 /Matrix [ 1 0 0 1 0 0 ] /Resources << /ProcSet [ /PDF ] >> /Subtype /Form /Type /XObject /Length 73 /Filter /FlateDecode >>
+stream
+xœ+ä2THW0Tpb,JW0 BC#*JUHãÒ3±´00¶TĞ35±40R¦F–&†
+A å
+z¦`lhB@Å\ Ô>
+endstream
+endobj
+79 0 obj
+<< /BBox [ 0 0 12 12 ] /FormType 1 /Matrix [ 1 0 0 1 0 0 ] /Resources << /ProcSet [ /PDF ] >> /Subtype /Form /Type /XObject /Length 437 /Filter /FlateDecode >>
+stream
+xœu“INA†÷ïu‚’çá¬á
+ˆY@¹~~è5Ru·Úú\]ï7^¯‹×¾y>^áa™÷ãeı¸më"íµİš?—6^OcñgÑöó1Ïƒß·ÇÛûÚÌ–8ıõ—
+I÷ÿS==Ür“7·¬BP3éõ"¥9ëêêš±ŞÀ\<#ÓL(İ˜ê«„ÛQqv^äyD%O>ÊŠføêÍÚ³©(,¶«¤.ßL¤@¶S29–ìO­Ã¤ª'ÄnÖ°şd*
+–UJÂÎÌ:„¾ÒßiHM7ºP<v“m8ˆUdôw¢Ì8t‘g¤ÓLy1Ù%b¢ßIªEM8'T{Ì‚Z•¯¤œÊ@†&€yõÉ»«Êë˜q)[ÍéÀù1ï™Òç‚t¶Í<J¦ëw^™v"t …hª7¹‚ÑƒTr¡5K€¦€­@£'i9Jß’Òhª·Ì”‹L'¹kÊ½3ÅL°:uyé³ˆç§cç³t3IâvL¬’Î9nŒ_QLWğU1EUv‘ñ…ú¨åbpÀêg(åÄÙ+6%ÿ»ÿoë'®àã_ød¹
+endstream
+endobj
+80 0 obj
+<< /BBox [ 0 0 12 12 ] /FormType 1 /Matrix [ 1 0 0 1 0 0 ] /Resources << /ProcSet [ /PDF ] >> /Subtype /Form /Type /XObject /Length 73 /Filter /FlateDecode >>
+stream
+xœ+ä2THW0Tpb,JW0 BC#*JUHãÒ35±026UĞ3µ414´ Ñæf&æ
+A -å
+z¦`lhB@Å\ æG|
+endstream
+endobj
+81 0 obj
+<< /BBox [ 0 0 12 12 ] /FormType 1 /Matrix [ 1 0 0 1 0 0 ] /Resources << /ProcSet [ /PDF ] >> /Subtype /Form /Type /XObject /Length 437 /Filter /FlateDecode >>
+stream
+xœu“In1E÷}
+@à<œÀkû
+ÄY8;‹\?Ÿràj ª
+"Å™õ~ãõºx=á›çãu–y?¾­ï·íV¢¾¶·1×œ–ëeL~/Ú~>æyañëö|{_[È«·ãóT?Vğÿ?ÕËÓ-7ysËªmm&½~B¤4g]½S]3Ö˜Œb1mÑÈ„Ò©±J¸gçEî#*yòQV4ÃWoÖîœ˜MEY`±]%uù¶`"²’É±dGxj&U=!v³†õ'“PQ°¬Rbvf6Ğa ô7}ô@"©é®â±›lÃA¬"£‰2ãÒEîH§™8òb²KÄDIªEM8'T{Ì‚Z•¯¤œÊ@†&€yõÉ»«Êë˜q)[ÍíÀı1ï™Òç‚ôl›y`¼÷„gÚ‰Ğ¢©ŞäzBFRÉ…ÖL,A"˜¶¤å(}KJ£¨Ş2S.2ä®)÷‹)f‚Õ©ËHŸ@<?};Ÿ¥›ñH·cš`•tîqtcüŠbº‚¯Š!(ª²‹Œ/ÔG-ƒV?Û@)Ÿ ÎÎ@hƒK˜ı»ÿoëşÁç?ø–¹×
+endstream
+endobj
+82 0 obj
+<< /Length 2102 /Filter /FlateDecode >>
+stream
+xœµ[]oÜ6}Ÿ_A`_¶A–%)~>¶IÓ.ĞAí? i[íHr5rœì¯ßË‘Lœ•„ñÜéŠ—ç‘:äPDàú×ãˆĞ×èûwQ†®ïå˜£ë_ÑO×L‰Ğš!L¹!îŸaT(´ÜüQåÎ`$ŸÓ˜¼3X"%˜ûnDÿ~{õz¿ôÇu8ZôæÁÿ<çõ;tıº~Ou0XøVĞÜŠ®SL„;#‰ÒsAŒ­øüjö×º¢İÌÑú`Ñ8vZÑ§ù	õëjÇÇ>îWô×“=¯Ã<aôæäÎpÇ]Ëü‰sx†­Ä†*ÉÂ&t‰¦qãƒ¥fèÖt“tGøvşşóa:pÁ‘â
+w!5Náé Á’BçÇO„bşkİ®õ
+ê¾;b(%¼R¤C†œJ9Lâ…üûchƒ‚÷+ÙÃĞÒœ$2C¶KŸB°5+g­.*<?¾ú{¦|*:†5bÂÅ¢»W !üeŠÏ½`ï|ã1ÿ×çTÚ¢t:æz~_?v
+³tàûe¾9Ùñë‡
+¢1á@È|ô0/Ãúéoç«|ğÛy²%Ÿ(3œºŞÑ¼£aà|’:€"A }/»À İT©±a>?-““HI&™âNA»eï~3¹ï»"õËÒª×öĞåÒPŸüİ0İ¢S¿Üƒ&QïÏc:¹À ßòÂÊ]‡Âı¡RC…E]*\Ø¼¼ªp÷7&Êº~ùïÏ¿”Ùu(k®ˆ€ì:ô4ñ¼±Wj
+G 1
+4†'t÷„n7ĞÛÄİ	Ró¶s%^oä'ĞşÈşJt ä”ôµ±ÚtÈ©ÛĞîGšgFœíq.ˆÑˆ¹¨\x&.„Ğs¡ îÍ¾}]m<Sæ6p
+âzÂåÿİ~°ËÙ‚¶Qÿå¥j`˜
+Ù	!§X°a/”3ó#d393Æƒ&xmøsê6øwÄu£Ë5/k3ğs;Ñ&ôCXQÀ0g`A¢6„9uáËNF	ó‹nŸa¾Ü¯ö\Æ\ÊN	Å…†}t™„ß„7“0L„1:•ñ/R7Á_ÿå6 'ğ·±¸6	Šzö‘ B¹± †õ´,¤şøªÚXæÔm°„Ù)fWw‹…‡àéø	ÍwÍğÌ5íÄSÂ”0O®bx¡¬9ÁŠµ“5<ğ†û•®Í„”¹\:aÎçaºGÓÓxc—ÚHµì$@ 1 „Í–A¦6Œ9u™q}áòÿæ†æÿÙe>;ïÊyYvº­d.g'” A‘çY1¼PËÄ{ZÕ¥¬0W—ÀÿÀRJj³ çnÃb\7ºü¿Ú»õûe¸XÑ2¯n˜n1ß.
+ÚÉe¢j:`ÉµÂ]´ÃjûaEî&Xrmp1B?öÃ‚‡õİì„ÎOce,‹‚öaÉ5”“ÁŒáešæ0˜“FX$Ì=h­í„¹ÛA×şÖŞÆ§À¿ñjnÁ‚\ÍN$BXQÓ\k;`[â6 Âƒ”ó¬ş¿TĞÈÈÜjÙ	!¼š<ÏŠá…B¦ÆY¨Í„ÌäfÓÚX‘»XZiğ8Îã8OéqZŸç0Nşğ—E¼8İ¥„$-Êâ~ûéíN\'BXQÖDn1­íŒ¹Û KÒ²Axš–3L»ì£íW÷0õ5×€4—µÒÎ¸×Ñ]&òNg³¶y§åfÓÚ.Y‘»	:½-?T˜æé?ß¦Ã?¿å…í»ëGPBXOá”›LkûeEî6¨Ê´®ğf~šVdaşÍ··¯Ñã|V˜“¿F“½ïİ»ÚB/ªÛ'taœá…R‡WÚÂ8‹¤à2šÊ´¶s–S·¡OkaË‚íoíâGñ—OÚ5HÊÙÇ€câ@+ªæÑQ¦µÍ³"w(YZiğPÚ¿†Óp³ğ¨±ıXË\Ğ>0©vVz3„—	šïDµÒ3›ŸÌj»gEî64 i"l9Ù²›Ú.EUûÆí èÆ…ÕÓ5Ób3–Ym­È}µ.05ª(ÓÛ‚CÚt‚Î/®TÄ¢’ *íõ„b/T´ĞÎ„m%i&Åf*³ÚŞY‘»dZ¨ğ{Ñcm/óhkS —²“ÆDVT2ÑPfµ­³œºŠ<-3„é÷‡ùÙÎ~{èqÎóÔ×_¯ÎEíÄ³ÓÎOOx†ğBIÃˆNÛ¹hŒ‰ÍRfµ]´"w#2°´NÈp|èİï	ì’·1Ô¦B®i'‰!¬¨m˜DD{™ÕvÏŠÜ %iÉá‹E	ÙêÚÎ5í”š|§vï/“5UÊ™°­d'o3«í›¹Û°€jõÕ½…íHP”´“ÎÄƒÖS5•<mß¯í˜¹á)eŞÀÿÒM¨Ö5×µT¡Ê-ü1¼PßP¹hg–QÎ£·Ìj›e9u#6ğ´Vñî‹Õ‘¯3¡‚Ë’kÚe²D0BXQİŒo2«í˜¹áÉÒjCx®z~°ëLÁÜ
+fxÄ†éùâ~åÑß/ıXıŞÜ)sªÊş1¼LæÆïµj%rÂ7_¹«í ¹Ñ‚Èüà¸<ÏËmpÅÛX/EMû˜àÑÜxàƒz‡F4–»ÚæYNİJ½-7„‡¬°!Øm÷€Ö¾Wçjvİ«aæUìô‘GñïOÿìÌ f	ƒ”ğj¾Jåî†‘ğtï	B“æX”¿„ßªb¦ƒ'T÷`İÇ÷ı½E%ĞáÿŸğÀG
+endstream
+endobj
+83 0 obj
+<< /F1 86 0 R /F2 87 0 R >>
+endobj
+84 0 obj
+<< /Length 2030 /Filter /FlateDecode >>
+stream
+xœµ[ÛnÜ8}ï¯ °/»y`HŠ¤¨ÇŒ=ÉàY±@V+mmtñJêIü÷[¼ˆ¤ã$ÛPHèîRKÅ*s¨R±M?j^›¡ßîÑÛ÷Q†î?!Ê1G÷7è÷û¦D(Å¦¼"ú­bT”h>ÌÑR_Áˆ¿Sç¼¨°D¥`ú»ıóúîºëfíš]=¶Íç¾[Ö¡ûÿ û7îRD……‰‚†(Š¢dB \T’”
+a.H¥\/G+”ë¾k>£=L_ÑúØ¢aÚqEÏÓÕëÚO+®Wôßs»¬İ4btÕë+ô¹Ì\8ÙÏ¨[q%®h)y‰pe§¤‚Ğx¥ƒÁR±B«¦Iê3Lœ?Æ•¼Ä…DÃAH…½ÙDI°¤0ùîˆ(™ùº‚iWj3Õß5gJ	¯½·”õ\•7ùÜØÌç>S\*ğn@¤Á‰5¤»†lC÷ÖØÂ
+lÔQ†ÍáñğÛ›Ÿ°gtpÁQQ0¬£`Î-úôæ 4„¿@±Ê°ÀI¯Æã¤2˜ÿã%•¶s )åÏ¹ŸºæûçÑ¢ÄÌŸx;O};|ÿTA&Îî¦¹[Ÿp:—¸'_Ocû‚O ’ÖTÀ*¢Y&‹gI*Šß&Š`ºÍ¦¬âTO¬âåıàˆŸ;Š”ÓÔ^Ï^‰yÉÁ½Â3¡,Œ8:3‡kõiŞÇÈüÔ»™÷È÷İ:wã)öÿkÑ[¼dE÷÷İxDı4@ĞèË4ãJ§Xá"ğVÄ«Xiª^"¨À\zQ&ı~{W6l€¨$¢‚w;] zĞ—o@œšÙ£»T(Â|—Ò¢X¤F1øÎ„"¬AŠ;…N=¬ÂõÒ&‡0¤±B	‹”
+ZÓ@øÿ5Ì),Ÿ†9,İ||ï:ö‚èiÔ|l‡éï-OuÓ.o—§¶éênÂµ®ÚyINŸÚ>>XL=¬™PÒnŞV…Hjğ	Ö‚èÙĞÜ¸ey9?,f,ô¥[§ó
+xjëUùÈz\
+˜  /«@†*–‰8Ñ?şüğÇ”™)~<ÊÖ¼Põ„âŒ¢‡2„Yå25?‚ovŞÍsıœœ!ğe!£»w=kš¼]†ºï5_Z(À lO®úÚ>ÙP=Œ•NôP0cêª±21¨‘ï\ ŠÊ|©—•ó€¦O°DC²ÿºá™|ÒÚ¨€ZŒ„ÒÌ™—)\H¨\T6‰YÂ˜–*5‚ïll€ºØÅ÷ãôÅ,û@†¯İ ÜXÎCâ¥>JhßRïÀôD°fBmÃ»[¯«Ô`z×Ù°„ç~e‡¸šúó0f‡Ó§´MNpjg^(k²ùdÍJ,­.8IÍ„à;X¥§Ò,¸u7¢îŞKÛLã±ŸÑ±«OÓ…{J„ÜvrÂâê9aÍ„
+'ğnIËij`ƒïlÀ’JÏ‡ÖÜ³×¹—§é›‡ñH†dv"ItÛÒi¬Ë´ÍÌ@¾vW%.¬8xêvZä;¸ª\¿Ş1 >;İ#O]µE¹ìªÚŒœ™NÊ¤¦†Á1uC-òGYéùˆ€ÎıÚ=õ]S¿‚ó×õe´OÏŠ-j/g^¨hx­ò=gs º¡AêÖÚæ8 d#v‘½kë¹yÜÁÜ´íCYrU»”öIÚâè9`Í„’frk3óÔµÈw68YØLyêf¨°àîüw;/uŸZÍ!™j¦•nµ{$­y™š‹ÊÜßs‰™È­İÌS7Í"ß7İø¹=¢›—;Üih@ü6ÆÕÜÖkkêoG…õväoöÖÓˆ;ä·KßÙÖJ§îBÉ­ãÌSwÎ"ß‘-Ô¶ñç¸´óŠÆé˜|,Jeˆe¥êEk^(mQéÖk.mRneº[ùÎÉ éw+®á^ÚÎBË>
+X=¬™PÉ\º&2Oİ'®s¢ÈıƒİÙhÇÓú˜EŸÊ>á•†bË™ê˜*İiÍ¦c(?\ÛX¤nE¾s2€ù-‰—•wr„tö±À"éY`Í„R&bë‹Ô±ÈwN(‰ßUøØş¼ÄúõÂ;Ji_áÍ*=3œÖºLÓ¬Tº·šKÓL‰­g,R·Å"ß‰ÀÔ¶aõ¡;ûïÜŸQ:;I`¡ô,°f:Q3)¶6±Hİ‹|çÄRúæ¸>$Ñ§yP;SC²Ú	©Pº_î!µæ…Ê.”î´fS6®c,R7È‚ëœ\à~+â*îfEÍsÓ'/ºC.»nÔDO k&Ô4[¿X¤îE¾ÿ}Ú99„Ìï%ÜÎİ «ò«aRˆ8¤±SÄP]ÑPl9ó2Ó*ßs3ƒªÃõ‰EêXä;öÄï<ÜÖP™aÏE€Ë>h7ôõçtò…‹·Ş°HİüŠ|ç*»iğn–uÆSø¢<vÂW–ñoøy¡~E©{§¹$L%ßšÂ"uë+ò	é·ŞwÓX7M‡–vîÚÔ¿RÙI£§€5ê˜s×©[_Áu&¹ßøpum6%n®şJ Ob'~jô›}g^(ajÿ;/—„ßz¿2u×+ò	|æw¶.‰]ÃÑ[ı;0ıKàcwêÖä‚‰í$„ÕÂš†?vğ=BH"uuŒ¸óóf‚×|µÿÆ*³„"Üˆ°ˆÿ›vËŒUÔ²º>pİ†ÛúÔ¢¸e‚ÿíá
+endstream
+endobj
+85 0 obj
+<< /BaseFont /Helvetica-Bold /Encoding 8 0 R /Name /HeBo /Subtype /Type1 /Type /Font >>
+endobj
+86 0 obj
+<< /BaseFont /Helvetica /Encoding /WinAnsiEncoding /Name /F1 /Subtype /Type1 /Type /Font >>
+endobj
+87 0 obj
+<< /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding /Name /F2 /Subtype /Type1 /Type /Font >>
+endobj
+xref
+0 88
+0000000000 65535 f 
+0000000015 00000 n 
+0000000158 00000 n 
+0000000416 00000 n 
+0000001014 00000 n 
+0000001360 00000 n 
+0000001427 00000 n 
+0000001717 00000 n 
+0000002007 00000 n 
+0000003333 00000 n 
+0000003436 00000 n 
+0000003777 00000 n 
+0000004118 00000 n 
+0000004457 00000 n 
+0000004798 00000 n 
+0000005139 00000 n 
+0000005480 00000 n 
+0000005821 00000 n 
+0000006160 00000 n 
+0000006501 00000 n 
+0000006843 00000 n 
+0000007185 00000 n 
+0000007527 00000 n 
+0000007863 00000 n 
+0000008205 00000 n 
+0000008547 00000 n 
+0000008889 00000 n 
+0000009231 00000 n 
+0000009571 00000 n 
+0000009913 00000 n 
+0000010255 00000 n 
+0000010597 00000 n 
+0000010939 00000 n 
+0000011279 00000 n 
+0000011621 00000 n 
+0000011963 00000 n 
+0000012305 00000 n 
+0000012647 00000 n 
+0000012987 00000 n 
+0000013329 00000 n 
+0000013671 00000 n 
+0000014011 00000 n 
+0000014353 00000 n 
+0000014695 00000 n 
+0000015035 00000 n 
+0000015377 00000 n 
+0000015719 00000 n 
+0000016061 00000 n 
+0000016403 00000 n 
+0000016743 00000 n 
+0000017085 00000 n 
+0000017427 00000 n 
+0000017769 00000 n 
+0000018111 00000 n 
+0000018447 00000 n 
+0000018789 00000 n 
+0000019131 00000 n 
+0000019473 00000 n 
+0000019815 00000 n 
+0000020155 00000 n 
+0000020497 00000 n 
+0000020839 00000 n 
+0000021181 00000 n 
+0000021523 00000 n 
+0000021863 00000 n 
+0000022205 00000 n 
+0000022547 00000 n 
+0000022889 00000 n 
+0000023231 00000 n 
+0000023571 00000 n 
+0000023913 00000 n 
+0000024340 00000 n 
+0000024753 00000 n 
+0000025109 00000 n 
+0000025477 00000 n 
+0000025833 00000 n 
+0000026202 00000 n 
+0000026471 00000 n 
+0000027105 00000 n 
+0000027371 00000 n 
+0000028002 00000 n 
+0000028268 00000 n 
+0000028899 00000 n 
+0000031075 00000 n 
+0000031119 00000 n 
+0000033223 00000 n 
+0000033327 00000 n 
+0000033435 00000 n 
+trailer << /Info 2 0 R /Root 1 0 R /Size 88 /ID [<0f345dc240ebc62b796a3ca10a8d3008><646b6e6398e3ace4410ff42289e302ba>] >>
+startxref
+33548
+%%EOF

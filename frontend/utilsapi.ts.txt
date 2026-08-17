@@ -1,0 +1,68 @@
+// utils/api.ts
+import { UserProfile, VaultNote } from './types'
+
+const BASE = 'http://127.0.0.1:8000/api'
+
+interface AuthResponse {
+  token: string;
+  email: string;
+  name: string;
+  avatar?: string;
+}
+
+async function get<T>(path: string): Promise<T> {
+  const token = localStorage.getItem('thrice_token')
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+  }
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`
+  }
+
+  const res = await fetch(`${BASE}${path}`, { headers })
+  if (!res.ok) throw new Error(`API error ${res.status}: ${path}`)
+  return res.json() as Promise<T>
+}
+
+async function post<T>(path: string, body: unknown): Promise<T> {
+  const token = localStorage.getItem('thrice_token')
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+  }
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`
+  }
+
+  const res = await fetch(`${BASE}${path}`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(body)
+  })
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({ detail: 'An unknown error occurred' }));
+    throw new Error(errorData.detail || `API error ${res.status}: ${path}`);
+  }
+  return res.json() as Promise<T>
+}
+
+export const api = {
+  quote: (symbol: string) => get<any>(`/quote/${encodeURIComponent(symbol)}`),
+  fundamentals: (symbol: string) => get<any>(`/fundamentals/${encodeURIComponent(symbol)}`),
+  history: (symbol: string, period = '6mo', interval = '1d') => get<Record<string, unknown>[]>(`/history/${encodeURIComponent(symbol)}?period=${period}&interval=${interval}`),
+  technicals: (symbol: string, period = '1y', interval = '1d') => get<any>(`/technicals/${encodeURIComponent(symbol)}?period=${period}&interval=${interval}`),
+  options: (symbol: string, expiry?: string) => get<any>(`/options/${encodeURIComponent(symbol)}${expiry ? `?expiry=${expiry}` : ''}`),
+  batch: (symbols: string[]) => get<any[]>(`/batch?symbols=${symbols.join(',')}`),
+
+  // Auth Operations
+  me: () => get<UserProfile>('/auth/me'),
+  login: (credentials: { identifier: string; password: string }) =>
+    post<AuthResponse>(`/auth/login`, credentials),
+  register: (credentials: { email: string; name: string; password: string }) =>
+    post<AuthResponse>(`/auth/register`, credentials),
+
+  // Cryptographic Vault Operations
+  saveVaultNote: (payload: { title: string; content: string }) =>
+    post<{ status: string; message: string }>('/auth/vault/save', payload),
+  getVaultNotes: () =>
+    get<VaultNote[]>('/auth/vault/list'),
+}

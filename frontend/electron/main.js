@@ -1,0 +1,195 @@
+// main.js
+const { app, BrowserWindow, session, shell, ipcMain } = require('electron')
+const path = require('path')
+
+// Optimize GPU processes for high-performance WebGL chart rendering
+app.commandLine.appendSwitch('ignore-gpu-blocklist')
+app.commandLine.appendSwitch('enable-gpu-rasterization')
+app.commandLine.appendSwitch('enable-oop-rasterization')
+app.commandLine.appendSwitch('enable-webgl-draft-extensions')
+
+let win = null
+
+if (process.defaultApp) {
+  if (process.argv.length >= 2) {
+    app.setAsDefaultProtocolClient('thrice-nomisma', process.execPath, [path.resolve(process.argv[1])])
+  }
+} else {
+  app.setAsDefaultProtocolClient('thrice-nomisma')
+}
+
+function handleDeepLink(url) {
+  if (!url) return
+  try {
+    const parsedUrl = new URL(url)
+    if (parsedUrl.host === 'login-success') {
+      const token = parsedUrl.searchParams.get('token')
+      const email = parsedUrl.searchParams.get('email')
+      const name = parsedUrl.searchParams.get('name')
+      const avatar = parsedUrl.searchParams.get('avatar')
+      
+      if (win) {
+        win.webContents.send('auth-success', { token, email, name, avatar })
+        if (win.isMinimized()) win.restore()
+        win.focus()
+      }
+    }
+  } catch (e) {
+    console.error('Failed to parse deep link URL payload', e)
+  }
+}
+
+function stripHeaders(ses) {
+  ses.webRequest.onHeadersReceived((details, callback) => {
+    const headers = { ...details.responseHeaders }
+    delete headers['x-frame-options']
+    delete headers['X-Frame-Options']
+    delete headers['content-security-policy']
+    delete headers['Content-Security-Policy']
+    delete headers['x-content-type-options']
+    delete headers['X-Content-Type-Options']
+    callback({ responseHeaders: headers })
+  })
+}
+
+// IPC listener to process order actions coming from preload's electronAPI
+ipcMain.handle('place-order', async (event, payload) => {
+  try {
+    // Standard secure routing to backend execution API
+    const res = await fetch('http://127.0.0.1:8000/api/orders/place', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (!res.ok) {
+      const errData = await res.json();
+      throw new Error(errData.detail || 'Transaction failed via IPC Gateway.');
+    }
+
+    return await res.json();
+  } catch (err) {
+    console.error('Electron IPC transaction execution failed:', err);
+    throw err;
+  }
+});
+
+// IPC listener that recolors the native window controls (minimize/maximize/
+// close) to match the renderer's current theme. The renderer can't reach
+// these buttons via CSS — they're drawn by Chromium itself per the
+// titleBarOverlay option passed to BrowserWindow — so App.tsx's theme-sync
+// effect calls window.electron.setTitleBarOverlay(...), which preload.js
+// forwards here as this 'set-titlebar-overlay' message.
+ipcMain.on('set-titlebar-overlay', (event, opts) => {
+  if (win && !win.isDestroyed() && opts && typeof opts.color === 'string' && typeof opts.symbolColor === 'string') {
+    win.setTitleBarOverlay(opts)
+  }
+})
+
+function createWindow() {
+  win = new BrowserWindow({
+    width: 1680,
+    height: 980,
+    minWidth: 1280,
+    minHeight: 720,
+    backgroundColor: '#0c0e12',
+    titleBarStyle: 'hidden',
+    titleBarOverlay: {
+      color: '#13161f',
+      symbolColor: '#c9a84c',
+      height: 40,
+    },
+    webPreferences: {
+      nodeIntegration: true,       // Preserves legacy frontend bindings
+      contextIsolation: false,      // Preserves existing application bindings
+      webviewTag: true,
+      preload: path.join(__dirname, 'preload.js'),
+    },
+    icon: path.join(__dirname, '../src/assets/logo.png'),
+  })
+
+  const chromeUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+
+  const defaultSession = session.defaultSession
+  const angeloneSession = session.fromPartition('persist:angelone')
+  const tradingviewSession = session.fromPartition('persist:tradingview')
+
+  defaultSession.setUserAgent(chromeUserAgent)
+  angeloneSession.setUserAgent(chromeUserAgent)
+  tradingviewSession.setUserAgent(chromeUserAgent)
+
+  stripHeaders(defaultSession)
+  stripHeaders(angeloneSession)
+  stripHeaders(tradingviewSession)
+
+  win.webContents.setWindowOpenHandler(({ url }) => {
+    if (
+      url.includes('accounts.google.com') || 
+      url.includes('tradingview.com') || 
+      url.includes('127.0.0.1:8000') ||
+      url.startsWith('ws://127.0.0.1:8000')
+    ) {
+      const isTradingViewAuth = url.includes('tradingview.com') || url.includes('accounts.google.com');
+      
+      return { 
+        action: 'allow',
+        overrideBrowserWindowOptions: {
+          parent: win,
+          webPreferences: {
+            partition: isTradingViewAuth ? 'persist:tradingview' : 'persist:angelone',
+            contextIsolation: false, // Matches primary window state
+            nodeIntegration: true    // Preserves child context bindings
+          }
+        }
+      }
+    }
+    
+    if (url.startsWith('http://localhost:5173') || url.startsWith('http://127.0.0.1:5173')) {
+      return { action: 'allow' }
+    }
+    shell.openExternal(url)
+    return { action: 'deny' }
+  })
+
+  if (process.argv.includes('--dev')) {
+    win.loadURL('http://localhost:5173')
+  } else {
+    win.loadFile(path.join(__dirname, '../dist/index.html'))
+  }
+
+  const lastArg = process.argv[process.argv.length - 1]
+  if (lastArg && lastArg.startsWith('thrice-nomisma://login-success')) {
+    setTimeout(() => handleDeepLink(lastArg), 1500)
+  }
+}
+
+const gotTheLock = app.requestSingleInstanceLock()
+if (!gotTheLock) {
+  app.quit()
+} else {
+  app.on('second-instance', (event, commandLine) => {
+    if (win) {
+      if (win.isMinimized()) win.restore()
+      win.focus()
+    }
+    const deepLinkUrl = commandLine.find((arg) => arg.startsWith('thrice-nomisma://login-success'))
+    if (deepLinkUrl) handleDeepLink(deepLinkUrl)
+  })
+
+  app.whenReady().then(createWindow)
+}
+
+app.on('open-url', (event, url) => {
+  event.preventDefault()
+  handleDeepLink(url)
+})
+
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') app.quit()
+})
+
+app.on('activate', () => {
+  if (BrowserWindow.getAllWindows().length === 0) createWindow()
+})

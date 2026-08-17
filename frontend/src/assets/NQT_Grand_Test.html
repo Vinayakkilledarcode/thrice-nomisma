@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NQT Grand Test — Full Mock</title>
+<style>
+  :root{
+    --bg:#0b0e12; --panel:#12161c; --panel-2:#171c24; --line:#232a35;
+    --text:#e8ecf1; --dim:#7c8798; --amber:#d99b3f; --amber-soft:rgba(217,155,63,0.12);
+    --good:#4caf7d; --bad:#d9604f; --blue:#5b9bd9;
+    --mono:'JetBrains Mono','SF Mono',Consolas,monospace; --sans:'Inter',-apple-system,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:var(--sans);}
+  body{background-image:radial-gradient(circle at 15% 10%, rgba(217,155,63,0.05), transparent 40%),
+       radial-gradient(circle at 85% 90%, rgba(76,175,125,0.04), transparent 40%); min-height:100vh;}
+  a{color:inherit;}
+  .hidden{display:none !important;}
+
+  .topbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;
+    padding:12px 24px;border-bottom:1px solid var(--line);background:rgba(11,14,18,0.92);backdrop-filter:blur(8px);}
+  .brand{display:flex;align-items:center;gap:9px;font-family:var(--mono);}
+  .brand .dot{width:8px;height:8px;border-radius:50%;background:var(--amber);box-shadow:0 0 8px var(--amber);}
+  .brand b{font-weight:700;font-size:14px;}
+  .brand span{color:var(--dim);font-size:11.5px;}
+  .timer-box{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:15px;font-weight:700;
+    background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:6px 14px;}
+  .timer-box.low{border-color:var(--bad);color:var(--bad);animation:pulse 1s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.5;}}
+
+  .wrap{max-width:960px;margin:0 auto;padding:32px 20px 80px;}
+
+  /* HOME */
+  .hero h1{font-size:26px;margin:0 0 8px;}
+  .hero p{color:var(--dim);font-size:14px;line-height:1.6;max-width:600px;}
+  .section-preview{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin:22px 0 26px;}
+  .sp-card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px;}
+  .sp-card h4{margin:0 0 6px;font-size:15px;color:var(--amber);}
+  .sp-card p{margin:0;font-size:12.5px;color:var(--dim);line-height:1.5;}
+  .sp-card .badge{display:inline-block;font-family:var(--mono);font-size:11px;background:var(--amber-soft);
+    color:var(--amber);border:1px solid rgba(217,155,63,0.3);padding:2px 8px;border-radius:4px;margin-top:8px;}
+  .start-btn{width:100%;font-size:16px;font-weight:700;padding:16px;border-radius:10px;border:none;
+    background:linear-gradient(90deg,var(--amber),#e8b968);color:#141414;cursor:pointer;margin-top:10px;}
+  .start-btn:hover{filter:brightness(1.06);}
+  .info-line{font-size:12.5px;color:var(--dim);margin-top:14px;line-height:1.7;font-family:var(--mono);}
+
+  /* SECTION INTRO */
+  .intro-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:40px 30px;text-align:center;}
+  .intro-card h2{font-size:24px;margin:0 0 10px;}
+  .intro-card p{color:var(--dim);font-size:14px;max-width:480px;margin:0 auto 20px;line-height:1.6;}
+  .intro-stats{display:flex;justify-content:center;gap:30px;margin:24px 0;}
+  .intro-stats div{text-align:center;}
+  .intro-stats .n{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--amber);}
+  .intro-stats .l{font-size:11px;color:var(--dim);text-transform:uppercase;}
+
+  /* QUIZ */
+  .quiz-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
+  .section-tag{font-family:var(--mono);font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--amber);
+    background:var(--amber-soft);border:1px solid rgba(217,155,63,0.3);padding:3px 9px;border-radius:4px;}
+  .diff-tag{font-family:var(--mono);font-size:10.5px;letter-spacing:0.5px;text-transform:uppercase;padding:2px 8px;
+    border-radius:4px;margin-left:8px;}
+  .diff-easy{background:rgba(76,175,125,0.12);color:var(--good);border:1px solid rgba(76,175,125,0.3);}
+  .diff-medium{background:rgba(217,155,63,0.12);color:var(--amber);border:1px solid rgba(217,155,63,0.3);}
+  .diff-hard{background:rgba(217,96,79,0.12);color:var(--bad);border:1px solid rgba(217,96,79,0.3);}
+  .diff-topic{font-family:var(--mono);font-size:11px;color:var(--dim);margin-left:6px;}
+
+  .progressbar{height:5px;background:var(--line);border-radius:3px;overflow:hidden;margin-bottom:16px;}
+  .progressbar-fill{height:100%;background:linear-gradient(90deg,var(--amber),#e8b968);transition:width .3s;}
+
+  .jumpgrid{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:20px;max-height:110px;overflow-y:auto;padding:4px;
+    border:1px solid var(--line);border-radius:8px;background:var(--panel);}
+  .jumpbtn{width:28px;height:28px;border-radius:5px;border:1px solid var(--line);background:var(--panel-2);
+    color:var(--dim);font-family:var(--mono);font-size:10.5px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  .jumpbtn.current{border-color:var(--amber);color:var(--amber);}
+  .jumpbtn.answered{background:rgba(217,155,63,0.12);color:var(--text);}
+
+  .qcard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:24px 24px 20px;margin-bottom:18px;}
+  .qnum{font-family:var(--mono);color:var(--dim);font-size:11.5px;margin-bottom:8px;display:flex;align-items:center;flex-wrap:wrap;}
+  .qtext{font-size:16px;line-height:1.55;margin:0 0 16px;white-space:pre-line;}
+
+  .options{display:flex;flex-direction:column;gap:8px;}
+  .opt{display:flex;align-items:flex-start;gap:12px;padding:11px 14px;border:1px solid var(--line);border-radius:8px;
+    cursor:pointer;background:var(--panel-2);transition:border-color .12s,background .12s;font-size:14px;line-height:1.4;}
+  .opt:hover{border-color:#3a4451;}
+  .opt.selected{border-color:var(--amber);background:rgba(217,155,63,0.08);}
+  .opt.correct{border-color:var(--good);background:rgba(76,175,125,0.1);}
+  .opt.incorrect{border-color:var(--bad);background:rgba(217,96,79,0.1);}
+  .opt .letter{font-family:var(--mono);font-size:11.5px;color:var(--dim);min-width:17px;border:1px solid var(--line);
+    border-radius:4px;text-align:center;padding:1px 0;height:19px;line-height:17px;}
+  .opt.selected .letter{color:var(--amber);border-color:var(--amber);}
+  .opt.correct .letter{color:var(--good);border-color:var(--good);}
+  .opt.incorrect .letter{color:var(--bad);border-color:var(--bad);}
+
+  .explain{margin-top:14px;padding:13px 15px;border-radius:8px;font-size:13px;line-height:1.6;border:1px solid var(--line);display:none;}
+  .explain.show{display:block;}
+  .explain.wrong{background:rgba(217,96,79,0.06);border-color:rgba(217,96,79,0.3);}
+  .explain.right{background:rgba(76,175,125,0.06);border-color:rgba(76,175,125,0.3);}
+  .explain .tag{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:5px;display:block;}
+  .explain.wrong .tag{color:var(--bad);}
+  .explain.right .tag{color:var(--good);}
+  .explain .method-label{color:var(--amber);font-family:var(--mono);font-size:11px;display:block;margin:7px 0 3px;}
+
+  .nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:20px;gap:10px;}
+  .btn{font-family:var(--sans);font-size:14px;font-weight:600;padding:11px 22px;border-radius:8px;border:1px solid var(--line);
+    background:var(--panel-2);color:var(--text);cursor:pointer;transition:all .15s;}
+  .btn:hover{border-color:var(--dim);}
+  .btn.primary{background:var(--amber);color:#141414;border-color:var(--amber);}
+  .btn.primary:hover{filter:brightness(1.08);}
+  .btn:disabled{opacity:0.35;cursor:not-allowed;}
+
+  /* PASSAGE READ SCREEN */
+  .passage-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:28px;margin-bottom:18px;}
+  .passage-card h3{margin:0 0 6px;font-size:16px;color:var(--amber);}
+  .passage-timer{font-family:var(--mono);font-size:34px;font-weight:700;color:var(--amber);text-align:center;margin:14px 0;}
+  .passage-text{font-size:14.5px;line-height:1.7;color:var(--text);background:var(--panel-2);border:1px solid var(--line);
+    border-radius:8px;padding:18px;margin:16px 0;}
+  .passage-note{font-family:var(--mono);font-size:11.5px;color:var(--dim);text-align:center;margin-top:6px;}
+
+  /* RESULTS */
+  .result-hero{text-align:center;padding:36px 20px 26px;background:var(--panel);border:1px solid var(--line);border-radius:12px;margin-bottom:22px;}
+  .result-score{font-family:var(--mono);font-size:48px;font-weight:700;color:var(--amber);}
+  .result-sub{color:var(--dim);font-size:13px;margin-top:6px;}
+  .section-scores{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:20px 0;}
+  .ss-card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px;text-align:center;}
+  .ss-card .n{font-family:var(--mono);font-size:24px;font-weight:700;color:var(--amber);}
+  .ss-card .l{font-size:11.5px;color:var(--dim);margin-top:4px;}
+  .review-header{font-family:var(--mono);font-size:12.5px;color:var(--dim);margin:26px 0 12px;text-transform:uppercase;letter-spacing:1px;}
+  .topic-row{display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-bottom:1px solid var(--line);}
+  .topic-row span:last-child{font-family:var(--mono);color:var(--amber);}
+
+  footer{text-align:center;color:var(--dim);font-size:11.5px;font-family:var(--mono);padding:26px 0 10px;}
+
+  @media(max-width:600px){
+    .wrap{padding:22px 12px 60px;}
+    .qcard{padding:18px 16px;}
+    .intro-card{padding:28px 18px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand"><span class="dot"></span><b>NQT GRAND TEST</b><span>// full mock — 150 questions</span></div>
+  <div id="timerBox" class="timer-box hidden">⏱ <span id="timerText">45:00</span></div>
+</div>
+
+<div class="wrap">
+
+  <!-- HOME -->
+  <div id="homeView">
+    <div class="hero">
+      <h1>Grand Test</h1>
+      <p>The complete TCS NQT Foundation mock — three timed sections, simple-to-hard difficulty progression, 50 questions each. Includes reading-comprehension passages with a 30-second read timer before questions unlock. Every miss comes with the exact method to solve it.</p>
+    </div>
+    <div class="section-preview">
+      <div class="sp-card"><h4>Numerical Ability</h4><p>Profit &amp; Loss, Percentage, SI/CI, Ratio, Average, Time-Speed-Distance, Time &amp; Work, Ages.</p><span class="badge">50 Qs · 45:00</span></div>
+      <div class="sp-card"><h4>Verbal Ability</h4><p>Grammar, vocabulary, error spotting, sentence ordering + 4 timed Reading Comprehension passages.</p><span class="badge">50 Qs · 45:00</span></div>
+      <div class="sp-card"><h4>Reasoning Ability</h4><p>Blood relations, direction sense, coding-decoding, series, syllogisms, seating arrangements, data sufficiency.</p><span class="badge">50 Qs · 50:00</span></div>
+    </div>
+    <button class="start-btn" onclick="startGrandTest()">Start Grand Test →</button>
+    <div class="info-line">
+      Sections run in order: Numerical → Verbal → Reasoning. Each section auto-submits when its timer hits zero.<br>
+      RC passages give you 30 seconds to read, then the passage is hidden and questions test recall — just like the real pattern.
+    </div>
+  </div>
+
+  <!-- SECTION INTRO -->
+  <div id="sectionIntroView" class="hidden">
+    <div class="intro-card">
+      <h2 id="introTitle">Section</h2>
+      <p id="introDesc"></p>
+      <div class="intro-stats">
+        <div><div class="n" id="introQCount">50</div><div class="l">Questions</div></div>
+        <div><div class="n" id="introTime">45:00</div><div class="l">Time Limit</div></div>
+      </div>
+      <button class="btn primary" style="width:100%;" onclick="beginSection()">Begin Section →</button>
+    </div>
+  </div>
+
+  <!-- PASSAGE READ VIEW -->
+  <div id="passageView" class="hidden">
+    <div class="passage-card">
+      <div class="section-tag">READING COMPREHENSION</div>
+      <h3 id="passageTitle"></h3>
+      <div class="passage-timer" id="passageTimer">0:30</div>
+      <div class="passage-text" id="passageText"></div>
+      <div class="passage-note">Read carefully — once time is up (or you continue), the passage will be hidden and you'll answer from memory.</div>
+      <button class="btn primary" style="width:100%;margin-top:16px;" id="passageContinueBtn" onclick="continueFromPassage()">Continue to Questions →</button>
+    </div>
+  </div>
+
+  <!-- QUIZ VIEW -->
+  <div id="quizView" class="hidden">
+    <div class="quiz-head">
+      <div id="quizSectionLabel" style="font-family:var(--mono);font-size:12px;color:var(--dim);"></div>
+      <div style="font-family:var(--mono);font-size:12px;color:var(--dim);" id="scoreSoFar"></div>
+    </div>
+    <div class="progressbar"><div class="progressbar-fill" id="progressFill" style="width:0%"></div></div>
+    <div class="jumpgrid" id="jumpGrid"></div>
+
+    <div class="qcard">
+      <div class="qnum">
+        <span id="qNum">Question 1 of 50</span>
+        <span class="diff-tag" id="diffTag"></span>
+        <span class="diff-topic" id="topicTag"></span>
+      </div>
+      <p class="qtext" id="qText"></p>
+      <div class="options" id="optionsBox"></div>
+      <div class="explain" id="explainBox"></div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn" id="prevBtn" onclick="prevQ()">&larr; Previous</button>
+      <button class="btn primary" id="nextBtn" onclick="nextQ()">Next &rarr;</button>
+    </div>
+  </div>
+
+  <!-- SECTION RESULT (transition) -->
+  <div id="sectionResultView" class="hidden">
+    <div class="result-hero">
+      <div class="result-score" id="sectionResultScore">0/50</div>
+      <div class="result-sub" id="sectionResultLabel">Section complete</div>
+    </div>
+    <button class="btn primary" style="width:100%;" onclick="proceedAfterSection()" id="proceedBtn">Continue →</button>
+  </div>
+
+  <!-- GRAND RESULTS -->
+  <div id="grandResultsView" class="hidden">
+    <div class="result-hero">
+      <div class="result-score" id="grandScore">0/150</div>
+      <div class="result-sub">Overall Score</div>
+      <div class="section-scores">
+        <div class="ss-card"><div class="n" id="scoreQuant">0/50</div><div class="l">Numerical</div></div>
+        <div class="ss-card"><div class="n" id="scoreVerbal">0/50</div><div class="l">Verbal</div></div>
+        <div class="ss-card"><div class="n" id="scoreReasoning">0/50</div><div class="l">Reasoning</div></div>
+      </div>
+    </div>
+
+    <div class="review-header">Topic-wise Breakdown (Numerical Ability)</div>
+    <div id="topicBreakdown"></div>
+
+    <button class="btn primary" style="width:100%;margin:20px 0 10px;" onclick="document.getElementById('reviewList').scrollIntoView({behavior:'smooth'})">Review all 150 answers &amp; methods</button>
+    <button class="btn" style="width:100%;" onclick="restartGrandTest()">Restart Grand Test</button>
+
+    <div class="review-header">Full Review</div>
+    <div id="reviewList"></div>
+  </div>
+
+</div>
+
+<footer>Original practice content · Not affiliated with TCS · Built for drilling, not the real exam bank</footer>
+
+<script>
+const QUANT = [{"topic": "Percentage", "difficulty": "easy", "q": "A student scores 65% marks in an exam of 500 maximum marks. Find the marks obtained.", "opts": ["325", "342", "333", "341"], "ans": 0, "method": "Method: Marks obtained = (%/100) \u00d7 Total marks = (65/100) \u00d7 500 = 325.", "label": "Q1"}, {"topic": "Ratio & Proportion", "difficulty": "easy", "q": "Divide Rs. 3600 between A and B in the ratio 4:5. Find A's share.", "opts": ["1876", "1600", "1403", "1855"], "ans": 1, "method": "Method: A's share = Total \u00d7 a/(a+b) = 3600 \u00d7 4/9 = 1600.", "label": "Q2"}, {"topic": "Ratio & Proportion", "difficulty": "easy", "q": "Divide Rs. 2600 between A and B in the ratio 4:5. Find A's share.", "opts": ["1278", "1266", "1156", "1252"], "ans": 2, "method": "Method: A's share = Total \u00d7 a/(a+b) = 2600 \u00d7 4/9 = 1156.", "label": "Q3"}, {"topic": "Percentage", "difficulty": "easy", "q": "A student scores 65% marks in an exam of 800 maximum marks. Find the marks obtained.", "opts": ["520", "458", "485", "505"], "ans": 0, "method": "Method: Marks obtained = (%/100) \u00d7 Total marks = (65/100) \u00d7 800 = 520.", "label": "Q4"}, {"topic": "Ratio & Proportion", "difficulty": "easy", "q": "Divide Rs. 1200 between A and B in the ratio 3:5. Find A's share.", "opts": ["382", "357", "450", "533"], "ans": 2, "method": "Method: A's share = Total \u00d7 a/(a+b) = 1200 \u00d7 3/8 = 450.", "label": "Q5"}, {"topic": "Profit & Loss", "difficulty": "easy", "q": "A trader buys a fan for Rs. 2100 and sells it at a loss of 8%. Find the selling price.", "opts": ["Rs. 1783", "Rs. 1932", "Rs. 1794", "Rs. 1892"], "ans": 1, "method": "Method: Selling Price = Cost Price \u00d7 (1 \u2212 Loss% / 100). SP = Rs. 2100 \u00d7 (1 \u2212 8/100) = Rs. 2100 \u00d7 0.92 = Rs. 1932.", "label": "Q6"}, {"topic": "Ratio & Proportion", "difficulty": "easy", "q": "Divide Rs. 3400 between A and B in the ratio 1:2. Find A's share.", "opts": ["1398", "1133", "818", "1451"], "ans": 1, "method": "Method: A's share = Total \u00d7 a/(a+b) = 3400 \u00d7 1/3 = 1133.", "label": "Q7"}, {"topic": "Percentage", "difficulty": "easy", "q": "Find 10% of 500.", "opts": ["38", "50", "17", "6"], "ans": 1, "method": "Method: 10% of 500 = (10/100) \u00d7 500 = 50.0.", "label": "Q8"}, {"topic": "Simple & Compound Interest", "difficulty": "easy", "q": "Find the Simple Interest on Rs. 7500 at 4% per annum for 3 years.", "opts": ["Rs. 1127", "Rs. 900", "Rs. 788", "Rs. 1123"], "ans": 1, "method": "Method: SI = (P \u00d7 R \u00d7 T)/100 = (7500 \u00d7 4 \u00d7 3)/100 = Rs. 900.", "label": "Q9"}, {"topic": "Ratio & Proportion", "difficulty": "easy", "q": "Divide Rs. 1000 between A and B in the ratio 3:4. Find A's share.", "opts": ["476", "429", "389", "487"], "ans": 1, "method": "Method: A's share = Total \u00d7 a/(a+b) = 1000 \u00d7 3/7 = 429.", "label": "Q10"}, {"topic": "Problems on Ages", "difficulty": "easy", "q": "A father is 4 times as old as his son, who is 19 years old. Find the father's age.", "opts": ["81", "61", "64", "76"], "ans": 3, "method": "Method: Father's age = Multiplier \u00d7 Son's age = 4 \u00d7 19 = 76 years.", "label": "Q11"}, {"topic": "Profit & Loss", "difficulty": "easy", "q": "A shopkeeper buys an article for Rs. 250 and sells it at a profit of 15%. Find the selling price.", "opts": ["Rs. 272.67", "Rs. 287.5", "Rs. 274.05", "Rs. 279.93"], "ans": 1, "method": "Method: Selling Price = Cost Price \u00d7 (1 + Profit% / 100). SP = Rs. 250 \u00d7 (1 + 15/100) = Rs. 250 \u00d7 1.15 = Rs. 287.5.", "label": "Q12"}, {"topic": "Profit & Loss", "difficulty": "easy", "q": "A shopkeeper buys an article for Rs. 1900 and sells it at a profit of 20%. Find the selling price.", "opts": ["Rs. 2409", "Rs. 2280", "Rs. 2157", "Rs. 2195"], "ans": 1, "method": "Method: Selling Price = Cost Price \u00d7 (1 + Profit% / 100). SP = Rs. 1900 \u00d7 (1 + 20/100) = Rs. 1900 \u00d7 1.2 = Rs. 2280.", "label": "Q13"}, {"topic": "Profit & Loss", "difficulty": "easy", "q": "A shopkeeper buys an article for Rs. 1250 and sells it at a profit of 8%. Find the selling price.", "opts": ["Rs. 1350", "Rs. 1438", "Rs. 1300", "Rs. 1435"], "ans": 0, "method": "Method: Selling Price = Cost Price \u00d7 (1 + Profit% / 100). SP = Rs. 1250 \u00d7 (1 + 8/100) = Rs. 1250 \u00d7 1.08 = Rs. 1350.", "label": "Q14"}, {"topic": "Time, Speed & Distance", "difficulty": "easy", "q": "A car travels at 55 km/h for 2 hours. Find the distance covered.", "opts": ["110 km", "97 km", "104 km", "98 km"], "ans": 0, "method": "Method: Distance = Speed \u00d7 Time = 55 \u00d7 2 = 110 km.", "label": "Q15"}, {"topic": "Simple & Compound Interest", "difficulty": "easy", "q": "Find the Simple Interest on Rs. 3000 at 4% per annum for 4 years.", "opts": ["Rs. 480", "Rs. 612", "Rs. 348", "Rs. 373"], "ans": 0, "method": "Method: SI = (P \u00d7 R \u00d7 T)/100 = (3000 \u00d7 4 \u00d7 4)/100 = Rs. 480.", "label": "Q16"}, {"topic": "Profit & Loss", "difficulty": "easy", "q": "A shopkeeper buys an article for Rs. 1350 and sells it at a profit of 18%. Find the selling price.", "opts": ["Rs. 1593", "Rs. 1513", "Rs. 1519", "Rs. 1525"], "ans": 0, "method": "Method: Selling Price = Cost Price \u00d7 (1 + Profit% / 100). SP = Rs. 1350 \u00d7 (1 + 18/100) = Rs. 1350 \u00d7 1.18 = Rs. 1593.", "label": "Q17"}, {"topic": "Profit & Loss", "difficulty": "medium", "q": "A shirt is marked at Rs. 2200 and sold after a discount of 20%. Find the selling price.", "opts": ["Rs. 1811", "Rs. 1760", "Rs. 1591", "Rs. 1817"], "ans": 1, "method": "Method: SP = Marked Price \u00d7 (1 \u2212 Discount%/100). SP = Rs. 2200 \u00d7 (1 \u2212 20/100) = Rs. 2200 \u00d7 0.8 = Rs. 1760.", "label": "Q18"}, {"topic": "Time, Speed & Distance", "difficulty": "medium", "q": "Two trains start from stations 460 km apart and move towards each other at 45 km/h and 70 km/h. After how many hours will they meet?", "opts": ["4 hr", "4.77 hr", "4.95 hr", "4.37 hr"], "ans": 0, "method": "Method: When two objects move towards each other, their speeds add up (relative speed = 45+70 = 115 km/h). Time to meet = Total distance / Relative speed = 460/115 = 4.0 hours.", "label": "Q19"}, {"topic": "Time & Work", "difficulty": "medium", "q": "A can complete a piece of work in 15 days. What fraction of the work does A complete in 1 day?", "opts": ["1/12", "1/14", "1/13", "1/15"], "ans": 3, "method": "Method: If A finishes the whole work in 15 days, A's one-day work = 1/15 of the total work.", "label": "Q20"}, {"topic": "Percentage", "difficulty": "medium", "q": "A number 900 is increased by 40%. Find the new value.", "opts": ["1345", "1260", "1194", "1322"], "ans": 1, "method": "Method: New value = Original \u00d7 (1 + %/100) = 900 \u00d7 (1 + 40/100) = 900 \u00d7 1.4 = 1260.0.", "label": "Q21"}, {"topic": "Simple & Compound Interest", "difficulty": "medium", "q": "A sum of Rs. 4500 amounts to Simple Interest of Rs. 900 in 4 years. Find the rate of interest per annum.", "opts": ["8%", "7%", "5%", "2%"], "ans": 2, "method": "Method: Rate = (SI \u00d7 100)/(P \u00d7 T) = (900 \u00d7 100)/(4500 \u00d7 4) = 5%.", "label": "Q22"}, {"topic": "Time & Work", "difficulty": "medium", "q": "A can complete a piece of work in 12 days. What fraction of the work does A complete in 1 day?", "opts": ["1/11", "1/12", "1/14", "1/9"], "ans": 1, "method": "Method: If A finishes the whole work in 12 days, A's one-day work = 1/12 of the total work.", "label": "Q23"}, {"topic": "Percentage", "difficulty": "medium", "q": "What percent of 180 is 120?", "opts": ["61.83%", "62.14%", "66.67%", "64.6%"], "ans": 2, "method": "Method: Percentage = (Part/Whole) \u00d7 100 = (120/180) \u00d7 100 = 66.67%.", "label": "Q24"}, {"topic": "Problems on Ages", "difficulty": "medium", "q": "A father is 34 years old and his son is 13 years old. In how many... find the sum of their ages after 10 years.", "opts": ["64", "67", "76", "59"], "ans": 1, "method": "Method: Each person ages by 10 years, so the combined sum increases by 2\u00d710 = 20. Current sum = 34+13 = 47. Sum after 10 years = 47 + 20 = 67.", "label": "Q25"}, {"topic": "Profit & Loss", "difficulty": "medium", "q": "A shirt is marked at Rs. 1500 and sold after a discount of 10%. Find the selling price.", "opts": ["Rs. 1247", "Rs. 1413", "Rs. 1306", "Rs. 1350"], "ans": 3, "method": "Method: SP = Marked Price \u00d7 (1 \u2212 Discount%/100). SP = Rs. 1500 \u00d7 (1 \u2212 10/100) = Rs. 1500 \u00d7 0.9 = Rs. 1350.", "label": "Q26"}, {"topic": "Profit & Loss", "difficulty": "medium", "q": "A shirt is marked at Rs. 2100 and sold after a discount of 30%. Find the selling price.", "opts": ["Rs. 1356", "Rs. 1364", "Rs. 1470", "Rs. 1416"], "ans": 2, "method": "Method: SP = Marked Price \u00d7 (1 \u2212 Discount%/100). SP = Rs. 2100 \u00d7 (1 \u2212 30/100) = Rs. 2100 \u00d7 0.7 = Rs. 1470.", "label": "Q27"}, {"topic": "Simple & Compound Interest", "difficulty": "medium", "q": "A sum of Rs. 7500 amounts to Simple Interest of Rs. 1800 in 4 years. Find the rate of interest per annum.", "opts": ["6%", "5%", "10%", "4%"], "ans": 0, "method": "Method: Rate = (SI \u00d7 100)/(P \u00d7 T) = (1800 \u00d7 100)/(7500 \u00d7 4) = 6%.", "label": "Q28"}, {"topic": "Profit & Loss", "difficulty": "medium", "q": "A man bought an item for Rs. 575 and sold it for Rs. 775. Find his profit percentage.", "opts": ["34.78%", "33.44%", "39.04%", "33.27%"], "ans": 0, "method": "Method: Profit% = (SP \u2212 CP)/CP \u00d7 100. Profit = Rs. 775 \u2212 Rs. 575 = Rs. 200. Profit% = Rs. 200/Rs. 575 \u00d7 100 = 34.78%.", "label": "Q29"}, {"topic": "Average", "difficulty": "medium", "q": "The average of 10 numbers is 34. When a new number is added, the average becomes... Find the new average if the added number is 81.", "opts": ["40.19", "33.75", "38.27", "30.8"], "ans": 2, "method": "Method: Sum of original 10 numbers = 34 \u00d7 10 = 340. New sum = 340 + 81 = 421. New average = New sum / (n+1) = 421/11 = 38.27.", "label": "Q30"}, {"topic": "Percentage", "difficulty": "medium", "q": "A number 250 is increased by 40%. Find the new value.", "opts": ["337", "374", "350", "332"], "ans": 2, "method": "Method: New value = Original \u00d7 (1 + %/100) = 250 \u00d7 (1 + 40/100) = 250 \u00d7 1.4 = 350.0.", "label": "Q31"}, {"topic": "Problems on Ages", "difficulty": "medium", "q": "A father is 44 years old and his son is 17 years old. In how many... find the sum of their ages after 5 years.", "opts": ["78", "71", "67", "79"], "ans": 1, "method": "Method: Each person ages by 5 years, so the combined sum increases by 2\u00d75 = 10. Current sum = 44+17 = 61. Sum after 5 years = 61 + 10 = 71.", "label": "Q32"}, {"topic": "Profit & Loss", "difficulty": "medium", "q": "A man bought an item for Rs. 600 and sold it for Rs. 660. Find his profit percentage.", "opts": ["6.02%", "14.59%", "13.99%", "10%"], "ans": 3, "method": "Method: Profit% = (SP \u2212 CP)/CP \u00d7 100. Profit = Rs. 660 \u2212 Rs. 600 = Rs. 60. Profit% = Rs. 60/Rs. 600 \u00d7 100 = 10.0%.", "label": "Q33"}, {"topic": "Profit & Loss", "difficulty": "medium", "q": "A man bought an item for Rs. 1400 and sold it for Rs. 1450. Find his profit percentage.", "opts": ["3.57%", "6.1%", "6.96%", "1.96%"], "ans": 0, "method": "Method: Profit% = (SP \u2212 CP)/CP \u00d7 100. Profit = Rs. 1450 \u2212 Rs. 1400 = Rs. 50. Profit% = Rs. 50/Rs. 1400 \u00d7 100 = 3.57%.", "label": "Q34"}, {"topic": "Time & Work", "difficulty": "medium", "q": "A can complete a piece of work in 20 days. What fraction of the work does A complete in 1 day?", "opts": ["1/23", "1/22", "1/21", "1/20"], "ans": 3, "method": "Method: If A finishes the whole work in 20 days, A's one-day work = 1/20 of the total work.", "label": "Q35"}, {"topic": "Ratio & Proportion", "difficulty": "hard", "q": "If A:B = 2:3 and B:C = 2:5, find A:B:C.", "opts": ["4:6:15", "3:6:13", "3:6:14", "4:4:17"], "ans": 0, "method": "Method: Make the common term (B) equal in both ratios. A:B = 2:3, B:C = 2:5. LCM of 3 and 2 is 6. Scale first ratio by 2 \u2192 A:B = 4:6; scale second by 3 \u2192 B:C = 6:15. Combined: A:B:C = 4:6:15.", "label": "Q36"}, {"topic": "Simple & Compound Interest", "difficulty": "hard", "q": "Find the difference between Compound Interest and Simple Interest on Rs. 5000 at 20% per annum for 2 years.", "opts": ["Rs. 200", "Rs. 122", "Rs. 226", "Rs. 270"], "ans": 0, "method": "Method: For 2 years, CI \u2212 SI = P \u00d7 (R/100)\u00b2. = 5000 \u00d7 (20/100)\u00b2 = 5000 \u00d7 0.04 = Rs. 200. (Faster than computing CI and SI separately and subtracting.)", "label": "Q37"}, {"topic": "Time, Speed & Distance", "difficulty": "hard", "q": "A train 280 m long crosses a pole in how many seconds if its speed is 72 km/h?", "opts": ["11.13 s", "15.96 s", "11.94 s", "14 s"], "ans": 3, "method": "Method: Convert speed to m/s: 72 km/h \u00d7 (5/18) = 20.0 m/s. Time to cross a pole = Length of train / Speed = 280/20.0 = 14.0 seconds.", "label": "Q38"}, {"topic": "Percentage", "difficulty": "hard", "q": "The population of a town is 18000. If it increases by 10% every year, find the population after 2 years.", "opts": ["22481", "21780", "20924", "21499"], "ans": 1, "method": "Method: Repeated percentage growth compounds each year: Population after 2 yrs = 18000 \u00d7 (1+10/100)^2 = 18000 \u00d7 1.21 \u2248 21780.", "label": "Q39"}, {"topic": "Profit & Loss", "difficulty": "hard", "q": "A dishonest dealer claims to sell rice at cost price but uses a weight of 900g instead of 1000g for every kg. Find his profit percentage.", "opts": ["11.11%", "9.51%", "9.02%", "14.47%"], "ans": 0, "method": "Method: Since he charges for 1000g but gives only 900g, his effective CP is based on 900g while SP is based on 1000g at the same price. Profit% = (Claimed \u2212 Actual)/Actual \u00d7 100 = (1000\u2212900)/900 \u00d7 100 = 11.11%.", "label": "Q40"}, {"topic": "Ratio & Proportion", "difficulty": "hard", "q": "If A:B = 2:3 and B:C = 1:2, find A:B:C.", "opts": ["4:4:6", "2:3:6", "2:4:4", "4:1:5"], "ans": 1, "method": "Method: Make the common term (B) equal in both ratios. A:B = 2:3, B:C = 1:2. LCM of 3 and 1 is 3. Scale first ratio by 1 \u2192 A:B = 2:3; scale second by 3 \u2192 B:C = 3:6. Combined: A:B:C = 2:3:6.", "label": "Q41"}, {"topic": "Profit & Loss", "difficulty": "hard", "q": "A dishonest dealer claims to sell rice at cost price but uses a weight of 850g instead of 1000g for every kg. Find his profit percentage.", "opts": ["17.65%", "14.1%", "16.62%", "16.12%"], "ans": 0, "method": "Method: Since he charges for 1000g but gives only 850g, his effective CP is based on 850g while SP is based on 1000g at the same price. Profit% = (Claimed \u2212 Actual)/Actual \u00d7 100 = (1000\u2212850)/850 \u00d7 100 = 17.65%.", "label": "Q42"}, {"topic": "Percentage", "difficulty": "hard", "q": "The population of a town is 28000. If it increases by 8% every year, find the population after 2 years.", "opts": ["32659", "33674", "34212", "33269"], "ans": 0, "method": "Method: Repeated percentage growth compounds each year: Population after 2 yrs = 28000 \u00d7 (1+8/100)^2 = 28000 \u00d7 1.1664 \u2248 32659.", "label": "Q43"}, {"topic": "Time, Speed & Distance", "difficulty": "hard", "q": "A train 240 m long crosses a pole in how many seconds if its speed is 60 km/h?", "opts": ["15.6 s", "12.07 s", "14.4 s", "15.29 s"], "ans": 2, "method": "Method: Convert speed to m/s: 60 km/h \u00d7 (5/18) = 16.67 m/s. Time to cross a pole = Length of train / Speed = 240/16.67 = 14.4 seconds.", "label": "Q44"}, {"topic": "Time & Work", "difficulty": "hard", "q": "A can do a job in 20 days and B can do it in 20 days. Working together, in how many days will they finish it?", "opts": ["11.63 days", "10 days", "8.26 days", "11.12 days"], "ans": 1, "method": "Method: A's one-day work = 1/20, B's one-day work = 1/20. Combined one-day work = 1/20 + 1/20 = 1/10. Days to finish together = 1 / (combined one-day work) = 10.0 days.", "label": "Q45"}, {"topic": "Simple & Compound Interest", "difficulty": "hard", "q": "Find the difference between Compound Interest and Simple Interest on Rs. 4000 at 10% per annum for 2 years.", "opts": ["Rs. 55", "Rs. 26", "Rs. 40", "Rs. 50"], "ans": 2, "method": "Method: For 2 years, CI \u2212 SI = P \u00d7 (R/100)\u00b2. = 4000 \u00d7 (10/100)\u00b2 = 4000 \u00d7 0.01 = Rs. 40. (Faster than computing CI and SI separately and subtracting.)", "label": "Q46"}, {"topic": "Profit & Loss", "difficulty": "hard", "q": "A man sells two watches, each for Rs. 2900. On one he gains 20% and on the other he loses 20%. Find his overall profit or loss percentage on the whole transaction.", "opts": ["4%", "3.17%", "5.18%", "6.54%"], "ans": 0, "method": "Method: When two items are sold at the SAME selling price, one at x% profit and the other at x% loss, there is always a NET LOSS of (x/10)\u00b2 %, regardless of the actual selling price. Here x = 20, so net loss% = (20/10)\u00b2 = 4.0%. (This is a fixed shortcut formula \u2014 memorize it, since re-deriving CP for each watch wastes time.)", "label": "Q47"}, {"topic": "Time & Work", "difficulty": "hard", "q": "A can do a job in 10 days and B can do it in 20 days. Working together, in how many days will they finish it?", "opts": ["4.97 days", "6.67 days", "6.08 days", "7.21 days"], "ans": 1, "method": "Method: A's one-day work = 1/10, B's one-day work = 1/20. Combined one-day work = 1/10 + 1/20 = 3/20. Days to finish together = 1 / (combined one-day work) = 6.67 days.", "label": "Q48"}, {"topic": "Profit & Loss", "difficulty": "hard", "q": "A man sells two watches, each for Rs. 2900. On one he gains 20% and on the other he loses 20%. Find his overall profit or loss percentage on the whole transaction.", "opts": ["5.56%", "5.65%", "4.89%", "4%"], "ans": 3, "method": "Method: When two items are sold at the SAME selling price, one at x% profit and the other at x% loss, there is always a NET LOSS of (x/10)\u00b2 %, regardless of the actual selling price. Here x = 20, so net loss% = (20/10)\u00b2 = 4.0%. (This is a fixed shortcut formula \u2014 memorize it, since re-deriving CP for each watch wastes time.)", "label": "Q49"}, {"topic": "Time, Speed & Distance", "difficulty": "hard", "q": "A train 200 m long crosses a pole in how many seconds if its speed is 48 km/h?", "opts": ["16.11 s", "15 s", "16.93 s", "16.42 s"], "ans": 1, "method": "Method: Convert speed to m/s: 48 km/h \u00d7 (5/18) = 13.33 m/s. Time to cross a pole = Length of train / Speed = 200/13.33 = 15.0 seconds.", "label": "Q50"}];
+const VERBAL = [{"difficulty": "easy", "q": "Choose the correct synonym of 'Happy':", "opts": ["Sad", "Joyful", "Angry", "Tired"], "ans": 1, "method": "'Happy' means feeling pleasure or contentment. 'Joyful' carries the same meaning. The others are unrelated or opposite emotions.", "type": "grammar", "label": "Q1"}, {"difficulty": "easy", "q": "Choose the correct antonym of 'Big':", "opts": ["Large", "Huge", "Small", "Wide"], "ans": 2, "method": "'Big' means large in size. Its opposite is 'Small'. 'Large', 'Huge', and 'Wide' are all synonyms of big, not antonyms.", "type": "grammar", "label": "Q2"}, {"difficulty": "easy", "q": "Fill in the blank: She ______ to school every day.", "opts": ["go", "goes", "going", "gone"], "ans": 1, "method": "Subject 'She' is third-person singular, so the present-tense verb takes 's': 'goes'. Rule: He/She/It + verb+s in simple present.", "type": "grammar", "label": "Q3"}, {"difficulty": "easy", "q": "Fill in the blank: I ______ my homework yesterday.", "opts": ["do", "did", "done", "doing"], "ans": 1, "method": "'Yesterday' signals simple past tense, so use 'did' (past tense of 'do').", "type": "grammar", "label": "Q4"}, {"difficulty": "easy", "q": "Choose the correctly spelled word:", "opts": ["Recieve", "Receive", "Receve", "Receeve"], "ans": 1, "method": "The correct spelling is 'Receive' \u2014 remember the rule 'i before e except after c' does NOT apply here; this is one of the common exceptions to memorize directly: R-E-C-E-I-V-E.", "type": "grammar", "label": "Q5"}, {"difficulty": "easy", "q": "Fill in the blank: There ______ many students in the classroom.", "opts": ["is", "are", "was", "be"], "ans": 1, "method": "'Students' is plural, so the verb must agree in number: 'are'. Rule: There + plural verb + plural subject.", "type": "grammar", "label": "Q6"}, {"difficulty": "easy", "q": "Choose the correct synonym of 'Begin':", "opts": ["End", "Start", "Stop", "Finish"], "ans": 1, "method": "'Begin' means to start something. 'Start' is the direct synonym. 'End', 'Stop', and 'Finish' all mean the opposite.", "type": "grammar", "label": "Q7"}, {"difficulty": "easy", "q": "Fill in the blank: He is taller ______ his brother.", "opts": ["than", "then", "that", "as"], "ans": 0, "method": "'Than' is used for comparisons (taller than, better than). 'Then' refers to time and is a common spelling confusion \u2014 remember: comparison = than, sequence = then.", "type": "grammar", "label": "Q8"}, {"difficulty": "easy", "q": "Choose the correct antonym of 'Buy':", "opts": ["Purchase", "Sell", "Acquire", "Obtain"], "ans": 1, "method": "'Buy' means to acquire something by paying for it. Its opposite is 'Sell'. The other options are all synonyms of buy.", "type": "grammar", "label": "Q9"}, {"difficulty": "easy", "q": "Fill in the blank: They ______ playing football now.", "opts": ["is", "am", "are", "be"], "ans": 2, "method": "Subject 'They' is plural, so it takes 'are' in present continuous tense: 'are playing'.", "type": "grammar", "label": "Q10"}, {"difficulty": "medium", "q": "Fill in the blank: The manager was ______ to accept the proposal after reviewing the data.", "opts": ["reluctant", "reluctantly", "reluctance", "reluctivity"], "ans": 0, "method": "After the linking verb 'was', an adjective is needed, not an adverb or noun. 'Reluctant' (adjective) correctly describes the manager.", "type": "grammar", "label": "Q11"}, {"difficulty": "medium", "q": "Synonym of 'Meticulous':", "opts": ["Careless", "Painstaking", "Hasty", "Vague"], "ans": 1, "method": "'Meticulous' means showing great attention to detail. 'Painstaking' matches this meaning; the other options mean the opposite or are unrelated.", "type": "grammar", "label": "Q12"}, {"difficulty": "medium", "q": "Antonym of 'Verbose':", "opts": ["Wordy", "Concise", "Lengthy", "Repetitive"], "ans": 1, "method": "'Verbose' means using more words than necessary. Its opposite is 'Concise' (brief). 'Wordy', 'Lengthy', and 'Repetitive' are synonyms, not antonyms \u2014 a common trap.", "type": "grammar", "label": "Q13"}, {"difficulty": "medium", "q": "Spot the error: 'Neither of the students have submitted their assignment.'", "opts": ["Neither of the students", "have submitted", "their assignment", "No error"], "ans": 1, "method": "'Neither of' always takes a singular verb: 'has submitted', not 'have submitted'. Rule: Neither/Either/Each + of + plural noun \u2192 singular verb.", "type": "grammar", "label": "Q14"}, {"difficulty": "medium", "q": "Fill in the blank: She has been working here ______ 2019.", "opts": ["for", "since", "from", "during"], "ans": 1, "method": "Use 'since' with a fixed point in time (a year/date). Use 'for' with a duration (e.g., for 5 years). 2019 is a specific point, so 'since' is correct.", "type": "grammar", "label": "Q15"}, {"difficulty": "medium", "q": "Arrange in logical order: (1) He opened the door (2) He heard a knock (3) He was surprised (4) A stranger stood outside", "opts": ["2-1-4-3", "1-2-3-4", "2-1-3-4", "3-2-1-4"], "ans": 0, "method": "Find the trigger event first: the knock (2) starts the sequence, then he opens the door (1), sees the stranger (4), and reacts with surprise (3). Order: 2-1-4-3.", "type": "grammar", "label": "Q16"}, {"difficulty": "medium", "q": "Synonym of 'Candid':", "opts": ["Deceptive", "Frank", "Shy", "Formal"], "ans": 1, "method": "'Candid' means honest and straightforward. 'Frank' means the same thing. 'Deceptive' is a near-opposite.", "type": "grammar", "label": "Q17"}, {"difficulty": "medium", "q": "Fill in the blank: The report ______ by the team before the deadline.", "opts": ["completed", "was completed", "completes", "has complete"], "ans": 1, "method": "The report receives the action (passive voice needed): was/were + past participle. 'Was completed' correctly forms past passive voice.", "type": "grammar", "label": "Q18"}, {"difficulty": "medium", "q": "Spot the error: 'Each of the players were given a medal.'", "opts": ["Each of the players", "were given", "a medal", "No error"], "ans": 1, "method": "'Each' is always singular regardless of the plural noun following it. Correct: 'was given', not 'were given'.", "type": "grammar", "label": "Q19"}, {"difficulty": "medium", "q": "Fill in the blank: He is good ______ mathematics.", "opts": ["in", "at", "on", "with"], "ans": 1, "method": "The fixed idiomatic preposition for skill in a subject is 'good at'. This is a fixed pairing to memorize, not derived from logic.", "type": "grammar", "label": "Q20"}, {"difficulty": "hard", "q": "Fill in the blank: Neither the manager nor the employees ______ satisfied with the outcome.", "opts": ["was", "is", "were", "being"], "ans": 2, "method": "Rule for 'neither...nor': the verb agrees with the noun closest to it. The closer noun here is 'employees' (plural), so the verb must be plural: 'were'.", "type": "grammar", "label": "Q21"}, {"difficulty": "hard", "q": "Fill in the blank: By the time we arrived, the movie ______ already started.", "opts": ["has", "had", "have", "was"], "ans": 1, "method": "Two past events, one before the other ('arrived' is simple past). The earlier event (movie starting) needs past perfect: 'had already started'.", "type": "grammar", "label": "Q22"}, {"difficulty": "hard", "q": "Fill in the blank: If I ______ known earlier, I would have helped you.", "opts": ["have", "had", "has", "would have"], "ans": 1, "method": "Third conditional (unreal past): 'If + past perfect (had + V3), ... would have + V3'. The blank needs 'had' to form 'had known'.", "type": "grammar", "label": "Q23"}, {"difficulty": "hard", "q": "Spot the error: 'The number of accidents have increased this year.'", "opts": ["The number of accidents", "have increased", "this year", "No error"], "ans": 1, "method": "'The number of' (a total count) takes a singular verb: 'has increased'. Note the contrast with 'A number of' (meaning 'several'), which takes a plural verb \u2014 a classic trap.", "type": "grammar", "label": "Q24"}, {"difficulty": "hard", "q": "Fill in the blank: This is the house ______ I was born.", "opts": ["which", "where", "that", "when"], "ans": 1, "method": "The blank refers to a place, so use the relative adverb 'where'. 'Which/that' would need a preposition ('in which'), and 'when' is for time, not place.", "type": "grammar", "label": "Q25"}, {"difficulty": "hard", "q": "Fill in the blank: He is not only intelligent ______ also hardworking.", "opts": ["and", "but", "or", "so"], "ans": 1, "method": "This is a fixed correlative conjunction pair: 'not only... but also...'. Only 'but' completes this structure correctly.", "type": "grammar", "label": "Q26"}, {"difficulty": "hard", "q": "Spot the error: 'One of my friend is coming to visit me tomorrow.'", "opts": ["One of my friend", "is coming", "to visit me tomorrow", "No error"], "ans": 0, "method": "'One of my' must be followed by a plural noun: 'One of my friends'. Rule: 'One of the + plural noun', even though 'one' itself takes a singular verb.", "type": "grammar", "label": "Q27"}, {"difficulty": "hard", "q": "Fill in the blank: The findings of the study ______ published next month.", "opts": ["will be", "is being", "was", "has been"], "ans": 0, "method": "'Next month' signals future tense, and the findings receive the action (passive). Future passive = will be + past participle \u2192 'will be published'.", "type": "grammar", "label": "Q28"}, {"difficulty": "hard", "q": "Spot the error: 'She don't like to travel alone at night.'", "opts": ["She don't like", "to travel alone", "at night", "No error"], "ans": 0, "method": "Third-person singular subject ('She') requires 'doesn't', not 'don't'. Correct: 'She doesn't like'.", "type": "grammar", "label": "Q29"}, {"difficulty": "hard", "q": "Fill in the blank: Despite the heavy rain, the match ______ continued.", "opts": ["is", "was", "has", "had"], "ans": 1, "method": "The sentence narrates a completed past event, so the auxiliary must match the past tense used throughout the sentence: 'was continued' is consistent with the past-tense narrative.", "type": "grammar", "label": "Q30"}, {"type": "rc", "passageId": 0, "passageTitle": "Passage 1 \u2014 Remote Work", "passageText": "Remote work has changed how companies operate since 2020. Many organizations now allow employees to work from home permanently, citing lower office costs and higher employee satisfaction. However, critics argue that remote work weakens team collaboration and makes mentoring junior staff harder. A recent survey found that 62% of employees prefer a hybrid model \u2014 working from the office two or three days a week \u2014 over either fully remote or fully in-office arrangements. Companies that adopted hybrid models reported a 15% drop in employee turnover compared to those requiring full-time office attendance.", "difficulty": "easy", "q": "According to the passage, what percentage of employees prefer a hybrid model?", "opts": ["45%", "52%", "62%", "70%"], "ans": 2, "method": "The passage states directly: 'a recent survey found that 62% of employees prefer a hybrid model.'", "label": "Q31"}, {"type": "rc", "passageId": 0, "passageTitle": "Passage 1 \u2014 Remote Work", "passageText": "Remote work has changed how companies operate since 2020. Many organizations now allow employees to work from home permanently, citing lower office costs and higher employee satisfaction. However, critics argue that remote work weakens team collaboration and makes mentoring junior staff harder. A recent survey found that 62% of employees prefer a hybrid model \u2014 working from the office two or three days a week \u2014 over either fully remote or fully in-office arrangements. Companies that adopted hybrid models reported a 15% drop in employee turnover compared to those requiring full-time office attendance.", "difficulty": "easy", "q": "What is one criticism of remote work mentioned in the passage?", "opts": ["It increases office costs", "It weakens team collaboration", "It reduces employee satisfaction", "It has no effect on turnover"], "ans": 1, "method": "The passage states critics argue remote work 'weakens team collaboration and makes mentoring junior staff harder.'", "label": "Q32"}, {"type": "rc", "passageId": 0, "passageTitle": "Passage 1 \u2014 Remote Work", "passageText": "Remote work has changed how companies operate since 2020. Many organizations now allow employees to work from home permanently, citing lower office costs and higher employee satisfaction. However, critics argue that remote work weakens team collaboration and makes mentoring junior staff harder. A recent survey found that 62% of employees prefer a hybrid model \u2014 working from the office two or three days a week \u2014 over either fully remote or fully in-office arrangements. Companies that adopted hybrid models reported a 15% drop in employee turnover compared to those requiring full-time office attendance.", "difficulty": "easy", "q": "By how much did turnover drop for companies using hybrid models?", "opts": ["10%", "15%", "20%", "25%"], "ans": 1, "method": "The passage states: 'reported a 15% drop in employee turnover.'", "label": "Q33"}, {"type": "rc", "passageId": 0, "passageTitle": "Passage 1 \u2014 Remote Work", "passageText": "Remote work has changed how companies operate since 2020. Many organizations now allow employees to work from home permanently, citing lower office costs and higher employee satisfaction. However, critics argue that remote work weakens team collaboration and makes mentoring junior staff harder. A recent survey found that 62% of employees prefer a hybrid model \u2014 working from the office two or three days a week \u2014 over either fully remote or fully in-office arrangements. Companies that adopted hybrid models reported a 15% drop in employee turnover compared to those requiring full-time office attendance.", "difficulty": "easy", "q": "How many days a week does the hybrid model typically involve office attendance, per the passage?", "opts": ["One day", "Two or three days", "Four days", "Five days"], "ans": 1, "method": "The passage specifies hybrid means 'working from the office two or three days a week.'", "label": "Q34"}, {"type": "rc", "passageId": 0, "passageTitle": "Passage 1 \u2014 Remote Work", "passageText": "Remote work has changed how companies operate since 2020. Many organizations now allow employees to work from home permanently, citing lower office costs and higher employee satisfaction. However, critics argue that remote work weakens team collaboration and makes mentoring junior staff harder. A recent survey found that 62% of employees prefer a hybrid model \u2014 working from the office two or three days a week \u2014 over either fully remote or fully in-office arrangements. Companies that adopted hybrid models reported a 15% drop in employee turnover compared to those requiring full-time office attendance.", "difficulty": "easy", "q": "What is cited as a benefit of remote work for organizations?", "opts": ["Higher mentoring quality", "Lower office costs", "Stronger team collaboration", "Reduced employee satisfaction"], "ans": 1, "method": "The passage says organizations cite 'lower office costs and higher employee satisfaction' as reasons for permanent remote work.", "label": "Q35"}, {"type": "rc", "passageId": 1, "passageTitle": "Passage 2 \u2014 Renewable Energy", "passageText": "Solar power generation costs have fallen nearly 90% over the past decade, making it the cheapest source of new electricity in most parts of the world. Despite this, solar still accounts for only about 5% of global electricity production, largely because storage technology has not kept pace \u2014 solar panels generate power only when the sun shines, and batteries capable of storing that energy overnight remain expensive. Wind power, by contrast, contributes closer to 7% of global electricity and benefits from more consistent generation patterns in many coastal regions. Analysts predict that if battery costs fall by half over the next five years, solar's share of global electricity could triple.", "difficulty": "medium", "q": "By roughly how much have solar power generation costs fallen over the past decade?", "opts": ["50%", "70%", "90%", "95%"], "ans": 2, "method": "The passage states: 'Solar power generation costs have fallen nearly 90% over the past decade.'", "label": "Q36"}, {"type": "rc", "passageId": 1, "passageTitle": "Passage 2 \u2014 Renewable Energy", "passageText": "Solar power generation costs have fallen nearly 90% over the past decade, making it the cheapest source of new electricity in most parts of the world. Despite this, solar still accounts for only about 5% of global electricity production, largely because storage technology has not kept pace \u2014 solar panels generate power only when the sun shines, and batteries capable of storing that energy overnight remain expensive. Wind power, by contrast, contributes closer to 7% of global electricity and benefits from more consistent generation patterns in many coastal regions. Analysts predict that if battery costs fall by half over the next five years, solar's share of global electricity could triple.", "difficulty": "medium", "q": "What percentage of global electricity production does solar currently account for?", "opts": ["About 2%", "About 5%", "About 7%", "About 10%"], "ans": 1, "method": "The passage states solar 'accounts for only about 5% of global electricity production.'", "label": "Q37"}, {"type": "rc", "passageId": 1, "passageTitle": "Passage 2 \u2014 Renewable Energy", "passageText": "Solar power generation costs have fallen nearly 90% over the past decade, making it the cheapest source of new electricity in most parts of the world. Despite this, solar still accounts for only about 5% of global electricity production, largely because storage technology has not kept pace \u2014 solar panels generate power only when the sun shines, and batteries capable of storing that energy overnight remain expensive. Wind power, by contrast, contributes closer to 7% of global electricity and benefits from more consistent generation patterns in many coastal regions. Analysts predict that if battery costs fall by half over the next five years, solar's share of global electricity could triple.", "difficulty": "medium", "q": "What is identified as the main barrier limiting solar's growth?", "opts": ["High panel manufacturing costs", "Storage technology not keeping pace", "Lack of sunlight globally", "Government regulations"], "ans": 1, "method": "The passage explains this is 'largely because storage technology has not kept pace' with generation costs.", "label": "Q38"}, {"type": "rc", "passageId": 1, "passageTitle": "Passage 2 \u2014 Renewable Energy", "passageText": "Solar power generation costs have fallen nearly 90% over the past decade, making it the cheapest source of new electricity in most parts of the world. Despite this, solar still accounts for only about 5% of global electricity production, largely because storage technology has not kept pace \u2014 solar panels generate power only when the sun shines, and batteries capable of storing that energy overnight remain expensive. Wind power, by contrast, contributes closer to 7% of global electricity and benefits from more consistent generation patterns in many coastal regions. Analysts predict that if battery costs fall by half over the next five years, solar's share of global electricity could triple.", "difficulty": "medium", "q": "What share of global electricity does wind power contribute, according to the passage?", "opts": ["About 5%", "About 7%", "About 9%", "About 12%"], "ans": 1, "method": "The passage states wind power 'contributes closer to 7% of global electricity.'", "label": "Q39"}, {"type": "rc", "passageId": 1, "passageTitle": "Passage 2 \u2014 Renewable Energy", "passageText": "Solar power generation costs have fallen nearly 90% over the past decade, making it the cheapest source of new electricity in most parts of the world. Despite this, solar still accounts for only about 5% of global electricity production, largely because storage technology has not kept pace \u2014 solar panels generate power only when the sun shines, and batteries capable of storing that energy overnight remain expensive. Wind power, by contrast, contributes closer to 7% of global electricity and benefits from more consistent generation patterns in many coastal regions. Analysts predict that if battery costs fall by half over the next five years, solar's share of global electricity could triple.", "difficulty": "medium", "q": "What do analysts predict could happen if battery costs fall by half in five years?", "opts": ["Solar's share could double", "Solar's share could triple", "Wind power would overtake solar", "Solar costs would rise again"], "ans": 1, "method": "The passage states: 'solar's share of global electricity could triple' if battery costs fall by half.", "label": "Q40"}, {"type": "rc", "passageId": 2, "passageTitle": "Passage 3 \u2014 Corporate Training", "passageText": "A study of 500 mid-sized companies found that organizations investing more than 3% of payroll in employee training saw 24% higher productivity than those spending under 1%. Interestingly, the productivity gain was not linear \u2014 companies spending between 1% and 3% of payroll on training saw only an 8% productivity increase, suggesting a threshold effect where training investment must cross a certain level before yielding strong returns. The study also found that companies offering structured mentorship programs, regardless of training budget, retained employees 18% longer on average than those without such programs.", "difficulty": "medium", "q": "How many mid-sized companies were included in the study?", "opts": ["200", "350", "500", "750"], "ans": 2, "method": "The passage states: 'A study of 500 mid-sized companies found...'", "label": "Q41"}, {"type": "rc", "passageId": 2, "passageTitle": "Passage 3 \u2014 Corporate Training", "passageText": "A study of 500 mid-sized companies found that organizations investing more than 3% of payroll in employee training saw 24% higher productivity than those spending under 1%. Interestingly, the productivity gain was not linear \u2014 companies spending between 1% and 3% of payroll on training saw only an 8% productivity increase, suggesting a threshold effect where training investment must cross a certain level before yielding strong returns. The study also found that companies offering structured mentorship programs, regardless of training budget, retained employees 18% longer on average than those without such programs.", "difficulty": "medium", "q": "What productivity increase did companies spending over 3% of payroll on training see?", "opts": ["8%", "15%", "18%", "24%"], "ans": 3, "method": "The passage states these companies 'saw 24% higher productivity than those spending under 1%.'", "label": "Q42"}, {"type": "rc", "passageId": 2, "passageTitle": "Passage 3 \u2014 Corporate Training", "passageText": "A study of 500 mid-sized companies found that organizations investing more than 3% of payroll in employee training saw 24% higher productivity than those spending under 1%. Interestingly, the productivity gain was not linear \u2014 companies spending between 1% and 3% of payroll on training saw only an 8% productivity increase, suggesting a threshold effect where training investment must cross a certain level before yielding strong returns. The study also found that companies offering structured mentorship programs, regardless of training budget, retained employees 18% longer on average than those without such programs.", "difficulty": "medium", "q": "What productivity gain did companies spending between 1% and 3% see?", "opts": ["8%", "12%", "18%", "24%"], "ans": 0, "method": "The passage states companies in the 1%-3% range 'saw only an 8% productivity increase.'", "label": "Q43"}, {"type": "rc", "passageId": 2, "passageTitle": "Passage 3 \u2014 Corporate Training", "passageText": "A study of 500 mid-sized companies found that organizations investing more than 3% of payroll in employee training saw 24% higher productivity than those spending under 1%. Interestingly, the productivity gain was not linear \u2014 companies spending between 1% and 3% of payroll on training saw only an 8% productivity increase, suggesting a threshold effect where training investment must cross a certain level before yielding strong returns. The study also found that companies offering structured mentorship programs, regardless of training budget, retained employees 18% longer on average than those without such programs.", "difficulty": "medium", "q": "What does the '8% vs 24%' comparison suggest about training investment, per the passage?", "opts": ["A linear relationship", "A threshold effect", "No relationship at all", "A negative relationship"], "ans": 1, "method": "The passage explicitly states this pattern suggests 'a threshold effect where training investment must cross a certain level before yielding strong returns.'", "label": "Q44"}, {"type": "rc", "passageId": 2, "passageTitle": "Passage 3 \u2014 Corporate Training", "passageText": "A study of 500 mid-sized companies found that organizations investing more than 3% of payroll in employee training saw 24% higher productivity than those spending under 1%. Interestingly, the productivity gain was not linear \u2014 companies spending between 1% and 3% of payroll on training saw only an 8% productivity increase, suggesting a threshold effect where training investment must cross a certain level before yielding strong returns. The study also found that companies offering structured mentorship programs, regardless of training budget, retained employees 18% longer on average than those without such programs.", "difficulty": "medium", "q": "By how much longer did companies with mentorship programs retain employees?", "opts": ["8% longer", "12% longer", "18% longer", "24% longer"], "ans": 2, "method": "The passage states such companies 'retained employees 18% longer on average.'", "label": "Q45"}, {"type": "rc", "passageId": 3, "passageTitle": "Passage 4 \u2014 Urban Water Scarcity", "passageText": "Rapid urbanization has pushed nearly 40% of the world's cities into some form of water stress, according to a 2025 infrastructure report. The report attributes this partly to aging pipe networks, which lose an estimated 30% of treated water to leakage before it reaches consumers \u2014 a figure that rises above 45% in cities with infrastructure older than 60 years. Desalination has emerged as a partial solution in coastal cities, growing at 12% annually since 2018, though it remains energy-intensive and costly for landlocked regions. The report recommends that cities prioritize leak-repair programs over new desalination plants, estimating that fixing existing leaks could recover more water at one-third the cost of building equivalent desalination capacity.", "difficulty": "hard", "q": "According to the 2025 report, what percentage of the world's cities face some form of water stress?", "opts": ["25%", "30%", "40%", "55%"], "ans": 2, "method": "The passage states: 'nearly 40% of the world's cities into some form of water stress.'", "label": "Q46"}, {"type": "rc", "passageId": 3, "passageTitle": "Passage 4 \u2014 Urban Water Scarcity", "passageText": "Rapid urbanization has pushed nearly 40% of the world's cities into some form of water stress, according to a 2025 infrastructure report. The report attributes this partly to aging pipe networks, which lose an estimated 30% of treated water to leakage before it reaches consumers \u2014 a figure that rises above 45% in cities with infrastructure older than 60 years. Desalination has emerged as a partial solution in coastal cities, growing at 12% annually since 2018, though it remains energy-intensive and costly for landlocked regions. The report recommends that cities prioritize leak-repair programs over new desalination plants, estimating that fixing existing leaks could recover more water at one-third the cost of building equivalent desalination capacity.", "difficulty": "hard", "q": "What percentage of treated water is lost to leakage on average, per the report?", "opts": ["15%", "30%", "45%", "60%"], "ans": 1, "method": "The passage states aging pipe networks 'lose an estimated 30% of treated water to leakage' on average.", "label": "Q47"}, {"type": "rc", "passageId": 3, "passageTitle": "Passage 4 \u2014 Urban Water Scarcity", "passageText": "Rapid urbanization has pushed nearly 40% of the world's cities into some form of water stress, according to a 2025 infrastructure report. The report attributes this partly to aging pipe networks, which lose an estimated 30% of treated water to leakage before it reaches consumers \u2014 a figure that rises above 45% in cities with infrastructure older than 60 years. Desalination has emerged as a partial solution in coastal cities, growing at 12% annually since 2018, though it remains energy-intensive and costly for landlocked regions. The report recommends that cities prioritize leak-repair programs over new desalination plants, estimating that fixing existing leaks could recover more water at one-third the cost of building equivalent desalination capacity.", "difficulty": "hard", "q": "In cities with infrastructure older than 60 years, what does the leakage figure rise above?", "opts": ["30%", "35%", "45%", "50%"], "ans": 2, "method": "The passage states this figure 'rises above 45% in cities with infrastructure older than 60 years.'", "label": "Q48"}, {"type": "rc", "passageId": 3, "passageTitle": "Passage 4 \u2014 Urban Water Scarcity", "passageText": "Rapid urbanization has pushed nearly 40% of the world's cities into some form of water stress, according to a 2025 infrastructure report. The report attributes this partly to aging pipe networks, which lose an estimated 30% of treated water to leakage before it reaches consumers \u2014 a figure that rises above 45% in cities with infrastructure older than 60 years. Desalination has emerged as a partial solution in coastal cities, growing at 12% annually since 2018, though it remains energy-intensive and costly for landlocked regions. The report recommends that cities prioritize leak-repair programs over new desalination plants, estimating that fixing existing leaks could recover more water at one-third the cost of building equivalent desalination capacity.", "difficulty": "hard", "q": "At what annual rate has desalination capacity grown since 2018?", "opts": ["8%", "10%", "12%", "15%"], "ans": 2, "method": "The passage states desalination has been 'growing at 12% annually since 2018.'", "label": "Q49"}, {"type": "rc", "passageId": 3, "passageTitle": "Passage 4 \u2014 Urban Water Scarcity", "passageText": "Rapid urbanization has pushed nearly 40% of the world's cities into some form of water stress, according to a 2025 infrastructure report. The report attributes this partly to aging pipe networks, which lose an estimated 30% of treated water to leakage before it reaches consumers \u2014 a figure that rises above 45% in cities with infrastructure older than 60 years. Desalination has emerged as a partial solution in coastal cities, growing at 12% annually since 2018, though it remains energy-intensive and costly for landlocked regions. The report recommends that cities prioritize leak-repair programs over new desalination plants, estimating that fixing existing leaks could recover more water at one-third the cost of building equivalent desalination capacity.", "difficulty": "hard", "q": "What does the report recommend cities prioritize, and why?", "opts": ["New desalination plants, because they are cheaper", "Leak-repair programs, because they recover water at one-third the cost", "Neither option, since both are equally costly", "Desalination, because leak repair does not work"], "ans": 1, "method": "The passage states the report recommends 'leak-repair programs over new desalination plants, estimating that fixing existing leaks could recover more water at one-third the cost.'", "label": "Q50"}];
+const REASONING = [{"q": "If South-East becomes North, North-East becomes West, then what does South become?", "opts": ["North-West", "North-East", "South-East", "East"], "ans": 1, "method": "Method: write the 8 compass directions in a circle and find the constant rotation. SE \u2192 N is a shift of 135\u00b0 anticlockwise; NE \u2192 W confirms the same 135\u00b0 anticlockwise shift. Applying it to South gives North-East.", "difficulty": "easy", "label": "Q1"}, {"q": "Pointing to a photograph, a man says, 'She is the daughter of my grandfather's only son.' How is the woman related to the man?", "opts": ["Sister", "Mother", "Aunt", "Cousin"], "ans": 0, "method": "Method: draw the family tree. 'My grandfather's only son' is the man's own father. 'Daughter of my father' is the man's own sister.", "difficulty": "easy", "label": "Q2"}, {"q": "Find the missing number: 3, 8, 15, 24, 35, ?", "opts": ["46", "48", "44", "50"], "ans": 1, "method": "Method: check the differences: 5, 7, 9, 11 (increasing by 2 \u2014 odd numbers). Next difference is 13, so 35+13 = 48.", "difficulty": "easy", "label": "Q3"}, {"q": "If in a certain code, 'TABLE' is written as 'UBCMF', how is 'CHAIR' written?", "opts": ["DIBJS", "DIBJT", "DIBIS", "EIBJS"], "ans": 0, "method": "Method: each letter shifts forward by 1 (T\u2192U, A\u2192B, B\u2192C, L\u2192M, E\u2192F). Apply +1 to CHAIR: C\u2192D, H\u2192I, A\u2192B, I\u2192J, R\u2192S = DIBJS.", "difficulty": "easy", "label": "Q4"}, {"q": "A man walks 5 km North, then turns right and walks 3 km, then turns right again and walks 5 km. How far is he from the starting point?", "opts": ["3 km", "5 km", "8 km", "13 km"], "ans": 0, "method": "Method: North 5km, turn right \u2192 East 3km, turn right again \u2192 South 5km. The two 5km North/South legs cancel out, leaving only the 3km East displacement.", "difficulty": "easy", "label": "Q5"}, {"q": "Introducing a boy, a girl said, 'He is the son of my mother's only daughter.' How is the boy related to the girl?", "opts": ["Brother", "Son", "Nephew", "Cousin"], "ans": 1, "method": "Method: 'My mother's only daughter' is the girl herself. 'Son of the girl' means the boy is her own son.", "difficulty": "easy", "label": "Q6"}, {"q": "Find the missing number: 2, 6, 12, 20, 30, ?", "opts": ["40", "42", "38", "44"], "ans": 1, "method": "Method: recognize the n(n+1) pattern: 1\u00d72, 2\u00d73, 3\u00d74, 4\u00d75, 5\u00d76=30, next is 6\u00d77 = 42.", "difficulty": "easy", "label": "Q7"}, {"q": "If 'GARDEN' is coded as 'HBSEFO', how is 'FLOWER' coded?", "opts": ["GMPXFS", "GMPXFT", "FMPXFS", "GMPYFS"], "ans": 0, "method": "Method: each letter shifts forward by 1. Apply to FLOWER: F\u2192G, L\u2192M, O\u2192P, W\u2192X, E\u2192F, R\u2192S = GMPXFS.", "difficulty": "easy", "label": "Q8"}, {"q": "A man bought an item and sold it. Statements: All pens are books. All books are tables.\nConclusion I: All pens are tables. Conclusion II: Some tables are pens.", "opts": ["Only I follows", "Only II follows", "Both I and II follow", "Neither follows"], "ans": 2, "method": "Method: nested Venn circles \u2014 Pens \u2282 Books \u2282 Tables. This directly validates 'All pens are tables' (I), and since pens sit inside tables, 'Some tables are pens' (II) is also valid.", "difficulty": "easy", "label": "Q9"}, {"q": "A is taller than B but shorter than C. D is taller than C. Who is the tallest?", "opts": ["A", "B", "C", "D"], "ans": 3, "method": "Method: combine into one order line: C > A > B, and D > C. Merged: D > C > A > B. D is tallest.", "difficulty": "easy", "label": "Q10"}, {"q": "If 'MOUSE' is coded as 'NPVTF', how is 'TIGER' coded?", "opts": ["UJHFS", "UJHFT", "UIHFS", "UJGFS"], "ans": 0, "method": "Method: consistent +1 letter shift (M\u2192N, O\u2192P, U\u2192V, S\u2192T, E\u2192F). Apply to TIGER: T\u2192U, I\u2192J, G\u2192H, E\u2192F, R\u2192S = UJHFS.", "difficulty": "easy", "label": "Q11"}, {"q": "Find the missing number: 1, 4, 9, 16, 25, ?", "opts": ["30", "36", "32", "49"], "ans": 1, "method": "Method: recognize perfect squares (1\u00b2,2\u00b2,3\u00b2,4\u00b2,5\u00b2). Next is 6\u00b2 = 36.", "difficulty": "easy", "label": "Q12"}, {"q": "P is the brother of Q. Q is the sister of R. R is the father of S. How is P related to S?", "opts": ["Father", "Uncle", "Brother", "Cannot be determined"], "ans": 1, "method": "Method: P, Q, and R are siblings. R is S's father. Since P is R's sibling, P is S's uncle.", "difficulty": "easy", "label": "Q13"}, {"q": "A is the father of B. C is the son of B. D is the sister of C. How is D related to A?", "opts": ["Daughter", "Granddaughter", "Niece", "Sister"], "ans": 1, "method": "Method: A is B's father. C is B's son (so A is C's grandfather). D is C's sister, meaning D is also A's grandchild \u2014 a granddaughter.", "difficulty": "easy", "label": "Q14"}, {"q": "If today is Wednesday, what will be the day 90 days from now?", "opts": ["Monday", "Tuesday", "Wednesday", "Thursday"], "ans": 1, "method": "Method: divide the day count by 7 and use the remainder. 90 \u00f7 7 = 12 weeks, remainder 6. Counting 6 days forward from Wednesday: Thu(1), Fri(2), Sat(3), Sun(4), Mon(5), Tue(6). So 90 days from Wednesday is Tuesday.", "difficulty": "easy", "label": "Q15"}, {"q": "A man walks 4 km East, turns left and walks 4 km, then turns left again and walks 4 km. In which direction is he from the starting point?", "opts": ["North", "South", "East", "West"], "ans": 0, "method": "Method: East 4km, turn left \u2192 North 4km, turn left again \u2192 West 4km. The East and West legs cancel out, leaving only the North 4km leg as net displacement \u2014 he ends up due North.", "difficulty": "medium", "label": "Q16"}, {"q": "Pointing to a man, a woman said, 'His mother is the only daughter of my mother.' How is the woman related to the man?", "opts": ["Mother", "Sister", "Aunt", "Grandmother"], "ans": 0, "method": "Method: 'The only daughter of my mother' is the woman herself. So 'his mother' = the woman \u2014 she is the man's mother.", "difficulty": "medium", "label": "Q17"}, {"q": "Find the missing number: 5, 11, 23, 47, ?", "opts": ["93", "95", "96", "91"], "ans": 1, "method": "Method: each term = previous\u00d72+1. 5\u00d72+1=11, 11\u00d72+1=23, 23\u00d72+1=47, 47\u00d72+1=95.", "difficulty": "medium", "label": "Q18"}, {"q": "If 'PENCIL' is coded as 'QFODJM', how is 'MARKER' coded?", "opts": ["NBSLFS", "NBSLFT", "NBSLES", "NBTLFS"], "ans": 0, "method": "Method: consistent +1 shift (P\u2192Q, E\u2192F, N\u2192O, C\u2192D, I\u2192J, L\u2192M). Apply to MARKER: M\u2192N, A\u2192B, R\u2192S, K\u2192L, E\u2192F, R\u2192S = NBSLFS.", "difficulty": "medium", "label": "Q19"}, {"q": "Statements: Some doctors are engineers. All engineers are teachers.\nConclusion I: Some doctors are teachers. Conclusion II: All teachers are engineers.", "opts": ["Only I follows", "Only II follows", "Both follow", "Neither follows"], "ans": 0, "method": "Method: Venn diagram \u2014 the doctors/engineers overlap sits fully inside teachers (since all engineers are teachers), so 'Some doctors are teachers' (I) is valid. 'All teachers are engineers' (II) wrongly reverses the containment.", "difficulty": "medium", "label": "Q20"}, {"q": "In a row of children facing North, A is 5th from the left and B is 8th from the right. If there are 15 children in the row, how many are between A and B?", "opts": ["1", "2", "3", "4"], "ans": 1, "method": "Method: A is at seat 5. B is 8th from the right of 15, so B is at seat (15\u22128+1)=8. Children strictly between seat 5 and 8 are seats 6 and 7 \u2014 2 children.", "difficulty": "medium", "label": "Q21"}, {"q": "Six people sit around a circular table facing the center. A is opposite D. B is to the right of A. If C is between A and B, who sits opposite B?", "opts": ["C", "D", "E", "Cannot be determined"], "ans": 3, "method": "Method: only 3 of the 6 seats are pinned relative to each other; the remaining people can be arranged in more than one valid way, so the seat opposite B cannot be uniquely determined.", "difficulty": "medium", "label": "Q22"}, {"q": "A person faces West, turns 90\u00b0 clockwise, then 180\u00b0 anticlockwise. Which direction does he face now?", "opts": ["North", "South", "East", "West"], "ans": 1, "method": "Method: draw a compass and rotate step by step. West \u2192(90\u00b0 CW)\u2192 North \u2192(180\u00b0)\u2192 South. Final direction: South.", "difficulty": "medium", "label": "Q23"}, {"q": "No cups are plates. All plates are spoons.\nConclusion I: No cups are spoons. Conclusion II: Some spoons are plates.", "opts": ["Only I follows", "Only II follows", "Both follow", "Neither follows"], "ans": 1, "method": "Method: Venn diagram \u2014 cups and plates are separate circles, but spoons is a larger circle containing plates; spoons could still overlap cups elsewhere, so I isn't guaranteed. II is directly true since all plates (a subset) are inside spoons.", "difficulty": "medium", "label": "Q24"}, {"q": "Data Sufficiency: What is the age of Ravi?\nStatement I: Ravi is 5 years older than his brother.\nStatement II: Ravi's brother is 20 years old.", "opts": ["Statement I alone sufficient", "Statement II alone sufficient", "Both together are sufficient, but neither alone", "Both together are not sufficient"], "ans": 2, "method": "Method: Statement I alone gives only a relative difference \u2014 insufficient. Statement II alone gives the brother's age but not Ravi's \u2014 insufficient. Combined: brother=20, so Ravi=25. Sufficient together.", "difficulty": "medium", "label": "Q25"}, {"q": "Data Sufficiency: Is X greater than Y?\nStatement I: X + 5 = 15.\nStatement II: Y is less than 10.", "opts": ["Statement I alone sufficient", "Statement II alone sufficient", "Both together sufficient, neither alone", "Both together not sufficient"], "ans": 2, "method": "Method: Statement I alone gives X=10 but nothing about Y \u2014 insufficient. Statement II alone gives Y<10 but nothing about X \u2014 insufficient. Combined: X=10 and Y<10 always means X>Y. Sufficient together.", "difficulty": "medium", "label": "Q26"}, {"q": "Five friends T, P, Q, R, S are sitting in a row (left to right). T is at the left end. Q is immediately right of P. R is immediately right of Q. S is at the right end. Who is in the middle (3rd seat)?", "opts": ["Q", "R", "S", "P"], "ans": 0, "method": "Method: T=seat1, S=seat5. That leaves seats 2,3,4 for P,Q,R which must run consecutively (P then Q then R): P=2, Q=3, R=4. Middle seat is Q.", "difficulty": "medium", "label": "Q27"}, {"q": "Statements: All roses are flowers. Some flowers fade quickly.\nConclusion I: Some roses fade quickly. Conclusion II: All flowers are roses.", "opts": ["Only I follows", "Only II follows", "Both follow", "Neither follows"], "ans": 3, "method": "Method: Venn diagram \u2014 roses is fully inside flowers, but 'some flowers fade quickly' only marks a portion of flowers that may not overlap roses. Neither conclusion is guaranteed \u2014 a classic 'some' trap.", "difficulty": "medium", "label": "Q28"}, {"q": "In a family, X is the husband of Y. Z is the son of Y. W is the sister of Z. How is W related to X?", "opts": ["Wife", "Daughter", "Sister", "Niece"], "ans": 1, "method": "Method: X and Y are married; Z is their son. W is Z's sister, so W is also X and Y's daughter.", "difficulty": "medium", "label": "Q29"}, {"q": "A is the brother of B. C is the mother of A. D is the father of C. How is B related to D?", "opts": ["Granddaughter or Grandson", "Daughter", "Son", "Cannot be determined"], "ans": 0, "method": "Method: D is C's father, so D is A's grandfather. Since A and B are siblings, D is also B's grandfather \u2014 making B his grandchild (granddaughter or grandson, as B's gender isn't stated).", "difficulty": "medium", "label": "Q30"}, {"q": "Find the missing number: 4, 9, 19, 39, ?", "opts": ["78", "79", "80", "76"], "ans": 1, "method": "Method: each term = previous\u00d72+1. 4\u00d72+1=9, 9\u00d72+1=19, 19\u00d72+1=39, 39\u00d72+1=79.", "difficulty": "medium", "label": "Q31"}, {"q": "If 'SILVER' is coded as 'TJMWFS', how is 'GOLDEN' coded?", "opts": ["HPMEFO", "HPMEFN", "HPNEFO", "GPMEFO"], "ans": 0, "method": "Method: consistent +1 shift (S\u2192T, I\u2192J, L\u2192M, V\u2192W, E\u2192F, R\u2192S). Apply to GOLDEN: G\u2192H, O\u2192P, L\u2192M, D\u2192E, E\u2192F, N\u2192O = HPMEFO.", "difficulty": "medium", "label": "Q32"}, {"q": "Statements: All squares are rectangles. All rectangles are quadrilaterals.\nConclusion I: All squares are quadrilaterals. Conclusion II: All quadrilaterals are squares.", "opts": ["Only I follows", "Only II follows", "Both follow", "Neither follows"], "ans": 0, "method": "Method: nested Venn circles \u2014 Squares \u2282 Rectangles \u2282 Quadrilaterals, so I is valid. II wrongly reverses the containment.", "difficulty": "medium", "label": "Q33"}, {"q": "A person walks 6 km South, then 8 km East. How far is he from the starting point?", "opts": ["10 km", "14 km", "8 km", "12 km"], "ans": 0, "method": "Method: the two legs are perpendicular, so use Pythagoras: distance = \u221a(6\u00b2+8\u00b2) = \u221a100 = 10 km.", "difficulty": "medium", "label": "Q34"}, {"q": "Pointing to a girl, a boy said, 'She is the daughter of my father's sister.' How is the girl related to the boy?", "opts": ["Sister", "Cousin", "Niece", "Aunt"], "ans": 1, "method": "Method: 'My father's sister' is the boy's aunt. 'Daughter of my aunt' is the boy's cousin.", "difficulty": "medium", "label": "Q35"}, {"q": "A man sells two watches, each for Rs. 1200. On one he gains 20% and on the other he loses 20%. Find his overall profit or loss percentage on the whole transaction.", "opts": ["No profit no loss", "Loss of 4%", "Profit of 4%", "Loss of 2%"], "ans": 1, "method": "Method: when two items are sold at the SAME price, one at x% profit and the other at x% loss, there is always a net LOSS of (x/10)\u00b2%, regardless of the actual price. Here x=20, so loss% = (20/10)\u00b2 = 4%.", "difficulty": "hard", "label": "Q36"}, {"q": "Data Sufficiency: Is Z the tallest among five friends?\nStatement I: Z is taller than Y and W.\nStatement II: Y is taller than X, and X is taller than V.", "opts": ["Statement I alone sufficient", "Statement II alone sufficient", "Both together sufficient, neither alone", "Both together not sufficient"], "ans": 2, "method": "Method: Statement I alone only ranks Z against Y and W. Statement II alone only ranks Y, X, V. Combined: Z>Y>X>V (via the chain) and Z>W directly \u2014 covering all four others. Sufficient together, but not alone.", "difficulty": "hard", "label": "Q37"}, {"q": "Four boxes are stacked. Box A is above Box B. Box B is above Box C. Box D is above Box A. What is the order from top to bottom?", "opts": ["A-B-C-D", "A-B-D-C", "D-A-B-C", "A-D-B-C"], "ans": 2, "method": "Method: convert each clue into a 'greater than' chain: A>B, B>C, D>A. Merged: D>A>B>C. Top to bottom: D-A-B-C.", "difficulty": "hard", "label": "Q38"}, {"q": "Six people A, B, C, D, E, F sit in a row. B sits third from the left. F sits second from the right. C sits immediately right of B, and D sits at one end. Which of these could be true?", "opts": ["A sits at the other end", "E sits third from right", "Both A and B are possible", "Cannot be determined"], "ans": 2, "method": "Method: fix known seats \u2014 B=3, C=4, F=5 (in a row of 6). D takes one end, leaving flexibility for A and E's exact placement across more than one valid arrangement, so more than one listed outcome can hold true.", "difficulty": "hard", "label": "Q39"}, {"q": "Data Sufficiency: What is the code for 'RAIN' in a certain code language?\nStatement I: In that code, 'SUN' is written as 'TVO'.\nStatement II: Each letter is shifted by one position forward.", "opts": ["Statement I alone sufficient", "Statement II alone sufficient", "Both together sufficient, neither alone", "Either statement alone is sufficient"], "ans": 3, "method": "Method: Statement I alone reveals the +1 shift pattern (S\u2192T, U\u2192V, N\u2192O), enough to decode RAIN. Statement II alone directly states the rule. Since either one independently gives enough information, the answer is 'Either alone is sufficient.'", "difficulty": "hard", "label": "Q40"}, {"q": "A dishonest dealer claims to sell rice at cost price but uses a weight of 900g instead of 1000g for every kg. Find his profit percentage.", "opts": ["10%", "11.11%", "9%", "12%"], "ans": 1, "method": "Method: he charges for 1000g but gives only 900g. Profit% = (Claimed\u2212Actual)/Actual \u00d7 100 = (1000\u2212900)/900 \u00d7 100 = 11.11%.", "difficulty": "hard", "label": "Q41"}, {"q": "Find the missing number in the series: 7, 26, 63, 124, ?", "opts": ["215", "210", "220", "205"], "ans": 0, "method": "Method: each term follows n\u00b3\u22121: 2\u00b3\u22121=7, 3\u00b3\u22121=26, 4\u00b3\u22121=63, 5\u00b3\u22121=124, next is 6\u00b3\u22121=215.", "difficulty": "hard", "label": "Q42"}, {"q": "In a certain code, 'BOOK' is written as '2152 15 11' and 'PAGE' is written as '16 1 7 5'. How would 'READ' be written?", "opts": ["18 5 1 4", "17 5 1 4", "18 4 1 5", "19 5 1 4"], "ans": 0, "method": "Method: each letter is converted to its position in the alphabet (A=1, B=2, ... Z=26). R=18, E=5, A=1, D=4, giving '18 5 1 4'.", "difficulty": "hard", "label": "Q43"}, {"q": "Statements: All coins are metals. Some metals are gold.\nConclusion I: Some coins are gold. Conclusion II: All metals are coins.", "opts": ["Only I follows", "Only II follows", "Both follow", "Neither follows"], "ans": 3, "method": "Method: coins is a subset of metals, but 'some metals are gold' doesn't guarantee overlap with the coins subset specifically. Neither conclusion is logically guaranteed.", "difficulty": "hard", "label": "Q44"}, {"q": "P, Q, R, S, T, U sit around a circular table facing the center. S is immediate right of Q. P is second to the right of Q. R is immediate right of P. T is immediate right of R. Find the position of U with respect to Q.", "opts": ["Immediate left", "Immediate right", "Second to the left", "Third to the right"], "ans": 0, "method": "Method: fix Q at seat 1 and place people clockwise. S (immediate right of Q) = seat 2. P (second to the right of Q) = seat 3. R (immediate right of P) = seat 4. T (immediate right of R) = seat 5. The only seat left, seat 6, goes to U. Seat 6 sits immediately before seat 1 going clockwise, which means U is immediately to Q's left.", "difficulty": "hard", "label": "Q45"}, {"q": "A clock shows 3:15. What is the angle between the hour and minute hands?", "opts": ["0\u00b0", "7.5\u00b0", "15\u00b0", "30\u00b0"], "ans": 1, "method": "Method: Minute hand at 15 min = 90\u00b0 from 12. Hour hand moves 0.5\u00b0/minute; at 3:15 it has moved (3\u00d730)+(15\u00d70.5) = 90+7.5 = 97.5\u00b0 from 12. Angle between = 97.5\u221290 = 7.5\u00b0.", "difficulty": "hard", "label": "Q46"}, {"q": "A is twice as old as B was 5 years ago. If the sum of their present ages is 35 years, find B's present age.", "opts": ["13.33 years", "15 years", "20 years", "10 years"], "ans": 1, "method": "Method: let B's present age = x, so A's present age = 2(x\u22125) (twice what B was 5 years ago). Sum of present ages: 2(x\u22125) + x = 35 \u2192 2x\u221210+x = 35 \u2192 3x = 45 \u2192 x = 15. B's present age = 15 years. Always translate the word clues into one algebraic equation before solving, rather than testing options.", "difficulty": "hard", "label": "Q47"}, {"q": "Data Sufficiency: In a certain code, is 'MANGO' written as 'NBOHP'?\nStatement I: In that code, each letter is shifted forward by one position.\nStatement II: In that code, 'APPLE' is written as 'BQQMF'.", "opts": ["Statement I alone sufficient", "Statement II alone sufficient", "Both together sufficient, neither alone", "Either statement alone is sufficient"], "ans": 3, "method": "Method: Statement I alone states the +1 shift rule directly, sufficient to verify MANGO\u2192NBOHP. Statement II alone shows APPLE\u2192BQQMF, which also reveals the same +1 shift pattern (A\u2192B, P\u2192Q, P\u2192Q, L\u2192M, E\u2192F) \u2014 independently sufficient. Either statement alone works.", "difficulty": "hard", "label": "Q48"}, {"q": "Seven friends A,B,C,D,E,F,G are standing in a line. D is exactly in the middle. C and E are on either side of D. B is to the immediate left of C. A is at one end. F is between G and E. Who is at the other end?", "opts": ["G", "F", "E", "B"], "ans": 0, "method": "Method: with 7 people, the middle position is 4, so D=4. C and E flank D: taking C=3, E=5. B is immediate left of C, so B=2. A takes the free end, A=1. That leaves positions 6 and 7 for F and G. 'F is between G and E' means F must be adjacent to E(5), so F=6, and G takes the remaining end, G=7. The other end (opposite A) is G.", "difficulty": "hard", "label": "Q49"}, {"q": "Statements: Some pens are pencils. All pencils are erasers. No eraser is a sharpener.\nConclusion I: No pencil is a sharpener. Conclusion II: Some pens are erasers.", "opts": ["Only I follows", "Only II follows", "Both follow", "Neither follows"], "ans": 2, "method": "Method: Pencils \u2282 Erasers, and Erasers \u2229 Sharpeners = \u2205, so Pencils \u2229 Sharpeners = \u2205 \u2014 Conclusion I is valid. Since some pens are pencils, and all pencils are erasers, that overlapping group of pens is also erasers \u2014 Conclusion II is valid. Both follow.", "difficulty": "hard", "label": "Q50"}];
+
+const SECTIONS = [
+  { key:'quant', name:'Numerical Ability', desc:'Profit & Loss, Percentage, SI/CI, Ratio & Proportion, Average, Time-Speed-Distance, Time & Work, and Ages — ordered easy to hard.', questions:QUANT, timeSec: 45*60 },
+  { key:'verbal', name:'Verbal Ability', desc:'Grammar, vocabulary, error spotting, sentence ordering, and 4 timed Reading Comprehension passages (30s read, then recall).', questions:VERBAL, timeSec: 45*60 },
+  { key:'reasoning', name:'Reasoning Ability', desc:'Blood relations, direction sense, coding-decoding, number series, syllogisms, seating arrangements, and data sufficiency — ordered easy to hard.', questions:REASONING, timeSec: 50*60 },
+];
+
+let currentSectionIdx = 0;
+let currentQ = 0;
+let sectionAnswers = {};   // key -> array of selected idx or null
+let sectionTimers = {};    // key -> remaining seconds
+let timerInterval = null;
+let shownPassages = {};    // key: sectionKey+passageId -> true once shown
+let pendingPassageId = null;
+let passageCountdownInterval = null;
+
+function initState(){
+  SECTIONS.forEach(s=>{
+    sectionAnswers[s.key] = new Array(s.questions.length).fill(null);
+    sectionTimers[s.key] = s.timeSec;
+  });
+}
+initState();
+
+function fmtTime(sec){
+  sec = Math.max(0, sec);
+  const m = Math.floor(sec/60);
+  const s = sec%60;
+  return `${m}:${s.toString().padStart(2,'0')}`;
+}
+
+function startGrandTest(){
+  currentSectionIdx = 0;
+  document.getElementById('homeView').classList.add('hidden');
+  showSectionIntro();
+}
+
+function showSectionIntro(){
+  const sec = SECTIONS[currentSectionIdx];
+  document.getElementById('introTitle').textContent = `Section ${currentSectionIdx+1} of 3 — ${sec.name}`;
+  document.getElementById('introDesc').textContent = sec.desc;
+  document.getElementById('introQCount').textContent = sec.questions.length;
+  document.getElementById('introTime').textContent = fmtTime(sec.timeSec);
+  hideAllViews();
+  document.getElementById('sectionIntroView').classList.remove('hidden');
+}
+
+function hideAllViews(){
+  ['homeView','sectionIntroView','passageView','quizView','sectionResultView','grandResultsView'].forEach(id=>{
+    document.getElementById(id).classList.add('hidden');
+  });
+}
+
+function beginSection(){
+  currentQ = 0;
+  hideAllViews();
+  document.getElementById('timerBox').classList.remove('hidden');
+  startSectionTimer();
+  maybeShowPassageOrQuestion();
+}
+
+function startSectionTimer(){
+  clearInterval(timerInterval);
+  const sec = SECTIONS[currentSectionIdx];
+  updateTimerDisplay();
+  timerInterval = setInterval(()=>{
+    sectionTimers[sec.key]--;
+    updateTimerDisplay();
+    if(sectionTimers[sec.key] <= 0){
+      clearInterval(timerInterval);
+      finishSection(true);
+    }
+  }, 1000);
+}
+
+function updateTimerDisplay(){
+  const sec = SECTIONS[currentSectionIdx];
+  const remaining = sectionTimers[sec.key];
+  document.getElementById('timerText').textContent = fmtTime(remaining);
+  const box = document.getElementById('timerBox');
+  if(remaining <= 60) box.classList.add('low'); else box.classList.remove('low');
+}
+
+function maybeShowPassageOrQuestion(){
+  const sec = SECTIONS[currentSectionIdx];
+  const q = sec.questions[currentQ];
+  if(q.type === 'rc'){
+    const key = sec.key + '_' + q.passageId;
+    if(!shownPassages[key]){
+      shownPassages[key] = true;
+      showPassageScreen(q);
+      return;
+    }
+  }
+  renderQuestion();
+}
+
+function showPassageScreen(q){
+  hideAllViews();
+  document.getElementById('passageView').classList.remove('hidden');
+  document.getElementById('passageTitle').textContent = q.passageTitle;
+  document.getElementById('passageText').textContent = q.passageText;
+  let t = 30;
+  const timerEl = document.getElementById('passageTimer');
+  timerEl.textContent = '0:' + t.toString().padStart(2,'0');
+  const btn = document.getElementById('passageContinueBtn');
+  btn.textContent = `Continue to Questions → (${t}s)`;
+  clearInterval(passageCountdownInterval);
+  passageCountdownInterval = setInterval(()=>{
+    t--;
+    timerEl.textContent = '0:' + Math.max(t,0).toString().padStart(2,'0');
+    btn.textContent = t > 0 ? `Continue to Questions → (${t}s)` : 'Continue to Questions →';
+    if(t <= 0){
+      clearInterval(passageCountdownInterval);
+    }
+  }, 1000);
+}
+
+function continueFromPassage(){
+  clearInterval(passageCountdownInterval);
+  hideAllViews();
+  document.getElementById('timerBox').classList.remove('hidden');
+  document.getElementById('quizView').classList.remove('hidden');
+  renderQuestion();
+}
+
+function renderJumpGrid(){
+  const sec = SECTIONS[currentSectionIdx];
+  const jg = document.getElementById('jumpGrid');
+  jg.innerHTML = '';
+  sec.questions.forEach((q,i)=>{
+    const b = document.createElement('div');
+    b.className = 'jumpbtn';
+    if(i === currentQ) b.classList.add('current');
+    if(sectionAnswers[sec.key][i] !== null) b.classList.add('answered');
+    b.textContent = i+1;
+    b.onclick = ()=>{ currentQ = i; renderQuestion(); };
+    jg.appendChild(b);
+  });
+}
+
+function renderQuestion(){
+  hideAllViews();
+  document.getElementById('timerBox').classList.remove('hidden');
+  document.getElementById('quizView').classList.remove('hidden');
+
+  const sec = SECTIONS[currentSectionIdx];
+  const q = sec.questions[currentQ];
+  document.getElementById('quizSectionLabel').textContent = `SECTION ${currentSectionIdx+1}/3 — ${sec.name.toUpperCase()}`;
+  const answeredCount = sectionAnswers[sec.key].filter(a=>a!==null).length;
+  document.getElementById('scoreSoFar').textContent = `${answeredCount}/${sec.questions.length} answered`;
+  document.getElementById('qNum').textContent = `Question ${currentQ+1} of ${sec.questions.length}`;
+  const diffTag = document.getElementById('diffTag');
+  diffTag.textContent = (q.difficulty||'').toUpperCase();
+  diffTag.className = 'diff-tag diff-' + (q.difficulty||'easy');
+  document.getElementById('topicTag').textContent = q.topic ? ('· ' + q.topic) : (q.type==='rc' ? '· ' + q.passageTitle : '');
+  document.getElementById('qText').textContent = q.q;
+  document.getElementById('progressFill').style.width = `${((currentQ+1)/sec.questions.length)*100}%`;
+
+  const box = document.getElementById('optionsBox');
+  box.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  const selected = sectionAnswers[sec.key][currentQ];
+
+  q.opts.forEach((optText,i)=>{
+    const opt = document.createElement('div');
+    opt.className = 'opt';
+    if(selected === i) opt.classList.add('selected');
+    if(selected !== null){
+      if(i === q.ans) opt.classList.add('correct');
+      else if(selected === i && i !== q.ans) opt.classList.add('incorrect');
+    }
+    opt.innerHTML = `<span class="letter">${letters[i]}</span><span>${optText}</span>`;
+    opt.onclick = ()=> selectAnswer(i);
+    box.appendChild(opt);
+  });
+
+  renderExplain();
+  renderJumpGrid();
+  document.getElementById('prevBtn').disabled = currentQ === 0;
+  document.getElementById('nextBtn').textContent = currentQ === sec.questions.length-1 ? 'Finish Section →' : 'Next →';
+}
+
+function selectAnswer(i){
+  const sec = SECTIONS[currentSectionIdx];
+  sectionAnswers[sec.key][currentQ] = i;
+  renderQuestion();
+}
+
+function renderExplain(){
+  const sec = SECTIONS[currentSectionIdx];
+  const q = sec.questions[currentQ];
+  const selected = sectionAnswers[sec.key][currentQ];
+  const box = document.getElementById('explainBox');
+  if(selected === null){ box.className='explain'; box.innerHTML=''; return; }
+  const isCorrect = selected === q.ans;
+  const letters = ['A','B','C','D'];
+  box.className = 'explain show ' + (isCorrect?'right':'wrong');
+  box.innerHTML = `
+    <span class="tag">${isCorrect ? '✓ Correct' : '✗ Incorrect — Correct answer: ' + letters[q.ans]}</span>
+    <span class="method-label">METHOD / HOW TO SOLVE</span>
+    ${q.method}
+  `;
+}
+
+function prevQ(){
+  if(currentQ > 0){ currentQ--; renderQuestion(); }
+}
+
+function nextQ(){
+  const sec = SECTIONS[currentSectionIdx];
+  if(currentQ < sec.questions.length - 1){
+    currentQ++;
+    maybeShowPassageOrQuestion();
+  } else {
+    finishSection(false);
+  }
+}
+
+function finishSection(timedOut){
+  clearInterval(timerInterval);
+  const sec = SECTIONS[currentSectionIdx];
+  let correct = 0;
+  sec.questions.forEach((q,i)=>{ if(sectionAnswers[sec.key][i] === q.ans) correct++; });
+  hideAllViews();
+  document.getElementById('sectionResultView').classList.remove('hidden');
+  document.getElementById('sectionResultScore').textContent = `${correct}/${sec.questions.length}`;
+  document.getElementById('sectionResultLabel').textContent =
+    (timedOut ? "Time's up — " : "") + `${sec.name} complete`;
+  document.getElementById('proceedBtn').textContent =
+    currentSectionIdx < SECTIONS.length - 1 ? `Continue to ${SECTIONS[currentSectionIdx+1].name} →` : 'View Grand Results →';
+}
+
+function proceedAfterSection(){
+  if(currentSectionIdx < SECTIONS.length - 1){
+    currentSectionIdx++;
+    showSectionIntro();
+  } else {
+    showGrandResults();
+  }
+}
+
+function showGrandResults(){
+  hideAllViews();
+  document.getElementById('timerBox').classList.add('hidden');
+  document.getElementById('grandResultsView').classList.remove('hidden');
+
+  let totalCorrect = 0, totalQ = 0;
+  const sectionScores = {};
+  SECTIONS.forEach(sec=>{
+    let c = 0;
+    sec.questions.forEach((q,i)=>{ if(sectionAnswers[sec.key][i]===q.ans) c++; });
+    sectionScores[sec.key] = c;
+    totalCorrect += c;
+    totalQ += sec.questions.length;
+  });
+  document.getElementById('grandScore').textContent = `${totalCorrect}/${totalQ}`;
+  document.getElementById('scoreQuant').textContent = `${sectionScores['quant']}/50`;
+  document.getElementById('scoreVerbal').textContent = `${sectionScores['verbal']}/50`;
+  document.getElementById('scoreReasoning').textContent = `${sectionScores['reasoning']}/50`;
+
+  // topic breakdown for quant
+  const topicStats = {};
+  QUANT.forEach((q,i)=>{
+    const t = q.topic;
+    if(!topicStats[t]) topicStats[t] = {correct:0,total:0};
+    topicStats[t].total++;
+    if(sectionAnswers['quant'][i] === q.ans) topicStats[t].correct++;
+  });
+  const tb = document.getElementById('topicBreakdown');
+  tb.innerHTML = '';
+  Object.keys(topicStats).forEach(t=>{
+    const row = document.createElement('div');
+    row.className = 'topic-row';
+    row.innerHTML = `<span>${t}</span><span>${topicStats[t].correct}/${topicStats[t].total}</span>`;
+    tb.appendChild(row);
+  });
+
+  renderFullReview();
+}
+
+function renderFullReview(){
+  const list = document.getElementById('reviewList');
+  list.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  SECTIONS.forEach(sec=>{
+    const secHeader = document.createElement('div');
+    secHeader.className = 'review-header';
+    secHeader.textContent = sec.name;
+    list.appendChild(secHeader);
+    sec.questions.forEach((q,i)=>{
+      const a = sectionAnswers[sec.key][i];
+      const isCorrect = a === q.ans;
+      const card = document.createElement('div');
+      card.className = 'qcard';
+      card.style.marginBottom = '12px';
+      let optsHtml = '';
+      q.opts.forEach((optText, oi)=>{
+        let cls = 'opt';
+        if(oi === q.ans) cls += ' correct';
+        else if(oi === a && a !== q.ans) cls += ' incorrect';
+        optsHtml += `<div class="${cls}"><span class="letter">${letters[oi]}</span><span>${optText}</span></div>`;
+      });
+      const explainCls = a === null ? 'wrong' : (isCorrect ? 'right' : 'wrong');
+      const tagText = a === null ? 'Skipped — Correct answer: ' + letters[q.ans] :
+                      (isCorrect ? '✓ Correct' : '✗ Incorrect — Correct answer: ' + letters[q.ans]);
+      const topicLabel = q.topic ? q.topic : (q.type==='rc' ? q.passageTitle : '');
+      card.innerHTML = `
+        <div class="qnum">Q${i+1} <span class="diff-tag diff-${q.difficulty}">${(q.difficulty||'').toUpperCase()}</span><span class="diff-topic">· ${topicLabel}</span></div>
+        <p class="qtext">${q.q}</p>
+        <div class="options">${optsHtml}</div>
+        <div class="explain show ${explainCls}">
+          <span class="tag">${tagText}</span>
+          <span class="method-label">METHOD / HOW TO SOLVE</span>
+          ${q.method}
+        </div>
+      `;
+      list.appendChild(card);
+    });
+  });
+}
+
+function restartGrandTest(){
+  clearInterval(timerInterval);
+  clearInterval(passageCountdownInterval);
+  currentSectionIdx = 0;
+  currentQ = 0;
+  shownPassages = {};
+  initState();
+  hideAllViews();
+  document.getElementById('timerBox').classList.add('hidden');
+  document.getElementById('homeView').classList.remove('hidden');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NQT Drill — Practice Terminal</title>
+<style>
+  :root{
+    --bg: #0b0e12;
+    --panel: #12161c;
+    --panel-2: #171c24;
+    --line: #232a35;
+    --text: #e8ecf1;
+    --dim: #7c8798;
+    --amber: #d99b3f;
+    --amber-soft: rgba(217,155,63,0.12);
+    --good: #4caf7d;
+    --bad: #d9604f;
+    --mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+    --sans: 'Inter', -apple-system, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html,body{ margin:0; padding:0; background:var(--bg); color:var(--text); font-family:var(--sans); }
+  body{
+    background-image:
+      radial-gradient(circle at 15% 10%, rgba(217,155,63,0.05), transparent 40%),
+      radial-gradient(circle at 85% 90%, rgba(76,175,125,0.04), transparent 40%);
+    min-height:100vh;
+  }
+  a{ color:inherit; }
+
+  /* ---------- Top bar ---------- */
+  .topbar{
+    position:sticky; top:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 28px; border-bottom:1px solid var(--line);
+    background:rgba(11,14,18,0.9); backdrop-filter: blur(8px);
+  }
+  .brand{ display:flex; align-items:center; gap:10px; font-family:var(--mono); letter-spacing:0.5px; }
+  .brand .dot{ width:8px; height:8px; border-radius:50%; background:var(--amber); box-shadow:0 0 8px var(--amber); }
+  .brand b{ font-weight:700; font-size:15px; }
+  .brand span{ color:var(--dim); font-size:12px; }
+  .topbar .stat{ font-family:var(--mono); font-size:12px; color:var(--dim); }
+  .topbar .stat b{ color:var(--amber); }
+
+  .wrap{ max-width:960px; margin:0 auto; padding:36px 20px 80px; }
+
+  /* ---------- Home / test picker ---------- */
+  .hero{ margin-bottom:34px; }
+  .hero h1{ font-size:28px; margin:0 0 8px; letter-spacing:-0.3px; }
+  .hero p{ color:var(--dim); font-size:14.5px; max-width:560px; line-height:1.55; margin:0; }
+
+  .grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap:14px; }
+  .card{
+    background:var(--panel); border:1px solid var(--line); border-radius:10px;
+    padding:20px; cursor:pointer; transition: border-color .15s, transform .15s;
+    position:relative; overflow:hidden;
+  }
+  .card:hover{ border-color:var(--amber); transform:translateY(-2px); }
+  .card::before{
+    content:''; position:absolute; top:0; left:0; width:3px; height:100%;
+    background:var(--line);
+  }
+  .card:hover::before{ background:var(--amber); }
+  .card .idx{ font-family:var(--mono); color:var(--amber); font-size:12px; margin-bottom:6px; }
+  .card h3{ margin:0 0 8px; font-size:17px; }
+  .card .meta{ display:flex; gap:14px; font-size:12px; color:var(--dim); font-family:var(--mono); }
+  .card .progress-row{ margin-top:14px; height:4px; background:var(--line); border-radius:2px; overflow:hidden; }
+  .card .progress-fill{ height:100%; background:var(--amber); width:0%; transition:width .3s; }
+  .card .score-tag{ margin-top:8px; font-size:12px; font-family:var(--mono); color:var(--dim); }
+
+  /* ---------- Quiz view ---------- */
+  .quiz-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:22px; flex-wrap:wrap; gap:12px; }
+  .back-btn{
+    display:inline-flex; align-items:center; gap:6px; font-family:var(--mono); font-size:12px;
+    color:var(--dim); background:none; border:1px solid var(--line); border-radius:6px;
+    padding:7px 12px; cursor:pointer;
+  }
+  .back-btn:hover{ color:var(--text); border-color:var(--dim); }
+
+  .progressbar{ height:5px; background:var(--line); border-radius:3px; overflow:hidden; margin-bottom:26px; }
+  .progressbar-fill{ height:100%; background:linear-gradient(90deg,var(--amber),#e8b968); transition:width .3s; }
+
+  .section-tag{
+    display:inline-block; font-family:var(--mono); font-size:11px; letter-spacing:1px;
+    text-transform:uppercase; color:var(--amber); background:var(--amber-soft);
+    border:1px solid rgba(217,155,63,0.3); padding:3px 9px; border-radius:4px; margin-bottom:14px;
+  }
+
+  .qcard{
+    background:var(--panel); border:1px solid var(--line); border-radius:12px;
+    padding:26px 26px 22px; margin-bottom:20px;
+  }
+  .qnum{ font-family:var(--mono); color:var(--dim); font-size:12px; margin-bottom:8px; }
+  .qtext{ font-size:16.5px; line-height:1.55; margin:0 0 18px; white-space:pre-line; }
+
+  .options{ display:flex; flex-direction:column; gap:9px; }
+  .opt{
+    display:flex; align-items:flex-start; gap:12px; padding:12px 14px;
+    border:1px solid var(--line); border-radius:8px; cursor:pointer;
+    background:var(--panel-2); transition:border-color .12s, background .12s;
+    font-size:14.5px; line-height:1.4;
+  }
+  .opt:hover{ border-color:#3a4451; }
+  .opt.selected{ border-color:var(--amber); background:rgba(217,155,63,0.08); }
+  .opt.correct{ border-color:var(--good); background:rgba(76,175,125,0.1); }
+  .opt.incorrect{ border-color:var(--bad); background:rgba(217,96,79,0.1); }
+  .opt .letter{
+    font-family:var(--mono); font-size:12px; color:var(--dim); min-width:18px;
+    border:1px solid var(--line); border-radius:4px; text-align:center; padding:1px 0; height:20px; line-height:18px;
+  }
+  .opt.selected .letter{ color:var(--amber); border-color:var(--amber); }
+  .opt.correct .letter{ color:var(--good); border-color:var(--good); }
+  .opt.incorrect .letter{ color:var(--bad); border-color:var(--bad); }
+
+  .explain{
+    margin-top:16px; padding:14px 16px; border-radius:8px; font-size:13.5px; line-height:1.6;
+    border:1px solid var(--line); display:none;
+  }
+  .explain.show{ display:block; }
+  .explain.wrong{ background:rgba(217,96,79,0.06); border-color:rgba(217,96,79,0.3); }
+  .explain.right{ background:rgba(76,175,125,0.06); border-color:rgba(76,175,125,0.3); }
+  .explain .tag{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:0.8px;
+    margin-bottom:6px; display:block;
+  }
+  .explain.wrong .tag{ color:var(--bad); }
+  .explain.right .tag{ color:var(--good); }
+  .explain .method-label{ color:var(--amber); font-family:var(--mono); font-size:11.5px; display:block; margin:8px 0 3px; }
+
+  .nav-row{ display:flex; justify-content:space-between; align-items:center; margin-top:26px; gap:10px; }
+  .btn{
+    font-family:var(--sans); font-size:14px; font-weight:600; padding:11px 22px;
+    border-radius:8px; border:1px solid var(--line); background:var(--panel-2);
+    color:var(--text); cursor:pointer; transition:all .15s;
+  }
+  .btn:hover{ border-color:var(--dim); }
+  .btn.primary{ background:var(--amber); color:#141414; border-color:var(--amber); }
+  .btn.primary:hover{ filter:brightness(1.08); }
+  .btn:disabled{ opacity:0.35; cursor:not-allowed; }
+
+  .jumpgrid{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:26px; }
+  .jumpbtn{
+    width:34px; height:34px; border-radius:6px; border:1px solid var(--line);
+    background:var(--panel-2); color:var(--dim); font-family:var(--mono); font-size:12px;
+    cursor:pointer; display:flex; align-items:center; justify-content:center;
+  }
+  .jumpbtn.current{ border-color:var(--amber); color:var(--amber); }
+  .jumpbtn.answered{ background:rgba(217,155,63,0.1); color:var(--text); }
+  .jumpbtn.correct-mark{ background:rgba(76,175,125,0.12); border-color:var(--good); color:var(--good); }
+  .jumpbtn.wrong-mark{ background:rgba(217,96,79,0.12); border-color:var(--bad); color:var(--bad); }
+
+  /* ---------- Results ---------- */
+  .result-hero{
+    text-align:center; padding:40px 20px 30px; background:var(--panel);
+    border:1px solid var(--line); border-radius:12px; margin-bottom:26px;
+  }
+  .result-score{ font-family:var(--mono); font-size:52px; font-weight:700; color:var(--amber); }
+  .result-sub{ color:var(--dim); font-size:14px; margin-top:6px; }
+  .result-breakdown{ display:flex; justify-content:center; gap:30px; margin-top:22px; }
+  .rb-item{ text-align:center; }
+  .rb-item .n{ font-family:var(--mono); font-size:22px; font-weight:700; }
+  .rb-item .l{ font-size:11px; color:var(--dim); text-transform:uppercase; letter-spacing:0.5px; margin-top:2px; }
+  .rb-item.good .n{ color:var(--good); }
+  .rb-item.bad .n{ color:var(--bad); }
+
+  .review-header{ font-family:var(--mono); font-size:13px; color:var(--dim); margin:30px 0 14px; text-transform:uppercase; letter-spacing:1px; }
+
+  footer{ text-align:center; color:var(--dim); font-size:12px; font-family:var(--mono); padding:30px 0 10px; }
+
+  @media (max-width:600px){
+    .wrap{ padding:24px 14px 60px; }
+    .qcard{ padding:18px 16px; }
+    .result-breakdown{ gap:16px; }
+  }
+
+  .hidden{ display:none !important; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand"><span class="dot"></span><b>NQT DRILL</b><span>// verbal + reasoning practice</span></div>
+  <div class="stat" id="topStat">5 sets loaded</div>
+</div>
+
+<div class="wrap">
+
+  <!-- HOME VIEW -->
+  <div id="homeView">
+    <div class="hero">
+      <h1>Practice Terminal</h1>
+      <p>5 original mock sets built to the current TCS NQT Foundation pattern — 8 Verbal Ability + 8 Reasoning Ability questions each. Get instant scoring, and when you miss one, the exact method to solve it.</p>
+    </div>
+    <div class="grid" id="cardGrid"></div>
+  </div>
+
+  <!-- QUIZ VIEW -->
+  <div id="quizView" class="hidden">
+    <div class="quiz-head">
+      <button class="back-btn" onclick="goHome()">&larr; ALL SETS</button>
+      <div class="stat" id="quizTitle" style="font-family:var(--mono); font-size:13px; color:var(--dim);"></div>
+    </div>
+    <div class="progressbar"><div class="progressbar-fill" id="progressFill" style="width:0%"></div></div>
+    <div class="jumpgrid" id="jumpGrid"></div>
+
+    <div class="section-tag" id="sectionTag">SECTION A — VERBAL ABILITY</div>
+    <div class="qcard">
+      <div class="qnum" id="qNum">Question 1 of 16</div>
+      <p class="qtext" id="qText"></p>
+      <div class="options" id="optionsBox"></div>
+      <div class="explain" id="explainBox"></div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn" id="prevBtn" onclick="prevQ()">&larr; Previous</button>
+      <button class="btn primary" id="nextBtn" onclick="nextQ()">Next &rarr;</button>
+    </div>
+  </div>
+
+  <!-- RESULTS VIEW -->
+  <div id="resultsView" class="hidden">
+    <div class="quiz-head">
+      <button class="back-btn" onclick="goHome()">&larr; ALL SETS</button>
+      <div class="stat" id="resultTitle" style="font-family:var(--mono); font-size:13px; color:var(--dim);"></div>
+    </div>
+
+    <div class="result-hero">
+      <div class="result-score" id="resultScore">0/16</div>
+      <div class="result-sub">Score</div>
+      <div class="result-breakdown">
+        <div class="rb-item good"><div class="n" id="rbCorrect">0</div><div class="l">Correct</div></div>
+        <div class="rb-item bad"><div class="n" id="rbWrong">0</div><div class="l">Wrong</div></div>
+        <div class="rb-item"><div class="n" id="rbSkipped">0</div><div class="l">Skipped</div></div>
+      </div>
+    </div>
+
+    <button class="btn primary" style="width:100%; margin-bottom:10px;" onclick="reviewFromResults()">Review all answers &amp; methods</button>
+    <button class="btn" style="width:100%;" onclick="retakeTest()">Retake this set</button>
+
+    <div class="review-header">Full Review</div>
+    <div id="reviewList"></div>
+  </div>
+
+</div>
+
+<footer>Original practice content · Not affiliated with TCS · Built for drilling, not the real exam bank</footer>
+
+<script>
+/* =====================================================================
+   DATA — 5 tests × (8 verbal + 8 reasoning) with worked-solution methods
+   ===================================================================== */
+const TESTS = [
+{
+  title: "Practice Test 1",
+  verbal: [
+    { q:"Choose the word that best fits the blank: The manager was ______ to accept the proposal after reviewing the data.",
+      opts:["reluctant","reluctantly","reluctance","reluctivity"], ans:0,
+      method:"After 'was', you need an adjective describing the manager, not an adverb or noun. 'Reluctant' (adjective) correctly follows the linking verb 'was'. Rule: linking verbs (is/was/seem/become) are followed by adjectives, not adverbs." },
+    { q:"Synonym of 'Meticulous':",
+      opts:["Careless","Painstaking","Hasty","Vague"], ans:1,
+      method:"'Meticulous' means showing great attention to detail. 'Painstaking' carries the same core meaning (careful, thorough). The other options are near-opposites (careless, hasty) or unrelated (vague)." },
+    { q:"Antonym of 'Verbose':",
+      opts:["Wordy","Concise","Lengthy","Repetitive"], ans:1,
+      method:"'Verbose' means using more words than needed. Its opposite is 'Concise' (brief, to the point). 'Wordy', 'Lengthy', and 'Repetitive' are synonyms of verbose, not antonyms — don't get trapped by same-meaning distractors." },
+    { q:"Spot the error: 'Neither of the students have submitted their assignment.'",
+      opts:["Neither of the students","have submitted","their assignment","No error"], ans:1,
+      method:"'Neither of' is always treated as singular in formal grammar, so the verb must be singular: 'has submitted', not 'have submitted'. Rule: Neither/Either/Each/Every + of + plural noun → singular verb." },
+    { q:"Fill in the blank: She has been working here ______ 2019.",
+      opts:["for","since","from","during"], ans:1,
+      method:"Use 'since' with a specific point in time (a year, date, or event) and 'for' with a duration (e.g., for 5 years). Since 2019 is a fixed starting point, so 'since' is correct." },
+    { q:"Arrange in logical order: (1) He opened the door (2) He heard a knock (3) He was surprised (4) A stranger stood outside",
+      opts:["2-1-4-3","1-2-3-4","2-1-3-4","3-2-1-4"], ans:0,
+      method:"Find the trigger event first: hearing the knock (2) starts the sequence. He then opens the door (1), sees a stranger (4), and reacts with surprise (3). Chain: cause → action → discovery → reaction = 2-1-4-3." },
+    { q:"Synonym of 'Candid':",
+      opts:["Deceptive","Frank","Shy","Formal"], ans:1,
+      method:"'Candid' means honest and straightforward in speech. 'Frank' means exactly the same. 'Deceptive' is a near-opposite, and 'Shy'/'Formal' describe unrelated traits." },
+    { q:"Fill in the blank: The report ______ by the team before the deadline.",
+      opts:["completed","was completed","completes","has complete"], ans:1,
+      method:"The report doesn't do the completing — it receives the action, so you need passive voice: was/were + past participle. 'Was completed' correctly forms past passive voice; 'has complete' is grammatically invalid." },
+  ],
+  reasoning: [
+    { q:"If South-East becomes North, North-East becomes West, then what does South become?",
+      opts:["North-West","North-East","South-East","East"], ans:1,
+      method:"Method: write the 8 compass directions in a circle (N, NE, E, SE, S, SW, W, NW, each 45° apart) and find the constant rotation. SE → N is a shift of 135° anticlockwise. Check it against the second clue: NE → W is also a shift of 135° anticlockwise — confirmed consistent. Apply the same 135° anticlockwise shift to South: South → North-East." },
+    { q:"Pointing to a photograph, a man says, 'She is the daughter of my grandfather's only son.' How is the woman related to the man?",
+      opts:["Sister","Mother","Aunt","Cousin"], ans:0,
+      method:"Method: draw the family tree. 'My grandfather's only son' = the man's father (since the son is the only one, and the man himself descends from this line). 'Daughter of my father' = the man's own sister. Always resolve blood relations by drawing a 2–3 generation tree rather than reasoning in your head." },
+    { q:"Find the missing number: 3, 8, 15, 24, 35, ?",
+      opts:["46","48","44","50"], ans:1,
+      method:"Method: find the pattern in differences. 8−3=5, 15−8=7, 24−15=9, 35−24=11 (differences increase by 2 each time — odd numbers). Next difference = 13, so 35+13 = 48." },
+    { q:"If in a certain code, 'TABLE' is written as 'UBCMF', how is 'CHAIR' written?",
+      opts:["DIBJS","DIBJT","DIBIS","EIBJS"], ans:0,
+      method:"Method: find the shift. T→U(+1), A→B(+1), B→C(+1), L→M(+1), E→F(+1). Every letter shifts forward by 1 in the alphabet. Apply +1 to each letter of CHAIR: C→D, H→I, A→B, I→J, R→S = DIBJS." },
+    { q:"Statements: All pens are books. All books are tables.\nConclusion I: All pens are tables. Conclusion II: Some tables are pens.",
+      opts:["Only I follows","Only II follows","Both I and II follow","Neither follows"], ans:2,
+      method:"Method: draw nested Venn circles. Pens ⊂ Books ⊂ Tables, so Pens ⊂ Tables — Conclusion I is valid. Since all pens (a subset) are inside tables, it's also true that some tables are pens (the reverse partial statement) — Conclusion II is valid too. Chain syllogisms (All A are B, All B are C) always validate 'All A are C' and its reverse 'Some C are A'." },
+    { q:"A is taller than B but shorter than C. D is taller than C. Who is the tallest?",
+      opts:["A","B","C","D"], ans:3,
+      method:"Method: convert statements into one order line. C > A > B, and D > C. Combine: D > C > A > B. D is at the top, so D is tallest." },
+    { q:"Data Sufficiency: What is the age of Ravi?\nStatement I: Ravi is 5 years older than his brother.\nStatement II: Ravi's brother is 20 years old.",
+      opts:["Statement I alone sufficient","Statement II alone sufficient","Both together are sufficient, but neither alone","Both together are not sufficient"], ans:2,
+      method:"Method: test each statement in isolation first. Statement I alone gives only a relative difference (no actual age) — insufficient. Statement II alone gives the brother's age but not Ravi's — insufficient. Combined: brother = 20, Ravi = 20+5 = 25 — sufficient together. Answer: C." },
+    { q:"Five friends T, P, Q, R, S are sitting in a row (left to right). T is at the left end. Q is immediately right of P. R is immediately right of Q. S is at the right end. Who is in the middle (3rd seat)?",
+      opts:["Q","R","S","P"], ans:0,
+      method:"Method: place the fixed ends first. T = seat 1 (left end), S = seat 5 (right end). That leaves seats 2, 3, 4 for P, Q, R. Since Q is immediately right of P, and R is immediately right of Q, they must run consecutively: P=2, Q=3, R=4. The middle seat (3rd) is Q." },
+  ]
+},
+{
+  title: "Practice Test 2",
+  verbal: [
+    { q:"Fill in the blank: Despite the heavy rain, the match ______ continued.",
+      opts:["is","was","has","had"], ans:1,
+      method:"The sentence describes a completed past event ('continued' is past tense), so the auxiliary must also be past tense. 'Was continued'... actually here 'continued' functions as the main past-tense verb, and 'was' pairs with the past narrative tense used throughout. Match auxiliary tense to the main verb's tense — since 'continued' is simple past, 'was' (past) is consistent, not 'is/has' (present)." },
+    { q:"Synonym of 'Ambiguous':",
+      opts:["Clear","Unclear","Certain","Precise"], ans:1,
+      method:"'Ambiguous' means open to more than one interpretation, i.e., not clear. 'Unclear' matches this meaning directly. 'Clear', 'Certain', and 'Precise' are opposites." },
+    { q:"Antonym of 'Benevolent':",
+      opts:["Kind","Generous","Malicious","Charitable"], ans:2,
+      method:"'Benevolent' means kind and well-meaning. Its opposite is 'Malicious' (intending harm). The other three options (Kind, Generous, Charitable) are all synonyms of benevolent, so eliminate them first." },
+    { q:"Spot the error: 'Each of the players were given a medal.'",
+      opts:["Each of the players","were given","a medal","No error"], ans:1,
+      method:"'Each' is always singular, regardless of the plural noun that follows it ('players'). Correct form: 'was given', not 'were given'. Rule: Each/Every + plural noun → singular verb." },
+    { q:"Fill in the blank: He is good ______ mathematics.",
+      opts:["in","at","on","with"], ans:1,
+      method:"The fixed idiomatic preposition for skill/ability is 'good at' (a subject/activity). 'Good in' is used for locations/situations (e.g., good in a crisis), not for subjects like mathematics." },
+    { q:"Arrange in logical order: (1) The plane landed safely (2) Passengers boarded the flight (3) The pilot announced departure (4) The flight took off",
+      opts:["2-3-4-1","3-2-4-1","2-4-3-1","1-2-3-4"], ans:0,
+      method:"Method: sequence by real-world chronology of a flight. Boarding happens first (2), then the departure announcement (3), then takeoff (4), then landing (1). Order: 2-3-4-1." },
+    { q:"Synonym of 'Diligent':",
+      opts:["Lazy","Hardworking","Careless","Slow"], ans:1,
+      method:"'Diligent' means showing careful and persistent effort. 'Hardworking' is the direct synonym; 'Lazy' and 'Careless' are opposites." },
+    { q:"Fill in the blank: Neither the manager nor the employees ______ satisfied with the outcome.",
+      opts:["was","is","were","being"], ans:2,
+      method:"Rule for 'neither...nor': the verb agrees with the noun closest to it. Here the closer noun is 'employees' (plural), so the verb must be plural: 'were'." },
+  ],
+  reasoning: [
+    { q:"A man walks 5 km North, then turns right and walks 3 km, then turns right again and walks 5 km. How far is he from the starting point?",
+      opts:["3 km","5 km","8 km","13 km"], ans:0,
+      method:"Method: plot each leg on a compass grid. North 5km (up), turn right → East 3km, turn right again → South 5km. The two 5km legs (North then South) cancel out completely, leaving only the 3km East displacement. Distance from start = 3 km." },
+    { q:"Introducing a boy, a girl said, 'He is the son of my mother's only daughter.' How is the boy related to the girl?",
+      opts:["Brother","Son","Nephew","Cousin"], ans:1,
+      method:"Method: draw the tree. 'My mother's only daughter' — since the girl is speaking and her mother has only one daughter, that daughter must be the girl herself. So 'son of my mother's only daughter' = the girl's own son." },
+    { q:"Find the missing number: 2, 6, 12, 20, 30, ?",
+      opts:["40","42","38","44"], ans:1,
+      method:"Method: check if terms follow n(n+1). 1×2=2, 2×3=6, 3×4=12, 4×5=20, 5×6=30, next is 6×7=42. Recognizing n(n+1) patterns is faster than checking differences for this series type." },
+    { q:"If 'GARDEN' is coded as 'HBSEFO', how is 'FLOWER' coded?",
+      opts:["GMPXFS","GMPXFT","FMPXFS","GMPYFS"], ans:0,
+      method:"Method: verify the shift rule. G→H(+1), A→B(+1), R→S(+1), D→E(+1), E→F(+1), N→O(+1) — a consistent +1 shift. Apply +1 to FLOWER: F→G, L→M, O→P, W→X, E→F, R→S = GMPXFS." },
+    { q:"Statements: Some doctors are engineers. All engineers are teachers.\nConclusion I: Some doctors are teachers. Conclusion II: All teachers are engineers.",
+      opts:["Only I follows","Only II follows","Both follow","Neither follows"], ans:0,
+      method:"Method: use Venn diagrams. Some doctors overlap with engineers, and all engineers sit inside teachers — so that overlapping group of doctors is also inside teachers, making Conclusion I valid. Conclusion II reverses the containment (claims all teachers are engineers), which isn't supported — teachers is the larger, containing set." },
+    { q:"In a row of children facing North, A is 5th from the left and B is 8th from the right. If there are 15 children in the row, how many are between A and B?",
+      opts:["1","2","3","4"], ans:1,
+      method:"Method: convert both positions to the same direction. A is 5th from the left = seat 5. B is 8th from the right in a row of 15 = seat (15−8+1) = 8. Children strictly between seat 5 and seat 8 are seats 6 and 7 — that's 2 children. Formula: children between = (further position − nearer position − 1)." },
+    { q:"Data Sufficiency: Is X greater than Y?\nStatement I: X + 5 = 15.\nStatement II: Y is less than 10.",
+      opts:["Statement I alone sufficient","Statement II alone sufficient","Both together sufficient, neither alone","Both together not sufficient"], ans:2,
+      method:"Method: test each statement alone first. Statement I alone gives X = 10, but says nothing about Y — insufficient by itself. Statement II alone gives Y < 10, but says nothing about X — insufficient by itself. Combine both: X = 10 and Y < 10, so Y is always less than X no matter what value Y takes — X > Y is guaranteed. Both together are sufficient, but neither alone is. Answer: C." },
+    { q:"Six people sit around a circular table facing the center. A is opposite D. B is to the right of A. If C is between A and B, who sits opposite B?",
+      opts:["C","D","E","Cannot be determined"], ans:3,
+      method:"Method: with only partial constraints (3 of 6 seats fixed relative to each other), the remaining people (E, F, and one more) can be arranged in more than one valid way, so the seat opposite B cannot be pinned down uniquely. Rule: in circular arrangement problems, always check whether all 6 positions are constrained before concluding an answer — if any relation is left open, the answer is 'cannot be determined'." },
+  ]
+},
+{
+  title: "Practice Test 3",
+  verbal: [
+    { q:"Fill in the blank: The committee ______ its decision yesterday.",
+      opts:["announce","announced","announcing","announces"], ans:1,
+      method:"'Yesterday' is a clear simple-past time marker, so the verb must be in simple past tense: 'announced'. Present tense forms (announce/announces) or the gerund (announcing) don't fit a completed past action." },
+    { q:"Synonym of 'Pragmatic':",
+      opts:["Idealistic","Practical","Emotional","Theoretical"], ans:1,
+      method:"'Pragmatic' means dealing with things sensibly and realistically. 'Practical' is the closest match. 'Idealistic' and 'Theoretical' are near-opposites." },
+    { q:"Antonym of 'Frugal':",
+      opts:["Thrifty","Economical","Wasteful","Careful"], ans:2,
+      method:"'Frugal' means being economical/sparing with money. 'Wasteful' is the direct opposite. 'Thrifty', 'Economical', and 'Careful' are all synonyms — eliminate them first." },
+    { q:"Spot the error: 'One of my friend is coming to visit me tomorrow.'",
+      opts:["One of my friend","is coming","to visit me tomorrow","No error"], ans:0,
+      method:"'One of my' must be followed by a plural noun: 'One of my friends', not 'friend'. Rule: 'One of the + plural noun' — the noun after 'of' is always plural even though 'one' takes a singular verb." },
+    { q:"Fill in the blank: She apologized ______ being late.",
+      opts:["for","of","about","with"], ans:0,
+      method:"The fixed phrase is 'apologize for (doing something)'. This is a fixed preposition pairing to memorize, not a logic-based choice." },
+    { q:"Arrange in logical order: (1) She studied hard (2) She got admission (3) She applied to college (4) She passed the entrance exam",
+      opts:["1-4-3-2","3-1-4-2","1-3-4-2","3-4-1-2"], ans:0,
+      method:"Method: sequence by real-world cause and effect. Studying (1) leads to passing the exam (4), then applying (3), then finally getting admission (2). Order: 1-4-3-2." },
+    { q:"Synonym of 'Obsolete':",
+      opts:["Modern","Outdated","Useful","Current"], ans:1,
+      method:"'Obsolete' means no longer in use or out of date. 'Outdated' matches directly. 'Modern' and 'Current' are opposites." },
+    { q:"Fill in the blank: If I ______ known earlier, I would have helped you.",
+      opts:["have","had","has","would have"], ans:1,
+      method:"This is a third conditional (talking about an unreal past situation): 'If + past perfect (had + V3), ... would have + V3'. So the blank needs 'had' to form 'had known'." },
+  ],
+  reasoning: [
+    { q:"A person faces West, turns 90° clockwise, then 180° anticlockwise. Which direction does he face now?",
+      opts:["North","South","East","West"], ans:1,
+      method:"Method: draw a compass (N-E-S-W clockwise) and rotate step by step — never do direction rotations mentally. Start facing West. Turning 90° clockwise from West lands on North. A 180° turn (clockwise or anticlockwise — a half-turn always gives the same result) from North lands on South. Final direction: South." },
+    { q:"Pointing to a man, a woman said, 'His mother is the only daughter of my mother.' How is the woman related to the man?",
+      opts:["Mother","Sister","Aunt","Grandmother"], ans:0,
+      method:"Method: 'The only daughter of my mother' = the woman herself (since she is her own mother's daughter, and it's specified as 'only'). So 'his mother' = the woman. The woman is the man's mother." },
+    { q:"Find the missing number: 1, 4, 9, 16, 25, ?",
+      opts:["30","36","32","49"], ans:1,
+      method:"Method: recognize perfect squares — 1², 2², 3², 4², 5², so next is 6² = 36. Always test 'is this a squares/cubes series' early when numbers grow quickly." },
+    { q:"If 'MOUSE' is coded as 'NPVTF', how is 'TIGER' coded?",
+      opts:["UJHFS","UJHFT","UIHFS","UJGFS"], ans:0,
+      method:"Method: verify shift. M→N(+1), O→P(+1), U→V(+1), S→T(+1), E→F(+1) — consistent +1 shift. Apply to TIGER: T→U, I→J, G→H, E→F, R→S = UJHFS." },
+    { q:"Statements: No cups are plates. All plates are spoons.\nConclusion I: No cups are spoons. Conclusion II: Some spoons are plates.",
+      opts:["Only I follows","Only II follows","Both follow","Neither follows"], ans:1,
+      method:"Method: draw Venn diagram. Cups and plates are fully separate circles. Plates sits fully inside spoons. Conclusion I claims no overlap between cups and spoons — but since plates (separate from cups) is inside spoons, spoons is a bigger circle that could still overlap cups elsewhere — so I is not guaranteed. Conclusion II says some spoons are plates, which is directly true since all plates are a subset of spoons. Only II follows." },
+    { q:"P is the brother of Q. Q is the sister of R. R is the father of S. How is P related to S?",
+      opts:["Father","Uncle","Brother","Cannot be determined"], ans:1,
+      method:"Method: build the tree. P is Q's brother (so P and Q are siblings). Q is R's sister (so Q, P, and R are all siblings). R is S's father. Since P is R's sibling, and R is S's parent, P is S's uncle." },
+    { q:"Data Sufficiency: What is the value of N?\nStatement I: N is an even number less than 10.\nStatement II: N is a multiple of 4.",
+      opts:["Statement I alone sufficient","Statement II alone sufficient","Both together sufficient, neither alone","Both together not sufficient"], ans:3,
+      method:"Method: Statement I alone allows N = 2,4,6,8 — multiple values, insufficient. Statement II alone allows N = 4,8,12,16... — infinite values, insufficient. Combined: N must be even, less than 10, AND a multiple of 4 → N could be 4 or 8 — still two possible values, so even combined it's not uniquely determined. Answer: D (not sufficient even together)." },
+    { q:"Four boxes are stacked. Box A is above Box B. Box B is above Box C. Box D is above Box A. What is the order from top to bottom?",
+      opts:["A-B-C-D","A-B-D-C","D-A-B-C","A-D-B-C"], ans:2,
+      method:"Method: convert every clue into a 'greater than' chain (higher position = greater value), then merge the chains. A>B, B>C, and D>A. Merging: D>A>B>C. Reading top to bottom (greatest to least): D-A-B-C." },
+  ]
+},
+{
+  title: "Practice Test 4",
+  verbal: [
+    { q:"Fill in the blank: The findings of the study ______ published next month.",
+      opts:["will be","is being","was","has been"], ans:0,
+      method:"'Next month' signals a future event, and the findings 'are published' (passive, receiving the action). Future passive voice = will be + past participle. So 'will be published' is correct." },
+    { q:"Synonym of 'Resilient':",
+      opts:["Fragile","Tough","Weak","Delicate"], ans:1,
+      method:"'Resilient' means able to withstand or recover quickly from difficulties. 'Tough' matches this meaning. 'Fragile', 'Weak', and 'Delicate' are opposites." },
+    { q:"Antonym of 'Transparent':",
+      opts:["Clear","Obvious","Opaque","Visible"], ans:2,
+      method:"'Transparent' means easy to see through or understand. Its opposite is 'Opaque' (not able to be seen through). The other three options are all synonyms of transparent." },
+    { q:"Spot the error: 'The number of accidents have increased this year.'",
+      opts:["The number of accidents","have increased","this year","No error"], ans:1,
+      method:"'The number of' (referring to a total count) takes a singular verb: 'has increased', not 'have increased'. Note the contrast: 'A number of' (meaning 'several') takes a plural verb, but 'The number of' takes singular — this distinction is a classic TCS trap." },
+    { q:"Fill in the blank: They congratulated him ______ his success.",
+      opts:["for","on","about","with"], ans:1,
+      method:"The fixed phrase is 'congratulate someone ON something'. This is a fixed preposition pairing — memorize common verb+preposition combinations like this." },
+    { q:"Arrange in logical order: (1) The fire alarm rang (2) Everyone evacuated the building (3) Smoke was detected (4) The fire was extinguished",
+      opts:["3-1-2-4","1-3-2-4","3-2-1-4","1-2-3-4"], ans:0,
+      method:"Method: sequence by real-world cause and effect of a fire emergency. Smoke is detected first (3), triggering the alarm (1), leading to evacuation (2), and finally the fire being put out (4). Order: 3-1-2-4." },
+    { q:"Synonym of 'Eloquent':",
+      opts:["Articulate","Silent","Confused","Boring"], ans:0,
+      method:"'Eloquent' means fluent and persuasive in speaking. 'Articulate' matches this meaning directly. 'Silent', 'Confused', and 'Boring' are unrelated or opposite traits." },
+    { q:"Fill in the blank: This is the house ______ I was born.",
+      opts:["which","where","that","when"], ans:1,
+      method:"The blank refers to a place (house), so use the relative adverb 'where'. 'Which/that' would need a preposition ('in which'), and 'when' is for time, not place." },
+  ],
+  reasoning: [
+    { q:"A man walks 4 km East, turns left and walks 4 km, then turns left again and walks 4 km. In which direction is he from the starting point?",
+      opts:["North","South","East","West"], ans:0,
+      method:"Method: plot each leg on a compass grid. Leg 1: East 4 km. Turning left from East faces North — Leg 2: North 4 km. Turning left again from North faces West — Leg 3: West 4 km. The East leg and the West leg are equal and opposite, so they cancel out completely, leaving only the North 4 km leg as net displacement. He ends up due North of the starting point." },
+    { q:"A is the father of B. C is the son of B. D is the sister of C. How is D related to A?",
+      opts:["Daughter","Granddaughter","Niece","Sister"], ans:1,
+      method:"Method: build the tree top-down. A is B's father. C is B's son (so B is C's parent, meaning A is C's grandfather). D is C's sister, so D is also B's child — meaning D is also A's grandchild. Since D is female, D is A's granddaughter." },
+    { q:"Find the missing number: 5, 11, 23, 47, ?",
+      opts:["93","95","96","91"], ans:1,
+      method:"Method: check the ratio-plus pattern. 5×2+1=11, 11×2+1=23, 23×2+1=47, 47×2+1=95. Pattern: each term = previous×2 + 1." },
+    { q:"If 'PENCIL' is coded as 'QFODJM', how is 'MARKER' coded?",
+      opts:["NBSLFS","NBSLFT","NBSLES","NBTLFS"], ans:0,
+      method:"Method: verify shift. P→Q(+1), E→F(+1), N→O(+1), C→D(+1), I→J(+1), L→M(+1) — consistent +1 shift. Apply to MARKER: M→N, A→B, R→S, K→L, E→F, R→S = NBSLFS." },
+    { q:"Statements: All roses are flowers. Some flowers fade quickly.\nConclusion I: Some roses fade quickly. Conclusion II: All flowers are roses.",
+      opts:["Only I follows","Only II follows","Both follow","Neither follows"], ans:3,
+      method:"Method: draw Venn diagram. Roses is fully inside Flowers. 'Some flowers fade quickly' only marks a portion of the flowers circle — that portion may or may not overlap with the roses sub-circle, so we cannot confirm Conclusion I. Conclusion II wrongly reverses the containment. Neither conclusion is guaranteed — this is a classic 'some' trap where the overlapping subset isn't specified to include roses." },
+    { q:"In a family, X is the husband of Y. Z is the son of Y. W is the sister of Z. How is W related to X?",
+      opts:["Wife","Daughter","Sister","Niece"], ans:1,
+      method:"Method: build the tree. X and Y are married. Z is Y's son (so Z is also X's son). W is Z's sister, meaning W is also a child of X and Y. Since W is female, W is X's daughter." },
+    { q:"Data Sufficiency: Is Z the tallest among five friends?\nStatement I: Z is taller than Y and W.\nStatement II: Y is taller than X, and X is taller than V.",
+      opts:["Statement I alone sufficient","Statement II alone sufficient","Both together sufficient, neither alone","Both together not sufficient"], ans:2,
+      method:"Method: Statement I alone only compares Z with Y and W — X and V are unranked, so Z's overall rank is unknown. Statement II alone only ranks Y, X, V among themselves and never mentions Z — insufficient by itself. Combine both: Z>Y, Z>W, and Y>X>V. Chaining through Y gives Z>Y>X>V, and we separately know Z>W. That covers all four other friends (Y, X, V, W) — Z is taller than every one of them. Both together are sufficient, but neither alone is. Answer: C." },
+    { q:"If the day before yesterday was Thursday, what day will it be tomorrow?",
+      opts:["Sunday","Monday","Saturday","Friday"], ans:0,
+      method:"Method: anchor on a known day and count forward. Day before yesterday = Thursday → yesterday = Friday → today = Saturday → tomorrow = Sunday. Always convert relative day references into a single reference point (today) before counting forward or backward." },
+  ]
+},
+{
+  title: "Practice Test 5",
+  verbal: [
+    { q:"Fill in the blank: The team worked ______ overcome the challenges.",
+      opts:["so as to","in order that","to","for to"], ans:2,
+      method:"The simplest and grammatically correct infinitive-of-purpose here is just 'to overcome'. 'So as to' and 'in order that' are valid but used for more formal/complex purpose clauses and don't fit this simple sentence structure; 'for to' is not standard English." },
+    { q:"Synonym of 'Prudent':",
+      opts:["Reckless","Wise","Foolish","Careless"], ans:1,
+      method:"'Prudent' means acting with care and thought for the future. 'Wise' is the closest match. 'Reckless', 'Foolish', and 'Careless' are opposites." },
+    { q:"Antonym of 'Abundant':",
+      opts:["Plentiful","Scarce","Ample","Excessive"], ans:1,
+      method:"'Abundant' means existing in large quantities. Its opposite is 'Scarce' (in short supply). 'Plentiful', 'Ample', and 'Excessive' are all synonyms of abundant." },
+    { q:"Spot the error: 'She don't like to travel alone at night.'",
+      opts:["She don't like","to travel alone","at night","No error"], ans:0,
+      method:"Third person singular subject ('She') requires 'doesn't', not 'don't'. Correct: 'She doesn't like'. Rule: He/She/It + doesn't; I/You/We/They + don't." },
+    { q:"Fill in the blank: He is not only intelligent ______ also hardworking.",
+      opts:["and","but","or","so"], ans:1,
+      method:"This is a fixed correlative conjunction pair: 'not only... but also...'. Only 'but' completes this structure correctly." },
+    { q:"Arrange in logical order: (1) He submitted the report (2) He collected the data (3) He analyzed the data (4) He was assigned a project",
+      opts:["4-2-3-1","2-3-4-1","4-3-2-1","2-4-3-1"], ans:0,
+      method:"Method: sequence by natural project workflow. He's assigned the project first (4), then collects data (2), analyzes it (3), and finally submits the report (1). Order: 4-2-3-1." },
+    { q:"Synonym of 'Tedious':",
+      opts:["Exciting","Boring","Quick","Simple"], ans:1,
+      method:"'Tedious' means too long, slow, or dull; tiresome. 'Boring' is the direct synonym. 'Exciting' is the opposite." },
+    { q:"Fill in the blank: By the time we arrived, the movie ______ already started.",
+      opts:["has","had","have","was"], ans:1,
+      method:"Two past actions, one completed before the other ('arrived' is simple past) — the earlier action (movie starting) needs past perfect: 'had already started'. Rule: past perfect (had + V3) is used for the earlier of two past events." },
+  ],
+  reasoning: [
+    { q:"A person walks 6 km South, then 8 km East. How far is he from the starting point?",
+      opts:["10 km","14 km","8 km","12 km"], ans:0,
+      method:"Method: the two legs are perpendicular (South then East), so use the Pythagorean theorem: distance = √(6² + 8²) = √(36+64) = √100 = 10 km. Whenever movement forms a right angle, straight-line distance = √(leg1² + leg2²)." },
+    { q:"Pointing to a girl, a boy said, 'She is the daughter of my father's sister.' How is the girl related to the boy?",
+      opts:["Sister","Cousin","Niece","Aunt"], ans:1,
+      method:"Method: 'My father's sister' = the boy's aunt (father's side). 'Daughter of my aunt' = the boy's cousin. Draw the tree: Grandparents → (Father, Father's sister) → Father's sister's daughter = cousin to the boy." },
+    { q:"Find the missing number: 4, 9, 19, 39, ?",
+      opts:["78","79","80","76"], ans:1,
+      method:"Method: check ratio-plus pattern. 4×2+1=9, 9×2+1=19, 19×2+1=39, 39×2+1=79. Pattern: each term = previous×2 + 1 (same family as Test 4's series — recognize this pattern type)." },
+    { q:"If 'SILVER' is coded as 'TJMWFS', how is 'GOLDEN' coded?",
+      opts:["HPMEFO","HPMEFN","HPNEFO","GPMEFO"], ans:0,
+      method:"Method: verify shift. S→T(+1), I→J(+1), L→M(+1), V→W(+1), E→F(+1), R→S(+1) — consistent +1 shift. Apply to GOLDEN: G→H, O→P, L→M, D→E, E→F, N→O = HPMEFO." },
+    { q:"Statements: All squares are rectangles. All rectangles are quadrilaterals.\nConclusion I: All squares are quadrilaterals. Conclusion II: All quadrilaterals are squares.",
+      opts:["Only I follows","Only II follows","Both follow","Neither follows"], ans:0,
+      method:"Method: nested Venn circles — Squares ⊂ Rectangles ⊂ Quadrilaterals. Since squares sit fully inside the outermost circle (quadrilaterals), Conclusion I is valid. Conclusion II wrongly reverses the containment (claiming the largest set equals the smallest) — invalid. Only I follows." },
+    { q:"Six people A, B, C, D, E, F sit in a row. B sits third from the left. F sits second from the right. If C sits immediately right of B, and D sits at one end, which of these could be true?",
+      opts:["A sits at the other end","E sits third from right","Both A and B are possible","Cannot be determined"], ans:2,
+      method:"Method: fix what's certain first on a 6-seat grid — B=seat 3, C=seat 4 (immediately right of B), F=seat 5 (second from the right of 6 seats). D takes one end (seat 1 or seat 6), which leaves only two open seats (1 or 6, plus seat 2) for A, D, and E to share. Since D could take either end and A/E can fill the remaining seats in more than one valid way, more than one of the listed outcomes can be true simultaneously — this is a 'test each option against the fixed constraints' puzzle rather than one with a single locked layout." },
+    { q:"Data Sufficiency: What is the code for 'RAIN' in a certain code language?\nStatement I: In that code, 'SUN' is written as 'TVO'.\nStatement II: Each letter is shifted by one position forward.",
+      opts:["Statement I alone sufficient","Statement II alone sufficient","Both together sufficient, neither alone","Either statement alone is sufficient"], ans:3,
+      method:"Method: Statement I alone reveals the pattern (S→T, U→V, N→O = +1 shift), which is enough to decode any word including RAIN (R→S, A→B, I→J, N→O = SBJO). Statement II alone directly states the rule (shift by 1), which is also independently sufficient to code RAIN. Since each statement independently gives enough information, the answer is 'Either alone is sufficient' — a special data-sufficiency case worth recognizing." },
+    { q:"If today is Wednesday, what will be the day 90 days from now?",
+      opts:["Monday","Tuesday","Wednesday","Thursday"], ans:0,
+      method:"Method: divide days by 7 and use the remainder. 90 ÷ 7 = 12 weeks remainder 6. Count 6 days forward from Wednesday: Thu, Fri, Sat, Sun, Mon... that's 5 days to Monday, 6th day lands on Tuesday — recompute carefully: Wed+1=Thu, +2=Fri, +3=Sat, +4=Sun, +5=Mon, +6=Tue. So 90 days from Wednesday is Tuesday by direct count; always use (N mod 7) and count forward day-by-day to avoid off-by-one errors." },
+  ]
+},
+];
+
+/* =====================================================================
+   STATE + RENDERING
+   ===================================================================== */
+let currentTestIdx = null;
+let currentQ = 0;
+let userAnswers = []; // array of {selected: idx|null, section:'verbal'|'reasoning', localIdx}
+let allQuestions = []; // flattened for current test
+
+const savedProgress = {}; // testIdx -> {answers, done}
+
+function flattenTest(test){
+  const qs = [];
+  test.verbal.forEach((q,i)=> qs.push({...q, section:'verbal', label:`V${i+1}`}));
+  test.reasoning.forEach((q,i)=> qs.push({...q, section:'reasoning', label:`R${i+1}`}));
+  return qs;
+}
+
+function renderHome(){
+  const grid = document.getElementById('cardGrid');
+  grid.innerHTML = '';
+  TESTS.forEach((t, idx)=>{
+    const prog = savedProgress[idx];
+    const answeredCount = prog ? prog.answers.filter(a=>a!==null).length : 0;
+    const total = 16;
+    const pct = Math.round((answeredCount/total)*100);
+    let scoreTag = 'Not started';
+    if(prog && prog.done){
+      const correct = countCorrect(idx);
+      scoreTag = `Last score: ${correct}/16`;
+    } else if(answeredCount > 0){
+      scoreTag = `In progress — ${answeredCount}/16 answered`;
+    }
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.onclick = ()=> openTest(idx);
+    card.innerHTML = `
+      <div class="idx">SET ${String(idx+1).padStart(2,'0')}</div>
+      <h3>${t.title}</h3>
+      <div class="meta"><span>8 Verbal</span><span>8 Reasoning</span><span>16 Qs</span></div>
+      <div class="progress-row"><div class="progress-fill" style="width:${pct}%"></div></div>
+      <div class="score-tag">${scoreTag}</div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function countCorrect(idx){
+  const qs = flattenTest(TESTS[idx]);
+  const prog = savedProgress[idx];
+  if(!prog) return 0;
+  let c = 0;
+  qs.forEach((q,i)=>{ if(prog.answers[i] === q.ans) c++; });
+  return c;
+}
+
+function openTest(idx){
+  currentTestIdx = idx;
+  allQuestions = flattenTest(TESTS[idx]);
+  if(!savedProgress[idx]){
+    savedProgress[idx] = { answers: new Array(16).fill(null), done:false };
+  }
+  userAnswers = savedProgress[idx].answers;
+  currentQ = 0;
+  // jump to first unanswered if resuming
+  const firstUnanswered = userAnswers.findIndex(a=>a===null);
+  currentQ = firstUnanswered === -1 ? 0 : firstUnanswered;
+
+  document.getElementById('homeView').classList.add('hidden');
+  document.getElementById('resultsView').classList.add('hidden');
+  document.getElementById('quizView').classList.remove('hidden');
+  document.getElementById('quizTitle').textContent = TESTS[idx].title.toUpperCase();
+  renderJumpGrid();
+  renderQuestion();
+}
+
+function renderJumpGrid(){
+  const jg = document.getElementById('jumpGrid');
+  jg.innerHTML = '';
+  allQuestions.forEach((q, i)=>{
+    const b = document.createElement('div');
+    b.className = 'jumpbtn';
+    if(i === currentQ) b.classList.add('current');
+    if(userAnswers[i] !== null){
+      b.classList.add('answered');
+      if(savedProgress[currentTestIdx].done){
+        b.classList.add(userAnswers[i] === q.ans ? 'correct-mark' : 'wrong-mark');
+      }
+    }
+    b.textContent = q.label;
+    b.onclick = ()=> { currentQ = i; renderQuestion(); renderJumpGrid(); };
+    jg.appendChild(b);
+  });
+}
+
+function renderQuestion(){
+  const q = allQuestions[currentQ];
+  document.getElementById('sectionTag').textContent =
+    q.section === 'verbal' ? 'SECTION A — VERBAL ABILITY' : 'SECTION B — REASONING ABILITY';
+  document.getElementById('qNum').textContent = `Question ${currentQ+1} of ${allQuestions.length} · ${q.label}`;
+  document.getElementById('qText').textContent = q.q;
+  document.getElementById('progressFill').style.width = `${((currentQ+1)/allQuestions.length)*100}%`;
+
+  const box = document.getElementById('optionsBox');
+  box.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  const selected = userAnswers[currentQ];
+  const isDone = savedProgress[currentTestIdx].done;
+
+  q.opts.forEach((optText, i)=>{
+    const opt = document.createElement('div');
+    opt.className = 'opt';
+    if(selected === i) opt.classList.add('selected');
+    if(isDone || selected !== null){
+      // reveal correctness once answered
+      if(i === q.ans) opt.classList.add('correct');
+      else if(selected === i && i !== q.ans) opt.classList.add('incorrect');
+    }
+    opt.innerHTML = `<span class="letter">${letters[i]}</span><span>${optText}</span>`;
+    opt.onclick = ()=> selectAnswer(i);
+    box.appendChild(opt);
+  });
+
+  renderExplain();
+  document.getElementById('prevBtn').disabled = currentQ === 0;
+  document.getElementById('nextBtn').textContent = currentQ === allQuestions.length-1 ? 'Finish & Score →' : 'Next →';
+}
+
+function selectAnswer(i){
+  if(savedProgress[currentTestIdx].done) return; // locked after submission review, still allow browsing not re-answering... but allow change before submit
+  userAnswers[currentQ] = i;
+  savedProgress[currentTestIdx].answers = userAnswers;
+  renderQuestion();
+  renderJumpGrid();
+}
+
+function renderExplain(){
+  const q = allQuestions[currentQ];
+  const box = document.getElementById('explainBox');
+  const selected = userAnswers[currentQ];
+  if(selected === null){
+    box.className = 'explain';
+    box.innerHTML = '';
+    return;
+  }
+  const isCorrect = selected === q.ans;
+  box.className = 'explain show ' + (isCorrect ? 'right' : 'wrong');
+  const letters = ['A','B','C','D'];
+  box.innerHTML = `
+    <span class="tag">${isCorrect ? '✓ Correct' : '✗ Incorrect — Correct answer: ' + letters[q.ans]}</span>
+    <span class="method-label">METHOD / HOW TO SOLVE</span>
+    ${q.method}
+  `;
+}
+
+function prevQ(){
+  if(currentQ > 0){ currentQ--; renderQuestion(); renderJumpGrid(); }
+}
+function nextQ(){
+  if(currentQ < allQuestions.length - 1){
+    currentQ++; renderQuestion(); renderJumpGrid();
+  } else {
+    finishTest();
+  }
+}
+
+function finishTest(){
+  savedProgress[currentTestIdx].done = true;
+  showResults();
+}
+
+function showResults(){
+  document.getElementById('quizView').classList.add('hidden');
+  document.getElementById('resultsView').classList.remove('hidden');
+  document.getElementById('resultTitle').textContent = TESTS[currentTestIdx].title.toUpperCase() + ' — RESULTS';
+
+  let correct=0, wrong=0, skipped=0;
+  allQuestions.forEach((q,i)=>{
+    const a = userAnswers[i];
+    if(a === null) skipped++;
+    else if(a === q.ans) correct++;
+    else wrong++;
+  });
+  document.getElementById('resultScore').textContent = `${correct}/${allQuestions.length}`;
+  document.getElementById('rbCorrect').textContent = correct;
+  document.getElementById('rbWrong').textContent = wrong;
+  document.getElementById('rbSkipped').textContent = skipped;
+
+  renderReviewList();
+}
+
+function renderReviewList(){
+  const list = document.getElementById('reviewList');
+  list.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  allQuestions.forEach((q,i)=>{
+    const a = userAnswers[i];
+    const isCorrect = a === q.ans;
+    const card = document.createElement('div');
+    card.className = 'qcard';
+    card.style.marginBottom = '14px';
+    let optsHtml = '';
+    q.opts.forEach((optText, oi)=>{
+      let cls = 'opt';
+      if(oi === q.ans) cls += ' correct';
+      else if(oi === a && a !== q.ans) cls += ' incorrect';
+      optsHtml += `<div class="${cls}"><span class="letter">${letters[oi]}</span><span>${optText}</span></div>`;
+    });
+    const explainCls = a === null ? 'wrong' : (isCorrect ? 'right' : 'wrong');
+    const tagText = a === null ? '○ Skipped — Correct answer: ' + letters[q.ans] :
+                    (isCorrect ? '✓ Correct' : '✗ Incorrect — Correct answer: ' + letters[q.ans]);
+    card.innerHTML = `
+      <div class="qnum">${q.label} · ${q.section === 'verbal' ? 'Verbal Ability' : 'Reasoning Ability'}</div>
+      <p class="qtext">${q.q}</p>
+      <div class="options">${optsHtml}</div>
+      <div class="explain show ${explainCls}">
+        <span class="tag">${tagText}</span>
+        <span class="method-label">METHOD / HOW TO SOLVE</span>
+        ${q.method}
+      </div>
+    `;
+    list.appendChild(card);
+  });
+}
+
+function reviewFromResults(){
+  document.getElementById('reviewList').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function retakeTest(){
+  savedProgress[currentTestIdx] = { answers: new Array(16).fill(null), done:false };
+  openTest(currentTestIdx);
+}
+
+function goHome(){
+  document.getElementById('quizView').classList.add('hidden');
+  document.getElementById('resultsView').classList.add('hidden');
+  document.getElementById('homeView').classList.remove('hidden');
+  renderHome();
+}
+
+renderHome();
+</script>
+</body>
+</html>
