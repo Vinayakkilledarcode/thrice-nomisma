@@ -94,4 +94,4 @@ npm start
 
 ---
 
-**Author:** Vinayak Uttam Killedar
+**Author:** Pushkar Kumar || Mrigank Rautela|| Vinayak Uttam Killedar
