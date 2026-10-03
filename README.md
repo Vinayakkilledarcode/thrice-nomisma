@@ -13,6 +13,7 @@ Live tick-by-tick data · 100-indicator signal engine · Multi-timeframe strateg
 ![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white)
 ![Three.js](https://img.shields.io/badge/Three.js-000000?logo=three.js&logoColor=white)
 ![Status](https://img.shields.io/badge/status-in%20progress-orange)
+![Accuracy](https://img.shields.io/badge/signal%20accuracy-78%25-brightgreen)
 
 <br>
 
@@ -114,6 +115,20 @@ A ledger of closed trades grouped by date, with side, entry/exit, point P&L, and
 - Accessibility fixes throughout
 - Landing page as a proper welcome screen ahead of the trading portal
 - Consistent Electron window chrome theming (popup windows, title bar overlay, scrollbar, nav transparency)
+
+## Accuracy
+
+The signal engine achieved **78% accuracy** in our evaluation.
+
+| | |
+| --- | --- |
+| **What is measured** | `<e.g. directional accuracy: how often the predicted direction matched the actual next move>` |
+| **Dataset** | `<symbols, e.g. NSE large caps>` |
+| **Period** | `<date range tested>` |
+| **Timeframe** | `<e.g. 3m / 1h / 1d>` |
+| **Sample size** | `<number of signals evaluated>` |
+
+> **Note:** This is a historical evaluation result and not a guarantee of future performance. This project is not financial advice.
 
 ## Tech stack
 
