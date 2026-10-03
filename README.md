@@ -1,12 +1,82 @@
+<div align="center">
+
 # Thrice Nomisma
 
-A Bloomberg-style desktop trading terminal for Indian equities (NSE/BSE), built with Electron, React, and TypeScript on the frontend and FastAPI on the backend. Thrice Nomisma streams live tick-by-tick price and order-book data over authenticated sessions and layers institutional-style quantitative analysis on top.
+**A Bloomberg-style desktop trading terminal for Indian equities (NSE/BSE)**
 
-**Status:** In progress
+Live tick-by-tick data · 100-indicator signal engine · Multi-timeframe strategies · Explainable signal consensus
+
+![Electron](https://img.shields.io/badge/Electron-47848F?logo=electron&logoColor=white)
+![React](https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white)
+![Three.js](https://img.shields.io/badge/Three.js-000000?logo=three.js&logoColor=white)
+![Status](https://img.shields.io/badge/status-in%20progress-orange)
+
+<br>
+
+<img src="docs/screenshots/homepage.jpeg" alt="Thrice Nomisma - Live ticker telemetry and order-book depth" width="100%">
+
+</div>
+
+---
+
+## Table of contents
+
+- [Overview](#overview)
+- [Screenshots](#screenshots)
+- [Features](#features)
+- [Tech stack](#tech-stack)
+- [Architecture notes](#architecture-notes)
+- [Getting started](#getting-started)
+- [Known issues](#known-issues)
+- [Roadmap](#roadmap)
+- [Authors](#authors)
 
 ## Overview
 
-Thrice Nomisma aims to bring the depth of a professional trading terminal to Indian markets — real-time data, a large indicator library, multi-timeframe strategy signals, and a custom UI built for fast, focused reading of market state.
+Thrice Nomisma brings the depth of a professional trading terminal to Indian markets: real-time data over authenticated sessions, a large indicator library, multi-timeframe strategy signals, and a custom dark UI built for fast, focused reading of market state.
+
+Instead of showing a wall of indicators and leaving interpretation to you, the terminal measures how much the indicators **agree or conflict**, detects the **market regime**, and explains what that means for the current signal.
+
+## Screenshots
+
+### Live ticker: telemetry and order-book depth
+
+Per-symbol live telemetry (LTP, previous close, day high/low, session volume, circuit limits, ATP, open interest) alongside top-5 bid and ask depth, with one-click Buy/Sell and a **Run Strategy Audit** action. A risk summary sits below.
+
+![Ticker](docs/screenshots/homepage.jpeg)
+
+### Indicator engine: 100 signals across 7 categories
+
+Browse indicators by category (Trend, Momentum, Volatility, Volume, Statistical, Price Action, Candlestick). Each row shows its computed value and a Bullish/Bearish signal. The timeframe selector spans 15 seconds to 1 month and locks to the active ticker timeframe.
+
+![Indicator engine](docs/screenshots/indicator_engine.jpeg)
+
+### Signal intelligence: consensus, regime and conflict
+
+A multi-layer consensus view per category, plus **Market Regime** detection, an **AI Conflict Detector**, a **Self-Agreement** score, and a pairwise **Signal Agreement Matrix** showing which categories confirm or contradict each other. Indicators are split into those supporting and those arguing against the current stance.
+
+![Signal consensus](docs/screenshots/indicator.jpeg)
+
+### Integrated charting and fundamentals
+
+Charting with a TradingView-style layer, and a financials view with key facts, ownership and capital structure for the selected symbol.
+
+![Charts and fundamentals](docs/screenshots/charts.jpeg)
+
+### Broker workspace
+
+Broker console with watchlist, live chart, scalper mode and an indicator overlay, all inside the terminal window.
+
+![Broker](docs/screenshots/broker.jpeg)
+
+### Trade history ledger
+
+A ledger of closed trades grouped by date, with side, entry/exit, point P&L, and running totals for P&L, average P&L, wins, losses and trade count.
+
+![History ledger](docs/screenshots/history.jpeg)
 
 ## Features
 
@@ -24,7 +94,7 @@ Thrice Nomisma aims to bring the depth of a professional trading terminal to Ind
 ### Signal intelligence
 - Market regime detection
 - Signal consensus bars and a conflict detector
-- Category heatmap for at-a-glance indicator agreement
+- Category heatmap and agreement matrix for at-a-glance indicator agreement
 - Timeframe consensus strip
 - AI explainability for signals, powered by a local reasoning engine (no external LLM API dependency)
 - FinBERT-based sentiment engine with in-memory caching and headline fallback
@@ -47,21 +117,19 @@ Thrice Nomisma aims to bring the depth of a professional trading terminal to Ind
 
 ## Tech stack
 
-**Frontend:** Electron, React, TypeScript
-**Backend:** Python, FastAPI
-**Data/analysis:** NaN/Inf-safe JSON serialization for indicator output, Wilson confidence intervals, Shannon entropy
-**3D/visualization:** Three.js
-**NLP:** FinBERT (sentiment)
+| Layer | Technologies |
+| --- | --- |
+| Frontend | Electron, React, TypeScript |
+| Backend | Python, FastAPI |
+| Data / analysis | NaN/Inf-safe JSON serialization for indicator output, Wilson confidence intervals, Shannon entropy |
+| 3D / visualization | Three.js |
+| NLP | FinBERT (sentiment) |
 
 ## Architecture notes
 
 - Backend indicator and strategy logic lives primarily in `strategy_utils.py` and the risk engine (`risk.py`)
 - Frontend and backend communicate over authenticated sessions for live data
 - Started as a React + FastAPI + yfinance capstone project (Phase 1, ~June 2025), including early TradingView widget embedding and a TradingView-style dark theme, before evolving into the current Electron-based terminal
-
-## Known issues
-
-- Actively debugging an Electron blank-screen issue tied to the `package.json` `main` field
 
 ## Getting started
 
@@ -85,6 +153,10 @@ uvicorn main:app --reload
 npm start
 ```
 
+## Known issues
+
+- Actively debugging an Electron blank-screen issue tied to the `package.json` `main` field
+
 ## Roadmap
 
 - [ ] Resolve Electron blank-screen bug
@@ -92,6 +164,6 @@ npm start
 - [ ] Broaden backtesting support
 - [ ] Production-hardening for live trading use
 
----
+## Authors
 
-**Author:** Pushkar Kumar || Mrigank Rautela || Vinayak Uttam Killedar
+**Pushkar Kumar** · **Mrigank Rautela** · **Vinayak Uttam Killedar**
